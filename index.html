@@ -1,0 +1,2109 @@
+﻿<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- CORREÇÃO PARA IMAGENS DO IBB / CROSS-ORIGIN HOTLINKING -->
+    <meta name="referrer" content="no-referrer">
+    <title>eSense Costura Criativa - Orçamento de Lembrancinhas</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #C0A038;
+            --primary-light: #F8F088;
+            --primary-dark: #a3852b;
+            --text: #2D2D27;
+            --text-muted: #757575;
+            --bg: #fdfdfb;
+            --card-bg: #ffffff;
+            --border: #e9ecef;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .wrapper {
+            flex: 1;
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .admin-floating-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid rgba(192,160,56,0.35);
+            font-size: 22px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(45,45,39,0.1);
+            transition: all 0.3s ease;
+            z-index: 90;
+        }
+        .admin-floating-btn:hover {
+            transform: rotate(45deg);
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        /* LOGO E SLOGAN */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 25px;
+            max-width: 360px;
+            width: 100%;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+            max-height: 180px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .slogan-text {
+            font-size: 17px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(45,45,39,0.08);
+            position: relative;
+            border: 1px solid rgba(192,160,56,0.15);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text);
+            margin-bottom: 8px;
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sub-titulo-instrucao {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            font-weight: 500;
+        }
+
+        .step {
+            margin-bottom: 35px;
+            border-bottom: 1px dashed #dee2e6;
+            padding-bottom: 25px;
+        }
+
+        .step:last-of-type {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .tipo-opcao-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .card-opcao-tipo {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #fff;
+        }
+
+        .card-opcao-tipo:hover {
+            border-color: var(--primary);
+            background-color: rgba(248, 240, 136, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card-opcao-tipo .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card-opcao-tipo .title {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        .selectable-card {
+            cursor: pointer;
+            position: relative;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            transition: all 0.25s ease;
+            text-align: center;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .selectable-card input {
+            position: absolute;
+            opacity: 0;
+            width: 0; height: 0;
+        }
+
+        .img-container {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: #f8f9fa;
+            position: relative;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .carousel-track img {
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(45, 45, 39, 0.6);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 6;
+            font-size: 12px;
+        }
+        .carousel-btn.prev { left: 5px; }
+        .carousel-btn.next { right: 5px; }
+
+        .zoom-btn {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(45,45,39,0.1);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            cursor: pointer;
+            z-index: 5;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(45,45,39,0.1);
+        }
+        .zoom-btn:hover {
+            background: #ffffff;
+            transform: scale(1.1);
+        }
+
+        .info-container { 
+            padding: 10px; 
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .item-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; display: block; color: var(--text); }
+        
+        .item-desc-title {
+            font-size: 11px;
+            font-weight: normal;
+            color: var(--text);
+            margin-bottom: 4px;
+            display: block;
+            text-align: left;
+        }
+
+        .btn-ver-mais {
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 10px;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 6px;
+            text-align: left;
+            text-decoration: underline;
+        }
+
+        .item-price { font-size: 12px; color: var(--primary-dark); font-weight: bold; display: block; margin-top: auto; }
+
+        .badge-selected {
+            position: absolute; top: 8px; right: 8px; background: var(--primary); color: white;
+            border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center;
+            justify-content: center; font-size: 12px; font-weight: bold; opacity: 0; transform: scale(0.5);
+            transition: all 0.2s ease; z-index: 2;
+        }
+
+        .selectable-card.active {
+            border-color: var(--primary);
+            background-color: rgba(248, 240, 136, 0.15);
+        }
+
+        .selectable-card.active .badge-selected { opacity: 1; transform: scale(1); }
+
+        .btn-voltar-etapa {
+            background: transparent;
+            border: none;
+            color: var(--primary-dark);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 20px;
+            padding: 0;
+            transition: opacity 0.2s;
+        }
+        .btn-voltar-etapa:hover {
+            opacity: 0.8;
+        }
+
+        .btn-filtro-cat {
+            font-family: 'Montserrat', sans-serif;
+            background: #f1f3f5;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-filtro-cat:hover {
+            background: #e9ecef;
+        }
+
+        .btn-filtro-cat.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary-dark);
+        }
+
+        .qty-section {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #f8f9fa; padding: 18px; border-radius: 12px; margin-top: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .qty-input {
+            font-family: 'Montserrat', sans-serif;
+            width: 90px; padding: 10px; border: 2px solid #dee2e6;
+            border-radius: 8px; font-size: 16px; text-align: center; font-weight: bold;
+            color: var(--text);
+        }
+
+        /* Bloco de Criação de Arte no Orçamento */
+        .arte-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 1px solid var(--border);
+        }
+        .arte-options {
+            display: flex;
+            gap: 15px;
+        }
+        .arte-options label {
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .resume-box { background: #2D2D27; color: white; padding: 22px; border-radius: 14px; margin-top: 30px; }
+        .resume-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; opacity: 0.85; }
+        .total-row { border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 12px; margin-top: 12px; font-size: 22px; font-weight: 700; color: var(--primary-light); }
+
+        .btn-share-budget {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(192, 160, 56, 0.2);
+            transition: all 0.2s ease;
+        }
+        .btn-share-budget:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* ESTILO PARA O LINK/BOTÃO DE KIT PERSONALIZADO */
+        .nao-encontrou-container {
+            margin-top: 25px;
+            text-align: center;
+            padding: 15px;
+            background: rgba(192, 160, 56, 0.08);
+            border: 1px dashed var(--primary);
+            border-radius: 12px;
+        }
+        .nao-encontrou-link {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: underline;
+            cursor: pointer;
+            background: none;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nao-encontrou-link:hover {
+            color: var(--text);
+        }
+
+        .support-notice {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            margin-top: 40px;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+        .support-notice p {
+            margin: 0 0 8px 0;
+            font-size: 13px;
+            color: #7a7a7a;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        footer {
+            width: 100%;
+            background-color: #ffffff;
+            border-top: 1px solid var(--border);
+            padding: 25px 0;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* MODAIS */
+        .zoom-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(45, 45, 39, 0.95);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .zoom-content-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 90%;
+            max-height: 85vh;
+        }
+        .zoom-modal img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            object-fit: contain;
+        }
+        .zoom-close {
+            position: absolute;
+            top: 20px; right: 25px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            z-index: 210;
+        }
+        .zoom-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 205;
+        }
+        .zoom-nav-btn:hover { background: rgba(255, 255, 255, 0.4); }
+        .zoom-nav-btn.prev { left: 15px; }
+        .zoom-nav-btn.next { right: 15px; }
+
+        .desc-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(45, 45, 39, 0.6);
+            z-index: 210;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .desc-modal-content {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 480px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(45,45,39,0.3);
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .desc-modal-close {
+            position: absolute;
+            top: 15px; right: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--text-muted);
+            cursor: pointer;
+            line-height: 1;
+        }
+        .desc-modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            padding-right: 25px;
+        }
+        .desc-modal-body {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text);
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        /* MODAL SENHA ADMINISTRADOR */
+        .modal-senha {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(45, 45, 39, 0.6);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal-senha-content {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 350px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(45,45,39,0.3);
+            text-align: center;
+        }
+        .modal-senha-content h4 {
+            margin: 0 0 15px 0;
+            color: var(--text);
+            font-size: 16px;
+        }
+        .modal-senha-content input[type="email"],
+        .modal-senha-content input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .modal-senha-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .admin-panel {
+            font-family: 'Montserrat', sans-serif;
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 95%; max-width: 600px; background: white; box-shadow: 0 20px 40px rgba(45,45,39,0.25);
+            border-radius: 16px; padding: 25px; z-index: 100; max-height: 85vh; overflow-y: auto;
+        }
+
+        .admin-panel h3 { margin-top: 0; color: var(--text); border-bottom: 2px solid #f1f3f5; padding-bottom: 10px; font-size: 18px; }
+        
+        /* ABAS DO PAINEL ADMIN */
+        .admin-tabs {
+            display: flex;
+            gap: 5px;
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        .admin-tab-btn {
+            background: #f8f9fa;
+            border: none;
+            padding: 10px 15px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            white-space: nowrap;
+        }
+        .admin-tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        .admin-tab-content {
+            display: none;
+        }
+        .admin-tab-content.active {
+            display: block;
+        }
+
+        .admin-section-header { display: flex; justify-content: space-between; align-items: center; margin: 0 0 10px 0; background: rgba(192, 160, 56, 0.1); padding: 8px 12px; border-radius: 6px; }
+        .admin-section-title { font-size: 13px; font-weight: bold; color: var(--primary-dark); }
+        .btn-add-item { background: #2f9e44; color: white; border: none; border-radius: 4px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; font-family: 'Montserrat', sans-serif; }
+        .btn-delete-item { background: #e03131; color: white; border: none; border-radius: 4px; padding: 4px 8px; font-size: 11px; cursor: pointer; float: right; font-family: 'Montserrat', sans-serif; font-weight: bold; }
+        .admin-item-box { border: 1px solid #dee2e6; padding: 15px; border-radius: 8px; margin-bottom: 12px; background: #f8f9fa; }
+        .admin-field { display: flex; flex-direction: column; margin-bottom: 8px; }
+        .admin-field label { font-size: 11px; font-weight: 600; margin-bottom: 2px; color: #495057; }
+        .admin-field input, .admin-field select, .admin-field textarea { font-family: 'Montserrat', sans-serif; padding: 8px; border: 1px solid #ced4da; border-radius: 6px; font-size: 13px; color: var(--text); }
+        .admin-field input[readonly] { background-color: #e9ecef; color: #6c757d; cursor: not-allowed; }
+        .admin-checkbox-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; background: #fff; padding: 8px; border: 1px solid #ced4da; border-radius: 6px; max-height: 120px; overflow-y: auto; }
+        .admin-checkbox-label { font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 5px; cursor: pointer; color: var(--text); }
+        
+        .admin-actions { display: flex; gap: 10px; margin-top: 25px; position: sticky; bottom: 0; background: white; padding-top: 10px; border-top: 1px solid #dee2e6; flex-wrap: wrap; }
+        .btn { font-family: 'Montserrat', sans-serif; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; flex: 1; font-size: 13px; }
+        .btn-save { background: var(--primary); color: white; }
+        .btn-save:hover { background: var(--primary-dark); }
+        .btn-cancel { background: #868e96; color: white; }
+        .btn-json { background: #4c6ef5; color: white; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(45,45,39,0.4); z-index: 99; }
+
+        /* MODO RESPONSIVO CELULAR */
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .container { padding: 15px; border-radius: 14px; }
+            h1 { font-size: 16px; margin-bottom: 6px; }
+            .sub-titulo-instrucao { font-size: 12px; margin-bottom: 20px; }
+            h2 { font-size: 13px; gap: 8px; margin-bottom: 15px; }
+            .image-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .tipo-opcao-grid { grid-template-columns: 1fr; }
+
+            .logo-container {
+                max-width: 252px;
+                margin-bottom: 18px;
+            }
+            .logo-container img {
+                max-height: 126px;
+            }
+            .slogan-text {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<button class="admin-floating-btn" id="btn-config-engrenagem" title="Configurações">⚙️</button>
+
+<div class="wrapper">
+    <!-- LOGO COM CLIQUE PARA VOLTAR À PÁGINA INICIAL -->
+    <div class="logo-container" onclick="voltarParaOcasiao()" title="Voltar para a página inicial">
+        <img id="logo-marca" src="https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png" alt="Logo eSense" onerror="this.onerror=null;this.src='https://via.placeholder.com/180?text=eSense';">
+        <span id="txt-slogan" class="slogan-text"></span>
+    </div>
+
+    <div class="container">
+        <h1 id="pagina-titulo-principal">brindes, lembrancinhas e presentes</h1>
+        <div class="sub-titulo-instrucao" id="pagina-subtitulo-instrucao">Clique no evento ou data comemorativa</div>
+
+        <!-- ETAPA 0: SELEÇÃO DE OCASIÃO (Na Primeira Página - Dividida em blocos) -->
+        <div id="secao-ocasiao" class="step" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+            
+            <!-- BLOCO 1: EVENTOS -->
+            <div style="margin-bottom: 25px;">
+                <h2 style="font-size: 15px; color: var(--primary-dark); border-bottom: 1px solid var(--border); padding-bottom: 6px;">Eventos</h2>
+                <div class="image-grid" id="grid-eventos" style="margin-top: 15px;"></div>
+            </div>
+
+            <!-- BLOCO 2: DATAS COMEMORATIVAS -->
+            <div style="margin-bottom: 25px;">
+                <h2 style="font-size: 15px; color: var(--primary-dark); border-bottom: 1px solid var(--border); padding-bottom: 6px;">Datas Comemorativas</h2>
+                <div class="image-grid" id="grid-datas-comemorativas" style="margin-top: 15px;"></div>
+            </div>
+
+            <!-- BLOCO 3: BRINDES -->
+            <div>
+                <h2 style="font-size: 15px; color: var(--primary-dark); border-bottom: 1px solid var(--border); padding-bottom: 6px;">Brindes</h2>
+                <div class="image-grid" id="grid-brindes" style="margin-top: 15px;"></div>
+            </div>
+
+        </div>
+
+        <!-- ETAPA 1.5: ESCOLHA DO TIPO (KITS PRONTOS OU MONTE SEU KIT) -->
+        <div id="secao-tipo-kit" class="step" style="display: none; border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+            <button class="btn-voltar-etapa" onclick="voltarParaOcasiao()">← Alterar Ocasião</button>
+            <h2><span class='step-number'>2</span> Como deseja prosseguir?</h2>
+            <div class="tipo-opcao-grid">
+                <div class="card-opcao-tipo" onclick="selecionarTipoModo('kits_prontos')">
+                    <span class="icon">🎁</span>
+                    <span class="title" id="titulo-opcao-kits-prontos">Kits Prontos</span>
+                </div>
+                <div class="card-opcao-tipo" onclick="selecionarTipoModo('monte_seu_kit')">
+                    <span class="icon">✨</span>
+                    <span class="title">Monte Seu Kit</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA CATÁLOGO (EMBALAGENS E ITENS) -->
+        <div id="secao-catalogo" style="display: none;">
+            
+            <!-- TELA: SELEÇÃO DE EMBALAGEM (Apenas no Monte Seu Kit) -->
+            <div id="tela-embalagens" style="display: none;">
+                <button class="btn-voltar-etapa" onclick="voltarParaTipoModo()">← Voltar para Opções</button>
+                <div class="step" style="border-bottom: none;">
+                    <h2><span class='step-number'>3</span> Escolha a Embalagem (Selecione 1)</h2>
+                    <div class="image-grid" id="grid-embalagens"></div>
+                </div>
+            </div>
+
+            <!-- TELA: SELEÇÃO DE ITENS E RESUMO DO ORÇAMENTO -->
+            <div id="tela-itens" style="display: none;">
+                <button class="btn-voltar-etapa" id="btn-voltar-dos-itens" onclick="voltarDosItens()">← Voltar</button>
+                <div class="step">
+                    <h2 id="titulo-secao-itens"><span class='step-number'>4</span> Adicione os Itens Internos</h2>
+                    
+                    <!-- FILTROS DE CATEGORIA -->
+                    <div id="container-filtros-categorias" style="display: none; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+                        <button type="button" class="btn-filtro-cat active" data-cat="todos" onclick="filtrarCategoria('todos')">Todos</button>
+                        <button type="button" class="btn-filtro-cat" data-cat="brinquedos" onclick="filtrarCategoria('brinquedos')">Brinquedos</button>
+                        <button type="button" class="btn-filtro-cat" data-cat="doces" onclick="filtrarCategoria('doces')">Doces</button>
+                        <button type="button" class="btn-filtro-cat" data-cat="educativo" onclick="filtrarCategoria('educativo')">Educativos</button>
+                    </div>
+
+                    <div class="image-grid" id="grid-itens"></div>
+
+                    <!-- LINK / BOTÃO AO FINAL DA LISTA DE KITS PRONTOS -->
+                    <div id="container-nao-encontrou" class="nao-encontrou-container" style="display: none;">
+                        <button class="nao-encontrou-link" onclick="selecionarTipoModo('monte_seu_kit')">
+                            ✨ Não encontrou um kit como gostaria, clique aqui e monte seu kit personalizado
+                        </button>
+                    </div>
+                </div>
+
+                <div class="qty-section">
+                    <span id="txt-qtd-kits" style="font-weight: 600; font-size: 13px;">Quantidade de Kits:</span>
+                    <input type="number" id="quantidade" class="qty-input" value="10" min="1" oninput="calcularTotal()">
+                </div>
+
+                <!-- Tópico de Criação da Arte (Sim / Não) com valor exibido -->
+                <div class="arte-section">
+                    <span style="font-weight: 600; font-size: 13px;" id="txt-label-criacao-arte">Criação da Arte (<span id="span-valor-arte-label">R$ 0,00</span>):</span>
+                    <div class="arte-options">
+                        <label><input type="radio" name="criacao_arte" value="sim" onchange="calcularTotal()"> Sim</label>
+                        <label><input type="radio" name="criacao_arte" value="nao" checked onchange="calcularTotal()"> Não</label>
+                    </div>
+                </div>
+
+                <div class="resume-box">
+                    <div class="resume-row"><span id="txt-resumo-un">Preço por Kit (Unitário):</span><span id="valor-unitario">---</span></div>
+                    <div class="resume-row"><span id="txt-resumo-qtd-label">Quantidade:</span><span id="resumo-qtd">10</span></div>
+                    <div class="resume-row" id="linha-resumo-arte" style="display: none;"><span id="txt-resumo-arte-label">Criação da Arte:</span><span id="resumo-valor-arte">R$ 0,00</span></div>
+                    <div class="resume-row total-row"><span id="txt-resumo-total-label">Valor Total:</span><span id="valor-total">---</span></div>
+                </div>
+
+                <button class="btn-share-budget" onclick="compartilharOrcamento()">
+                    <span id="txt-btn-compartilhar">📱 Nos envie seu pedido / orçamento pelo Whatsapp, clicando aqui!</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+    
+    <div class="support-notice">
+        <p>Agradecemos a preferência! Após finalizar o seu orçamento, compartilhe-o conosco para darmos prosseguimento à personalização do seu kit.</p>
+        <p>Em caso de dúvidas, estamos à disposição nos contatos abaixo.</p>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a id="link-instagram" href="https://www.instagram.com/esense_costuracriativa/" target="_blank">📸 Instagram</a>
+        <a id="link-whatsapp" href="https://wa.me/5554999999999" target="_blank">💬 WhatsApp</a>
+        <a id="link-email" href="mailto:contato@esense.com.br">✉️ E-mail</a>
+    </div>
+    <div id="txt-direitos-autorais">© 2026 eSense Costura Criativa. Todos os direitos reservados.</div>
+</footer>
+
+<!-- MODAL PARA LOGIN FIREBASE AUTH -->
+<div class="modal-senha" id="modal-senha">
+    <div class="modal-senha-content">
+        <h4>Acesso Administrativo</h4>
+        <input type="email" id="input-email-admin" placeholder="E-mail">
+        <input type="password" id="input-senha-admin" placeholder="Senha">
+        <div class="modal-senha-btns">
+            <button class="btn btn-cancel" onclick="fecharModalSenha()">Cancelar</button>
+            <button class="btn btn-save" onclick="validarLoginAdmin()">Entrar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL ZOOM IMAGEM COM CARRETEL COMPLETO -->
+<div class="zoom-modal" id="modal-zoom" onclick="fecharZoomImagem()">
+    <span class="zoom-close" onclick="fecharZoomImagem()">&times;</span>
+    <button class="zoom-nav-btn prev" id="zoom-prev-btn" onclick="event.stopPropagation(); navegarZoom(-1)">❮</button>
+    <div class="zoom-content-wrapper">
+        <img id="img-ampliada" src="" onclick="event.stopPropagation();" onerror="this.onerror=null;this.src='https://via.placeholder.com/500?text=Imagem+Indisponivel';">
+    </div>
+    <button class="zoom-nav-btn next" id="zoom-next-btn" onclick="event.stopPropagation(); navegarZoom(1)">❯</button>
+</div>
+
+<!-- MODAL DESCRIÇÃO COMPLETA -->
+<div class="desc-modal" id="modal-desc" onclick="fecharModalDescricao()">
+    <div class="desc-modal-content" onclick="event.stopPropagation();">
+        <span class="desc-modal-close" onclick="fecharModalDescricao()">&times;</span>
+        <div class="desc-modal-title" id="desc-modal-titulo"></div>
+        <div class="desc-modal-body" id="desc-modal-texto"></div>
+    </div>
+</div>
+
+<!-- PAINEL ADMIN -->
+<div class="overlay" id="admin-overlay" onclick="fecharAdmin()"></div>
+<div class="admin-panel" id="admin-panel">
+    <h3 id="txt-adm-titulo">Gerenciador do Catálogo</h3>
+
+    <!-- ABAS DE NAVEGAÇÃO DO PAINEL DE CONTROLE -->
+    <div class="admin-tabs">
+        <button class="admin-tab-btn active" onclick="mudarAbaAdmin('tab-itens')">Itens</button>
+        <button class="admin-tab-btn" onclick="mudarAbaAdmin('tab-embalagens')">Embalagens</button>
+        <button class="admin-tab-btn" onclick="mudarAbaAdmin('tab-ocasioes')">Ocasiões</button>
+        <button class="admin-tab-btn" onclick="mudarAbaAdmin('tab-config')">Configurações Gerais</button>
+    </div>
+
+    <!-- CONTEÚDO DA ABA: ITENS -->
+    <div id="tab-itens" class="admin-tab-content active">
+        <div class="admin-section-header">
+            <div class="admin-section-title" id="txt-adm-sec-it">Gerenciar Itens Internos / Kits Prontos</div>
+            <button class="btn-add-item" id="btn-adm-add-it" onclick="adicionarNovoItemEstrutura('item')">+ Novo Item/Kit</button>
+        </div>
+        <div id="admin-container-itens"></div>
+    </div>
+
+    <!-- CONTEÚDO DA ABA: EMBALAGENS -->
+    <div id="tab-embalagens" class="admin-tab-content">
+        <div class="admin-section-header">
+            <div class="admin-section-title" id="txt-adm-sec-emb">Gerenciar Embalagens</div>
+            <button class="btn-add-item" id="btn-adm-add-emb" onclick="adicionarNovoItemEstrutura('embalagem')">+ Nova Embalagem</button>
+        </div>
+        <div id="admin-container-embalagens"></div>
+    </div>
+
+    <!-- CONTEÚDO DA ABA: OCASIÕES -->
+    <div id="tab-ocasioes" class="admin-tab-content">
+        <div class="admin-section-header">
+            <div class="admin-section-title">Gerenciar Ocasiões / Segmentos</div>
+            <button class="btn-add-item" onclick="adicionarNovaOcasiao()">+ Nova Ocasião</button>
+        </div>
+        <div id="admin-container-ocasioes"></div>
+    </div>
+
+    <!-- CONTEÚDO DA ABA: CONFIGURAÇÕES GERAIS -->
+    <div id="tab-config" class="admin-tab-content">
+        <div class="admin-section-header">
+            <div class="admin-section-title" id="txt-adm-sec-geral">Configurações Gerais da Marca</div>
+        </div>
+        <div class="admin-item-box">
+            <div class="admin-field" style="margin-bottom:12px;">
+                <label><b>🎨 Valor do Serviço de Criação da Arte (R$):</b></label>
+                <input type="number" step="0.01" id="adm-valor-arte" placeholder="0.00">
+            </div>
+
+            <div class="admin-field">
+                <label id="txt-adm-label-logo">Link (URL) do Logotipo da Empresa:</label>
+                <input type="text" id="adm-logo-url" placeholder="https://link-da-imagem.com/logo.png">
+            </div>
+            <div class="admin-field" style="margin-top:8px;">
+                <label id="txt-adm-label-slogan">Frase de Slogan (Abaixo da Logo):</label>
+                <input type="text" id="adm-slogan" placeholder="Ex: Costura Criativa e Lembrancinhas Especiais">
+            </div>
+            <div class="admin-field" style="margin-top:8px;">
+                <label id="txt-adm-label-ig">Link Completo do Instagram:</label>
+                <input type="text" id="adm-link-instagram" placeholder="https://www.instagram.com/seu_perfil/">
+            </div>
+            <div class="admin-field" style="margin-top:8px;">
+                <label id="txt-adm-label-wa">Número do WhatsApp (com DDI e DDD, apenas números):</label>
+                <input type="text" id="adm-link-whatsapp" placeholder="5554999999999">
+            </div>
+            <div class="admin-field" style="margin-top:8px;">
+                <label id="txt-adm-label-mail">E-mail de Contato:</label>
+                <input type="text" id="adm-link-email" placeholder="seu-email@dominio.com">
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-actions">
+        <button class="btn btn-cancel" id="btn-adm-cancelar" onclick="fecharAdmin()">Cancelar</button>
+        <button class="btn btn-json" onclick="exportarJSON()">📥 Baixar Backup (JSON)</button>
+        <button class="btn btn-save" id="btn-adm-salvar" onclick="salvarConfiguracoes()">Salvar Alterações</button>
+    </div>
+</div>
+
+<!-- INTEGRATION WITH FIREBASE SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAkulxC6D1BbTwWgtkrNPGOJDRd_5mIe58",
+    authDomain: "lembrancinha-esense.firebaseapp.com",
+    databaseURL: "https://lembrancinha-esense-default-rtdb.firebaseio.com",
+    projectId: "lembrancinha-esense",
+    storageBucket: "lembrancinha-esense.firebasestorage.app",
+    messagingSenderId: "117637267692",
+    appId: "1:117637267692:web:588c3cfa0691ed22f225c9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth(app);
+
+  window.firebaseDB = db;
+  window.dbRef = ref;
+  window.dbSet = set;
+  window.dbGet = get;
+  window.dbChild = child;
+  window.firebaseAuth = auth;
+  window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+</script>
+
+<script>
+    async function fazerUploadCloudinary(arquivo) {
+      const cloudName = "qeqv2pcm"; 
+      const uploadPreset = "esense_mimos"; 
+
+      const formData = new FormData();
+      formData.append("file", arquivo);
+      formData.append("upload_preset", uploadPreset);
+
+      try {
+        const resposta = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+          method: "POST",
+          body: formData
+        });
+
+        const dados = await resposta.json();
+        
+        if (dados.secure_url) {
+          console.log("URL Segura da Imagem:", dados.secure_url);
+          return dados.secure_url; 
+        } else {
+          throw new Error("Falha no upload para o Cloudinary.");
+        }
+      } catch (error) {
+        console.error("Erro no upload:", error);
+        alert("Erro ao enviar a imagem.");
+      }
+    }
+
+    function sanitizarUrlImagem(url) {
+        if (!url) return '';
+        let u = url.trim();
+        if (u.includes('ibb.co')) {
+            u = u.split('?')[0];
+        }
+        return u;
+    }
+
+    let catalogo = {
+        logoUrl: "https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png",
+        slogan: "",
+        instagramUrl: "https://www.instagram.com/esense_costuracriativa/",
+        whatsappNumero: "5554999999999",
+        emailContato: "contato@esense.com.br",
+        valorCriacaoArte: 30.00,
+        ocasioes: [
+            { id: "festa_infantil", nome: "Festa Infantil", tipoModulos: ["eventos"], tituloDesc: "Lembrancinhas Divertidas", descricao: "Lembrancinhas divertidas e coloridas especialmente pensadas para a alegria das crianças.", imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], emConstrucao: false },
+            { id: "primeira_comunhao", nome: "Primeira Comunhão", tipoModulos: ["eventos"], tituloDesc: "Kits Delicados", descricao: "Kits delicados e religiosos com fino acabamento.", imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], emConstrucao: false },
+            { id: "casamento", nome: "Casamento", tipoModulos: ["eventos"], tituloDesc: "Elegância e Sofisticação", descricao: "Elegância e sofisticação inesquecíveis para encantar todos os seus convidados.", imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], emConstrucao: false },
+            { id: "cha_de_fraldas", nome: "Chá de Fraldas", tipoModulos: ["eventos"], tituloDesc: "Chegada do Bebê", descricao: "Muita delicadeza para comemorar a chegada especial do bebê.", imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], emConstrucao: false },
+            { id: "dia_das_maes", nome: "Dia das Mães", tipoModulos: ["datas_comemorativas"], tituloDesc: "Especiais para Mães", descricao: "Demonstre todo o seu amor com presentes personalizados e afetivos.", imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], emConstrucao: false },
+            { id: "lembranca_corporativa", nome: "Lembranças Corporativas", tipoModulos: ["brindes"], tituloDesc: "Brindes Profissionais", descricao: "Valorize sua marca com brindes corporativos sofisticados.", imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], emConstrucao: false }
+        ],
+        embalagens: [
+            { id: "saco_de_tecido_cru", nome: "Saco de Tecido Cru", tituloDesc: "Algodão Ecológico", descricao: "Algodão personalizado para lembrancinhas de diversos eventos.", preco: 5.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil", "cha_de_fraldas"] },
+            { id: "mochilinha_infantil", nome: "Mochilinha Infantil", tituloDesc: "Nylon Impermeável", descricao: "Nylon impermeável durável com cordão ajustável.", preco: 8.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"] },
+            { id: "saquinho_de_linho", nome: "Saquinho de Linho", tituloDesc: "Sofisticação e Requinte", descricao: "Acabamento sofisticado ideal para lembranças delicadas e marcantes.", preco: 7.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["primeira_comunhao", "casamento"] },
+            { id: "caixa_cartonada_luxo", nome: "Caixa Cartonada Luxo", tituloDesc: "Acabamento Premium", descricao: "Fita de cetim personalizada e estrutura firme resistente.", preco: 12.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["casamento"] }
+        ],
+        itens: [
+            { id: "kit_pronto_pinta_e_borda", nome: "Kit Pronto Pinta e Borda", tituloDesc: "Kit Completo", descricao: "Acompanha bolsa + livro de colorir + giz de cera.", preco: 25.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["kits_prontos"], proibidoEm: [] },
+            { id: "kit_pronto_casamento_luxo", nome: "Kit Pronto Padrinhos Luxo", tituloDesc: "Kit Completo", descricao: "Acompanha caixa cartonada, gravata e toalhinha bordada.", preco: 45.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["casamento"], categorias: ["kits_prontos"], proibidoEm: [] },
+            { id: "gibi_de_colorir", nome: "Gibi de Colorir", tituloDesc: "Diversão Garantida", descricao: "12 páginas temáticas divertidas prontas para colorir.", preco: 4.50, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["brinquedos", "educativo"], proibidoEm: [] },
+            { id: "giz_de_cera", nome: "Giz de Cera", tituloDesc: "6 Cores Atóxicas", descricao: "Caixa com 6 cores atóxicas seguras para crianças.", preco: 3.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil", "cha_de_fraldas"], categorias: ["brinquedos", "educativo"], proibidoEm: [] },
+            { id: "pacote_de_bala", nome: "Pacote de Balas", tituloDesc: "Doces Variados", descricao: "Pacote de balas sortidas.", preco: 2.50, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["doces"], proibidoEm: [] },
+            { id: "mini_terco", nome: "Mini Terço", tituloDesc: "Lembrança Espiritual", descricao: "Perolado delicado com acabamento requintado.", preco: 4.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["primeira_comunhao", "casamento"], categorias: [], proibidoEm: [] }
+        ]
+    };
+
+    let ocasiaoSelecionadaId = null;
+    let modoSelecionado = null; 
+    let categoriaAtual = 'todos';
+    let zoomImgsAtual = [];
+    let zoomIndexAtual = 0;
+
+    async function carregarDadosDaNuvem() {
+        try {
+            const dbRef = window.dbRef(window.firebaseDB);
+            const snapshot = await window.dbGet(window.dbChild(dbRef, `catalogo`));
+            
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                if (data && data.ocasioes) {
+                    catalogo = data;
+                    // Conversão de compatibilidade caso venha do formato antigo `tipoModulo` string
+                    catalogo.ocasioes.forEach(oc => {
+                        if (oc.tipoModulo && !oc.tipoModulos) {
+                            oc.tipoModulos = [oc.tipoModulo];
+                        }
+                        if (!oc.tipoModulos) {
+                            oc.tipoModulos = ['eventos'];
+                        }
+                        if (oc.emConstrucao === undefined) {
+                            oc.emConstrucao = false;
+                        }
+                        if (oc.descricao === undefined) {
+                            oc.descricao = "";
+                        }
+                    });
+                    if (catalogo.valorCriacaoArte === undefined) {
+                        catalogo.valorCriacaoArte = 30.00;
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Erro ao buscar dados do Firebase:", err);
+        } finally {
+            renderizarOcasioes();
+            atualizarTextoValorArte();
+        }
+    }
+
+    function atualizarTextoValorArte() {
+        const valorArte = catalogo.valorCriacaoArte || 0;
+        const spanLabel = document.getElementById('span-valor-arte-label');
+        if (spanLabel) {
+            spanLabel.innerText = `R$ ${valorArte.toFixed(2)}`;
+        }
+    }
+
+    function gerarSlugId(texto, prefixo = '') {
+        if (!texto) return prefixo + 'id_' + Math.random().toString(36).substring(2, 6);
+        let slug = texto.toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, '_')
+            .replace(/^_+|_+$/g, '');
+        return slug || (prefixo + 'id');
+    }
+
+    function renderizarOcasioes() {
+        if (catalogo.logoUrl) document.getElementById('logo-marca').src = sanitizarUrlImagem(catalogo.logoUrl);
+        
+        const elemSlogan = document.getElementById('txt-slogan');
+        if (elemSlogan) {
+            elemSlogan.innerText = catalogo.slogan || "";
+            elemSlogan.style.display = catalogo.slogan ? "block" : "none";
+        }
+
+        if (catalogo.instagramUrl) document.getElementById('link-instagram').href = catalogo.instagramUrl;
+        if (catalogo.whatsappNumero) {
+            let numClean = catalogo.whatsappNumero.replace(/\D/g, '');
+            document.getElementById('link-whatsapp').href = `https://wa.me/${numClean}`;
+        }
+        if (catalogo.emailContato) document.getElementById('link-email').href = `mailto:${catalogo.emailContato}`;
+
+        atualizarTextoValorArte();
+
+        const gridEventos = document.getElementById('grid-eventos');
+        const gridDatasComemorativas = document.getElementById('grid-datas-comemorativas');
+        const gridBrindes = document.getElementById('grid-brindes');
+
+        gridEventos.innerHTML = '';
+        gridDatasComemorativas.innerHTML = '';
+        gridBrindes.innerHTML = '';
+        
+        // REQUISITO 2: Ordenação alfabética para ativos e "em construção" para o final da fila
+        const ocasioesOrdenadas = [...catalogo.ocasioes].sort((a, b) => {
+            if (a.emConstrucao === b.emConstrucao) {
+                return a.nome.localeCompare(b.nome);
+            }
+            return a.emConstrucao ? 1 : -1;
+        });
+
+        ocasioesOrdenadas.forEach(oc => {
+            let modulos = oc.tipoModulos || [oc.tipoModulo || 'eventos'];
+            let carouselHtml = criarHtmlCarrossel(oc.imgs, `oc-${oc.id}`, false);
+            
+            let cardHtml = '';
+            if (oc.emConstrucao) {
+                cardHtml = `
+                    <div class="selectable-card" style="opacity: 0.85; cursor: default;">
+                        ${carouselHtml}
+                        <div class="info-container" style="background: rgba(192, 160, 56, 0.12); text-align: center; justify-content: center; padding: 12px 8px;">
+                            <span class="item-title" style="margin-bottom: 2px;">${oc.nome}</span>
+                            <span style="font-size: 11px; font-weight: 700; color: var(--primary-dark); display: block;">EM BREVE NOVIDADES 😊</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // REQUISITO 1: Links criados para as páginas de ocasiões dinamicamente
+                cardHtml = `
+                    <div class="selectable-card" onclick="selecionarOcasiaoDiretoKitsProntos('${oc.id}')">
+                        ${carouselHtml}
+                        <div class="info-container">
+                            <span class="item-title">${oc.nome}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (modulos.includes('datas_comemorativas')) {
+                gridDatasComemorativas.innerHTML += cardHtml;
+            }
+            if (modulos.includes('brindes')) {
+                gridBrindes.innerHTML += cardHtml;
+            }
+            if (modulos.includes('eventos')) {
+                gridEventos.innerHTML += cardHtml;
+            }
+        });
+    }
+
+    function criarHtmlCarrossel(imgsArray, idUnico, exibirZoom = true) {
+        let list = (imgsArray && imgsArray.length > 0) ? imgsArray.map(sanitizarUrlImagem) : ['https://via.placeholder.com/150'];
+        let imgsHtml = list.map(url => `<img src="${url}" alt="Imagem" onerror="this.onerror=null;this.src='https://via.placeholder.com/150?text=Indisponivel';">`).join('');
+        
+        let navBtns = '';
+        if (list.length > 1) {
+            navBtns = `
+                <button class="carousel-btn prev" onclick="event.stopPropagation(); moverCarrossel('${idUnico}', -1)">❮</button>
+                <button class="carousel-btn next" onclick="event.stopPropagation(); moverCarrossel('${idUnico}', 1)">❯</button>
+            `;
+        }
+
+        let jsonImgs = encodeURIComponent(JSON.stringify(list));
+        let zoomBtn = exibirZoom ? `<div class="zoom-btn" onclick="event.stopPropagation(); abrirZoom('${jsonImgs}', '${idUnico}')">🔍</div>` : '';
+
+        return `
+            <div class="img-container" id="container-carrossel-${idUnico}" data-index="0">
+                ${zoomBtn}
+                ${navBtns}
+                <div class="carousel-track" id="track-${idUnico}">
+                    ${imgsHtml}
+                </div>
+            </div>
+        `;
+    }
+
+    function moverCarrossel(idUnico, direcao) {
+        const container = document.getElementById(`container-carrossel-${idUnico}`);
+        const track = document.getElementById(`track-${idUnico}`);
+        if (!container || !track) return;
+
+        const totalImgs = track.querySelectorAll('img').length;
+        let currentIndex = parseInt(container.getAttribute('data-index')) || 0;
+
+        currentIndex += direcao;
+        if (currentIndex < 0) currentIndex = totalImgs - 1;
+        if (currentIndex >= totalImgs) currentIndex = 0;
+
+        container.setAttribute('data-index', currentIndex);
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    function criarHtmlDescricao(nomeItem, tituloDesc, descricaoCompleta) {
+        let exibeTitulo = tituloDesc ? tituloDesc : '';
+        let temDesc = (descricaoCompleta && descricaoCompleta.trim().length > 0);
+        
+        let safeTituloModal = encodeURIComponent(nomeItem + (tituloDesc ? ' - ' + tituloDesc : ''));
+        let safeDescModal = encodeURIComponent(descricaoCompleta || '');
+
+        return `
+            <div>
+                ${exibeTitulo ? `<span class="item-desc-title">${exibeTitulo}</span>` : ''}
+                ${temDesc ? `<span class="btn-ver-mais" onclick="abrirModalDescricao(event, '${safeTituloModal}', '${safeDescModal}')">ver mais</span>` : ''}
+            </div>
+        `;
+    }
+
+    function criarHtmlDescricaoKitPronto(nomeItem, descricaoCompleta) {
+        let temDesc = (descricaoCompleta && descricaoCompleta.trim().length > 0);
+        if (!temDesc) return '';
+        
+        let safeTituloModal = encodeURIComponent(nomeItem);
+        let safeDescModal = encodeURIComponent(descricaoCompleta);
+
+        return `
+            <div style="margin-top: 4px;">
+                <span class="btn-ver-mais" onclick="abrirModalDescricao(event, '${safeTituloModal}', '${safeDescModal}')">O que inclui</span>
+            </div>
+        `;
+    }
+
+    function abrirModalDescricao(e, tituloEnc, textoEnc) {
+        if(e) e.stopPropagation();
+        document.getElementById('desc-modal-titulo').innerText = decodeURIComponent(tituloEnc);
+        document.getElementById('desc-modal-texto').innerText = decodeURIComponent(textoEnc);
+        document.getElementById('modal-desc').style.display = 'flex';
+    }
+
+    function fecharModalDescricao() {
+        document.getElementById('modal-desc').style.display = 'none';
+    }
+
+    function selecionarOcasiaoDiretoKitsProntos(id) {
+        const ocObj = catalogo.ocasioes.find(o => o.id === id);
+        if (ocObj && ocObj.emConstrucao) return;
+
+        ocasiaoSelecionadaId = id;
+        
+        // Atualizar o título da página e a breve descrição com os dados da ocasião selecionada
+        const tituloPrincipal = document.getElementById('pagina-titulo-principal');
+        const subtituloInstrucao = document.getElementById('pagina-subtitulo-instrucao');
+        
+        if (ocObj) {
+            tituloPrincipal.innerText = ocObj.nome;
+            subtituloInstrucao.innerText = ocObj.descricao ? ocObj.descricao : "Escolha abaixo como deseja prosseguir:";
+            subtituloInstrucao.style.display = "block";
+        }
+
+        document.getElementById('secao-ocasiao').style.display = 'none';
+        selecionarTipoModo('kits_prontos');
+    }
+
+    function voltarParaOcasiao() {
+        ocasiaoSelecionadaId = null;
+        modoSelecionado = null;
+        
+        // Restaurar título padrão da página inicial
+        document.getElementById('pagina-titulo-principal').innerText = "brindes, lembrancinhas e presentes";
+        document.getElementById('pagina-subtitulo-instrucao').innerText = "Clique no evento ou data comemorativa";
+
+        document.getElementById('secao-tipo-kit').style.display = 'none';
+        document.getElementById('secao-catalogo').style.display = 'none';
+        document.getElementById('secao-ocasiao').style.display = 'block';
+        renderizarOcasioes();
+    }
+
+    function selecionarTipoModo(modo) {
+        modoSelecionado = modo;
+        document.getElementById('secao-tipo-kit').style.display = 'none';
+        document.getElementById('secao-catalogo').style.display = 'block';
+
+        if (modo === 'monte_seu_kit') {
+            document.getElementById('tela-embalagens').style.display = 'block';
+            document.getElementById('tela-itens').style.display = 'none';
+            renderizarEmbalagens();
+        } else {
+            document.getElementById('tela-embalagens').style.display = 'none';
+            document.getElementById('tela-itens').style.display = 'block';
+            renderizarItens();
+        }
+    }
+
+    function voltarParaTipoModo() {
+        modoSelecionado = null;
+        document.getElementById('secao-catalogo').style.display = 'none';
+        document.getElementById('secao-ocasiao').style.display = 'block';
+        
+        // Restaurar título padrão ao retornar para a lista de ocasiões
+        document.getElementById('pagina-titulo-principal').innerText = "brindes, lembrancinhas e presentes";
+        document.getElementById('pagina-subtitulo-instrucao').innerText = "Clique no evento ou data comemorativa";
+
+        renderizarOcasioes();
+    }
+
+    function voltarDosItens() {
+        if (modoSelecionado === 'monte_seu_kit') {
+            document.getElementById('tela-itens').style.display = 'none';
+            document.getElementById('tela-embalagens').style.display = 'block';
+        } else {
+            voltarParaTipoModo();
+        }
+    }
+
+    function renderizarEmbalagens() {
+        const embFiltradas = catalogo.embalagens
+            .filter(e => e.ocasioesIds && e.ocasioesIds.includes(ocasiaoSelecionadaId))
+            .sort((a, b) => a.nome.localeCompare(b.nome));
+
+        const gridEmb = document.getElementById('grid-embalagens');
+        gridEmb.innerHTML = '';
+        
+        if (embFiltradas.length === 0) {
+            gridEmb.innerHTML = '<p style="grid-column: 1/-1; text-align:center; font-size:12px; color:var(--text-muted);">Nenhuma embalagem cadastrada para esta ocasião.</p>';
+        }
+
+        embFiltradas.forEach((emb) => {
+            let descHtml = criarHtmlDescricao(emb.nome, emb.tituloDesc, emb.descricao);
+            let carouselHtml = criarHtmlCarrossel(emb.imgs, `emb-${emb.id}`, true);
+            gridEmb.innerHTML += `
+                <div class="selectable-card" id="card-emb-${emb.id}" onclick="selecionarEmbalagem('${emb.id}')">
+                    <input type="radio" name="embalagem" value="${emb.id}">
+                    <div class="badge-selected">✓</div>
+                    ${carouselHtml}
+                    <div class="info-container">
+                        <span class="item-title">${emb.nome}</span>
+                        ${descHtml}
+                        <span class="item-price">R$ ${emb.preco.toFixed(2)}</span>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function selecionarEmbalagem(id) {
+        document.querySelectorAll('#grid-embalagens .selectable-card').forEach(c => {
+            c.classList.remove('active');
+            c.querySelector('input').checked = false;
+        });
+        const card = document.getElementById('card-emb-' + id);
+        if (card) {
+            card.classList.add('active');
+            card.querySelector('input').checked = true;
+        }
+
+        document.getElementById('tela-embalagens').style.display = 'none';
+        document.getElementById('tela-itens').style.display = 'block';
+
+        renderizarItens();
+    }
+
+    function renderizarItens() {
+        const containerFiltros = document.getElementById('container-filtros-categorias');
+        const tituloSecao = document.getElementById('titulo-secao-itens');
+        const containerNaoEncontrou = document.getElementById('container-nao-encontrou');
+
+        const objOcasiao = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
+        const modulosOcasiao = objOcasiao ? (objOcasiao.tipoModulos || [objOcasiao.tipoModulo || 'eventos']) : ['eventos'];
+        const ehDataOuBrinde = modulosOcasiao.includes('datas_comemorativas') || modulosOcasiao.includes('brindes');
+        const nomeSecaoItens = ehDataOuBrinde ? "Produtos" : "Kits Prontos";
+
+        if (modoSelecionado === 'kits_prontos') {
+            tituloSecao.innerHTML = `<span class='step-number'>2</span> ${nomeSecaoItens}`;
+            if (ehDataOuBrinde) {
+                containerFiltros.style.display = 'none';
+            } else {
+                containerFiltros.style.display = 'flex';
+            }
+            if (containerNaoEncontrou) containerNaoEncontrou.style.display = ehDataOuBrinde ? 'none' : 'block';
+        } else {
+            tituloSecao.innerHTML = `<span class='step-number'>4</span> Adicione os Itens Internos`;
+            if (containerNaoEncontrou) containerNaoEncontrou.style.display = 'none';
+            containerFiltros.style.display = 'flex';
+        }
+
+        const itensFiltrados = catalogo.itens
+            .filter(i => i.ocasioesIds && i.ocasioesIds.includes(ocasiaoSelecionadaId))
+            .filter(i => {
+                let cats = i.categorias || [];
+                if (modoSelecionado === 'kits_prontos') {
+                    if (ehDataOuBrinde) {
+                        return true;
+                    }
+                    return cats.includes('kits_prontos');
+                } else {
+                    return !cats.includes('kits_prontos');
+                }
+            })
+            .sort((a, b) => a.nome.localeCompare(b.nome));
+
+        const gridItens = document.getElementById('grid-itens');
+        gridItens.innerHTML = '';
+
+        if (itensFiltrados.length === 0) {
+            gridItens.innerHTML = '<p style="grid-column: 1/-1; text-align:center; font-size:12px; color:var(--text-muted);">Nenhum item/kit cadastrado para esta ocasião.</p>';
+        }
+
+        let inputType = (modoSelecionado === 'kits_prontos') ? 'radio' : 'checkbox';
+
+        itensFiltrados.forEach((item) => {
+            let descHtml = '';
+            if (modoSelecionado === 'kits_prontos') {
+                descHtml = ehDataOuBrinde ? criarHtmlDescricao(item.nome, item.tituloDesc, item.descricao) : criarHtmlDescricaoKitPronto(item.nome, item.descricao);
+            } else {
+                descHtml = criarHtmlDescricao(item.nome, item.tituloDesc, item.descricao);
+            }
+
+            let carouselHtml = criarHtmlCarrossel(item.imgs, `item-${item.id}`, true);
+            gridItens.innerHTML += `
+                <div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')">
+                    <input type="${inputType}" name="item" value="${item.id}">
+                    <div class="badge-selected">✓</div>
+                    ${carouselHtml}
+                    <div class="info-container">
+                        <span class="item-title">${item.nome}</span>
+                        ${descHtml}
+                        <span class="item-price">R$ ${item.preco.toFixed(2)}</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        filtrarCategoria('todos');
+    }
+
+    function toggleItem(id) {
+        const card = document.getElementById('card-item-' + id);
+        if (!card || card.style.display === 'none') return;
+        const checkbox = card.querySelector('input');
+        
+        if (modoSelecionado === 'kits_prontos') {
+            if (card.classList.contains('active')) {
+                card.classList.remove('active');
+                checkbox.checked = false;
+            } else {
+                document.querySelectorAll('#grid-itens .selectable-card').forEach(c => {
+                    c.classList.remove('active');
+                    c.querySelector('input').checked = false;
+                });
+                card.classList.add('active');
+                checkbox.checked = true;
+            }
+        } else {
+            checkbox.checked = !checkbox.checked;
+            if (checkbox.checked) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        }
+        calcularTotal();
+    }
+
+    function filtrarCategoria(cat) {
+        categoriaAtual = cat;
+        
+        const btns = document.querySelectorAll('.btn-filtro-cat');
+        btns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-cat') === cat) {
+                btn.classList.add('active');
+            }
+        });
+
+        aplicarFiltrolEstatisticas();
+    }
+
+    function aplicarFiltrolEstatisticas() {
+        const embChecked = document.querySelector('input[name="embalagem"]:checked');
+        const embAtualId = embChecked ? embChecked.value : null;
+
+        const itensFiltrados = catalogo.itens.filter(i => i.ocasioesIds && i.ocasioesIds.includes(ocasiaoSelecionadaId));
+        
+        itensFiltrados.forEach(item => {
+            const card = document.getElementById('card-item-' + item.id);
+            if (!card) return;
+            
+            let passaFiltroEmbalagem = true;
+            if (embAtualId && modoSelecionado === 'monte_seu_kit') {
+                let listaProibidos = item.proibidoEm || [];
+                if (listaProibidos.includes(embAtualId)) {
+                    passaFiltroEmbalagem = false;
+                }
+            }
+
+            let passaFiltroCategoria = true;
+            const objOcasiao = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
+            const modulosOcasiao = objOcasiao ? (objOcasiao.tipoModulos || [objOcasiao.tipoModulo || 'eventos']) : ['eventos'];
+            const ehDataOuBrinde = modulosOcasiao.includes('datas_comemorativas') || modulosOcasiao.includes('brindes');
+
+            if (!(ehDataOuBrinde && modoSelecionado === 'kits_prontos') && categoriaAtual !== 'todos') {
+                let cats = item.categorias || (item.categoria ? [item.categoria] : []);
+                if (!cats.includes(categoriaAtual)) {
+                    passaFiltroCategoria = false;
+                }
+            }
+
+            if (passaFiltroEmbalagem && passaFiltroCategoria) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        calcularTotal();
+    }
+
+    function calcularTotal() {
+        let precoEmb = 0;
+        if (modoSelecionado === 'monte_seu_kit') {
+            const embChecked = document.querySelector('input[name="embalagem"]:checked');
+            if (embChecked) {
+                const objEmb = catalogo.embalagens.find(e => e.id === embChecked.value);
+                if (objEmb) precoEmb = objEmb.preco;
+            }
+        }
+
+        let precoItens = 0;
+        document.querySelectorAll('input[name="item"]:checked').forEach(chk => {
+            const objItem = catalogo.itens.find(i => i.id === chk.value);
+            if (objItem) precoItens += objItem.preco;
+        });
+
+        const unitario = precoEmb + precoItens;
+        const qtd = parseInt(document.getElementById('quantidade').value) || 1;
+        
+        let subtotalKits = unitario * qtd;
+        
+        const radioArte = document.querySelector('input[name="criacao_arte"]:checked');
+        const querArte = radioArte && radioArte.value === 'sim';
+        const valorArte = catalogo.valorCriacaoArte || 0;
+
+        let total = subtotalKits;
+        const linhaResumoArte = document.getElementById('linha-resumo-arte');
+
+        if (querArte) {
+            total += valorArte;
+            if (linhaResumoArte) linhaResumoArte.style.display = 'flex';
+            document.getElementById('resumo-valor-arte').innerText = `R$ ${valorArte.toFixed(2)}`;
+        } else {
+            if (linhaResumoArte) linhaResumoArte.style.display = 'none';
+        }
+
+        document.getElementById('valor-unitario').innerText = `R$ ${unitario.toFixed(2)}`;
+        document.getElementById('resumo-qtd').innerText = qtd;
+        document.getElementById('valor-total').innerText = `R$ ${total.toFixed(2)}`;
+    }
+
+    function abrirZoom(jsonImgsEnc, idUnico) {
+        try {
+            zoomImgsAtual = JSON.parse(decodeURIComponent(jsonImgsEnc));
+        } catch(e) {
+            zoomImgsAtual = [];
+        }
+
+        const container = document.getElementById(`container-carrossel-${idUnico}`);
+        if (container) {
+            zoomIndexAtual = parseInt(container.getAttribute('data-index')) || 0;
+        } else {
+            zoomIndexAtual = 0;
+        }
+
+        if(!zoomImgsAtual || zoomImgsAtual.length === 0) return;
+
+        atualizarModalZoom();
+        document.getElementById('modal-zoom').style.display = 'flex';
+    }
+
+    function atualizarModalZoom() {
+        const imgElem = document.getElementById('img-ampliada');
+        imgElem.src = sanitizarUrlImagem(zoomImgsAtual[zoomIndexAtual]);
+
+        const btnPrev = document.getElementById('zoom-prev-btn');
+        const btnNext = document.getElementById('zoom-next-btn');
+
+        if (zoomImgsAtual.length > 1) {
+            btnPrev.style.display = 'flex';
+            btnNext.style.display = 'flex';
+        } else {
+            btnPrev.style.display = 'none';
+            btnNext.style.display = 'none';
+        }
+    }
+
+    function navegarZoom(direcao) {
+        if (zoomImgsAtual.length <= 1) return;
+        zoomIndexAtual += direcao;
+        if (zoomIndexAtual < 0) zoomIndexAtual = zoomImgsAtual.length - 1;
+        if (zoomIndexAtual >= zoomImgsAtual.length) zoomIndexAtual = 0;
+        atualizarModalZoom();
+    }
+
+    function fecharZoomImagem() {
+        document.getElementById('modal-zoom').style.display = 'none';
+    }
+
+    document.getElementById('btn-config-engrenagem').addEventListener('click', () => {
+        verificarSessaoAdmin();
+    });
+
+    function verificarSessaoAdmin() {
+        const loginSalvoStr = localStorage.getItem('esense_admin_sessao');
+        if (loginSalvoStr) {
+            const dadosSessao = JSON.parse(loginSalvoStr);
+            const agora = new Date().getTime();
+            if (agora < dadosSessao.expiracao) {
+                abrirAdmin();
+                return;
+            } else {
+                localStorage.removeItem('esense_admin_sessao');
+            }
+        }
+        abrirModalSenha();
+    }
+
+    function abrirModalSenha() {
+        document.getElementById('input-email-admin').value = '';
+        document.getElementById('input-senha-admin').value = '';
+        document.getElementById('modal-senha').style.display = 'flex';
+        document.getElementById('input-email-admin').focus();
+    }
+
+    function fecharModalSenha() {
+        document.getElementById('modal-senha').style.display = 'none';
+    }
+
+    async function validarLoginAdmin() {
+        const emailDigitado = document.getElementById('input-email-admin').value;
+        const senhaDigitada = document.getElementById('input-senha-admin').value;
+        
+        try {
+            await window.signInWithEmailAndPassword(window.firebaseAuth, emailDigitado, senhaDigitada);
+            
+            const tempoExpiracao = new Date().getTime() + (30 * 60 * 1000);
+            localStorage.setItem('esense_admin_sessao', JSON.stringify({ expiracao: tempoExpiracao }));
+
+            alert("Login bem-sucedido! Você permanecerá logado por 30 minutos.");
+            fecharModalSenha();
+            abrirAdmin();
+        } catch (error) {
+            alert("Erro de autenticação: " + error.message);
+            document.getElementById('input-senha-admin').value = '';
+        }
+    }
+
+    document.getElementById('input-senha-admin').addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+            validarLoginAdmin();
+        }
+    });
+
+    function abrirAdmin() {
+        document.getElementById('adm-valor-arte').value = catalogo.valorCriacaoArte !== undefined ? catalogo.valorCriacaoArte : 30.00;
+        document.getElementById('adm-logo-url').value = catalogo.logoUrl || "";
+        document.getElementById('adm-slogan').value = catalogo.slogan || "";
+        document.getElementById('adm-link-instagram').value = catalogo.instagramUrl || "";
+        document.getElementById('adm-link-whatsapp').value = catalogo.whatsappNumero || "";
+        document.getElementById('adm-link-email').value = catalogo.emailContato || "";
+
+        renderizarCamposAdminItens();
+        renderizarCamposAdminEmbalagens();
+        renderizarCamposAdminOcasioes();
+
+        document.getElementById('admin-panel').style.display = 'block';
+        document.getElementById('admin-overlay').style.display = 'block';
+    }
+
+    function fecharAdmin() {
+        document.getElementById('admin-panel').style.display = 'none';
+        document.getElementById('admin-overlay').style.display = 'none';
+    }
+
+    function mudarAbaAdmin(idAba) {
+        document.querySelectorAll('.admin-tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(idAba).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    function atualizarNomeEId(tipo, idx, novoNome) {
+        let novoId = gerarSlugId(novoNome);
+        if (tipo === 'ocasiao') {
+            catalogo.ocasioes[idx].nome = novoNome;
+            catalogo.ocasioes[idx].id = novoId;
+            document.getElementById(`oc-id-input-${idx}`).value = novoId;
+        } else if (tipo === 'embalagem') {
+            catalogo.embalagens[idx].nome = novoNome;
+            catalogo.embalagens[idx].id = novoId;
+            document.getElementById(`emb-id-input-${idx}`).value = novoId;
+        } else if (tipo === 'item') {
+            catalogo.itens[idx].nome = novoNome;
+            catalogo.itens[idx].id = novoId;
+            document.getElementById(`item-id-input-${idx}`).value = novoId;
+        }
+    }
+
+    function renderizarCamposAdminOcasioes() {
+        const container = document.getElementById('admin-container-ocasioes');
+        container.innerHTML = "";
+        catalogo.ocasioes.forEach((oc, idx) => {
+            let imgsString = (oc.imgs || []).join(', ');
+            let modulosSelecionados = oc.tipoModulos || [oc.tipoModulo || 'eventos'];
+
+            let isEvChecked = modulosSelecionados.includes('eventos') ? 'checked' : '';
+            let isDcChecked = modulosSelecionados.includes('datas_comemorativas') ? 'checked' : '';
+            let isBrChecked = modulosSelecionados.includes('brindes') ? 'checked' : '';
+            let isConstrucaoChecked = oc.emConstrucao ? 'checked' : '';
+
+            container.innerHTML += `
+                <div class="admin-item-box" id="admin-oc-${idx}">
+                    <button class="btn-delete-item" onclick="removerOcasiao(${idx})">Excluir</button>
+                    <div class="admin-field"><label>Nome:</label><input type="text" value="${oc.nome}" oninput="atualizarNomeEId('ocasiao', ${idx}, this.value)"></div>
+                    <div class="admin-field"><label>Descrição Breve:</label><textarea rows="2" onchange="catalogo.ocasioes[${idx}].descricao = this.value">${oc.descricao || ''}</textarea></div>
+                    <div class="admin-field">
+                        <label><b>Status da Página:</b></label>
+                        <div class="admin-checkbox-group">
+                            <label class="admin-checkbox-label">
+                                <input type="checkbox" ${isConstrucaoChecked} onchange="catalogo.ocasioes[${idx}].emConstrucao = this.checked"> 🚧 Marcar como Em Construção (Exibir "EM BREVE NOVIDADES 😊")
+                            </label>
+                        </div>
+                    </div>
+                    <div class="admin-field">
+                        <label><b>Módulos / Categorias da Página Inicial (Múltipla Seleção):</b></label>
+                        <div class="admin-checkbox-group">
+                            <label class="admin-checkbox-label">
+                                <input type="checkbox" value="eventos" ${isEvChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Eventos
+                            </label>
+                            <label class="admin-checkbox-label">
+                                <input type="checkbox" value="datas_comemorativas" ${isDcChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Datas Comemorativas
+                            </label>
+                            <label class="admin-checkbox-label">
+                                <input type="checkbox" value="brindes" ${isBrChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Brindes
+                            </label>
+                        </div>
+                    </div>
+                    <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('ocasiao', ${idx}, this.value)"></div>
+                    <div class="admin-field"><label>ID:</label><input type="text" id="oc-id-input-${idx}" value="${oc.id}" readonly></div>
+                </div>
+            `;
+        });
+    }
+
+    function atualizarCheckboxArrayOcasiao(idx, propriedade, checkboxElem) {
+        const val = checkboxElem.value;
+        let alvo = catalogo.ocasioes[idx];
+        if (!alvo[propriedade]) alvo[propriedade] = [];
+
+        if (checkboxElem.checked) {
+            if (!alvo[propriedade].includes(val)) alvo[propriedade].push(val);
+        } else {
+            alvo[propriedade] = alvo[propriedade].filter(item => item !== val);
+        }
+    }
+
+    function renderizarCamposAdminEmbalagens() {
+        const container = document.getElementById('admin-container-embalagens');
+        container.innerHTML = "";
+        catalogo.embalagens.forEach((emb, idx) => {
+            let checkboxesOcasioesHTML = '';
+            let ocSelecionadas = emb.ocasioesIds || [];
+
+            catalogo.ocasioes.forEach(oc => {
+                let isChecked = ocSelecionadas.includes(oc.id) ? 'checked' : '';
+                checkboxesOcasioesHTML += `
+                    <label class="admin-checkbox-label">
+                        <input type="checkbox" value="${oc.id}" ${isChecked} onchange="atualizarCheckboxArray('embalagem', ${idx}, 'ocasioesIds', this)"> ${oc.nome}
+                    </label>
+                `;
+            });
+
+            let imgsString = (emb.imgs || []).join(', ');
+
+            container.innerHTML += `
+                <div class="admin-item-box" id="admin-emb-${idx}">
+                    <button class="btn-delete-item" onclick="removerItemEstrutura('embalagem', ${idx})">Excluir</button>
+                    <div class="admin-field"><label>Nome:</label><input type="text" value="${emb.nome}" oninput="atualizarNomeEId('embalagem', ${idx}, this.value)"></div>
+                    <div class="admin-field"><label>Título da Descrição:</label><input type="text" value="${emb.tituloDesc || ''}" onchange="catalogo.embalagens[${idx}].tituloDesc = this.value"></div>
+                    <div class="admin-field"><label>Descrição Completa:</label><textarea rows="2" onchange="catalogo.embalagens[${idx}].descricao = this.value">${emb.descricao || ''}</textarea></div>
+                    <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('embalagem', ${idx}, this.value)"></div>
+                    <div class="admin-field"><label>Valor (R$):</label><input type="number" step="0.01" value="${emb.preco}" onchange="catalogo.embalagens[${idx}].preco = parseFloat(this.value)||0"></div>
+                    <div class="admin-field"><label>ID:</label><input type="text" id="emb-id-input-${idx}" value="${emb.id}" readonly></div>
+                    <div class="admin-field">
+                        <label><b>🎉 Ocasião:</b></label>
+                        <div class="admin-checkbox-group">${checkboxesOcasioesHTML}</div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function renderizarCamposAdminItens() {
+        const container = document.getElementById('admin-container-itens');
+        container.innerHTML = "";
+        catalogo.itens.forEach((item, idx) => {
+            let catsSelecionadas = item.categorias || (item.categoria ? [item.categoria] : []);
+
+            let isKitsProntosChecked = catsSelecionadas.includes('kits_prontos') ? 'checked' : '';
+            let isBrinquedosChecked = catsSelecionadas.includes('brinquedos') ? 'checked' : '';
+            let isDocesChecked = catsSelecionadas.includes('doces') ? 'checked' : '';
+            let isEducativoChecked = catsSelecionadas.includes('educativo') ? 'checked' : '';
+
+            let checkboxesOcasioesHTML = '';
+            let ocSelecionadas = item.ocasioesIds || [];
+            catalogo.ocasioes.forEach(oc => {
+                let isChecked = ocSelecionadas.includes(oc.id) ? 'checked' : '';
+                checkboxesOcasioesHTML += `
+                    <label class="admin-checkbox-label">
+                        <input type="checkbox" value="${oc.id}" ${isChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'ocasioesIds', this)"> ${oc.nome}
+                    </label>
+                `;
+            });
+
+            let checkboxesProibidosHTML = '';
+            let proibidos = item.proibidoEm || [];
+            catalogo.embalagens.forEach(emb => {
+                let isChecked = proibidos.includes(emb.id) ? 'checked' : '';
+                checkboxesProibidosHTML += `
+                    <label class="admin-checkbox-label">
+                        <input type="checkbox" value="${emb.id}" ${isChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'proibidoEm', this)"> ${emb.nome}
+                    </label>
+                `;
+            });
+
+            let imgsString = (item.imgs || []).join(', ');
+
+            container.innerHTML += `
+                <div class="admin-item-box" id="admin-item-${idx}">
+                    <button class="btn-delete-item" onclick="removerItemEstrutura('item', ${idx})">Excluir</button>
+                    <div class="admin-field"><label>Nome:</label><input type="text" value="${item.nome}" oninput="atualizarNomeEId('item', ${idx}, this.value)"></div>
+                    <div class="admin-field"><label>Título da Descrição:</label><input type="text" value="${item.tituloDesc || ''}" onchange="catalogo.itens[${idx}].tituloDesc = this.value"></div>
+                    <div class="admin-field"><label>Descrição Completa:</label><textarea rows="2" onchange="catalogo.itens[${idx}].descricao = this.value">${item.descricao || ''}</textarea></div>
+                    <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('item', ${idx}, this.value)"></div>
+                    <div class="admin-field"><label>Valor (R$):</label><input type="number" step="0.01" value="${item.preco}" onchange="catalogo.itens[${idx}].preco = parseFloat(this.value)||0"></div>
+                    
+                    <div class="admin-field">
+                        <label><b>🏷️ Tipo / Categoria:</b></label>
+                        <div class="admin-checkbox-group">
+                            <label class="admin-checkbox-label" style="display:none;">
+                                <input type="checkbox" value="kits_prontos" ${isKitsProntosChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Kits Prontos
+                            </label>
+                            <label class="admin-checkbox-label">
+                                <input type="checkbox" value="brinquedos" ${isBrinquedosChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Brinquedos
+                            </label>
+                            <label class="admin-checkbox-label">
+                                <input type="checkbox" value="doces" ${isDocesChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Doces
+                            </label>
+                            <label class="admin-checkbox-label">
+                                <input type="checkbox" value="educativo" ${isEducativoChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Educativos
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="admin-field" style="margin-top: 8px;">
+                        <label><b>🎉 Ocasião:</b></label>
+                        <div class="admin-checkbox-group">${checkboxesOcasioesHTML}</div>
+                    </div>
+
+                    <div class="admin-field" style="margin-top: 8px;">
+                        <label><b>❌ Não Permitido Em:</b></label>
+                        <div class="admin-checkbox-group">${checkboxesProibidosHTML}</div>
+                    </div>
+
+                    <div class="admin-field" style="margin-top: 8px;"><label>ID:</label><input type="text" id="item-id-input-${idx}" value="${item.id}" readonly></div>
+                </div>
+            `;
+        });
+    }
+
+    function atualizarImagensArray(tipo, idx, stringUrls) {
+        let arr = stringUrls.split(',').map(url => sanitizarUrlImagem(url)).filter(url => url !== "");
+        if (tipo === 'ocasiao') catalogo.ocasioes[idx].imgs = arr;
+        if (tipo === 'embalagem') catalogo.embalagens[idx].imgs = arr;
+        if (tipo === 'item') catalogo.itens[idx].imgs = arr;
+    }
+
+    function atualizarCheckboxArray(tipo, idx, propriedade, checkboxElem) {
+        const val = checkboxElem.value;
+        let alvo = tipo === 'embalagem' ? catalogo.embalagens[idx] : catalogo.itens[idx];
+        if (!alvo[propriedade]) alvo[propriedade] = [];
+
+        if (checkboxElem.checked) {
+            if (!alvo[propriedade].includes(val)) alvo[propriedade].push(val);
+        } else {
+            alvo[propriedade] = alvo[propriedade].filter(id => id !== val);
+        }
+    }
+
+    function adicionarNovaOcasiao() {
+        let nomePadrao = "Nova Ocasião";
+        const idUnico = gerarSlugId(nomePadrao);
+        catalogo.ocasioes.unshift({ id: idUnico, nome: nomePadrao, descricao: "", tipoModulos: ["eventos"], imgs: [], emConstrucao: false });
+        renderizarCamposAdminOcasioes();
+        renderizarCamposAdminItens();
+        renderizarCamposAdminEmbalagens();
+    }
+
+    function removerOcasiao(idx) {
+        if (confirm("Excluir esta ocasião?")) {
+            catalogo.ocasioes.splice(idx, 1);
+            renderizarCamposAdminOcasioes();
+            renderizarCamposAdminItens();
+            renderizarCamposAdminEmbalagens();
+        }
+    }
+
+    function adicionarNovoItemEstrutura(tipo) {
+        const ocPadrao = catalogo.ocasioes.length > 0 ? [catalogo.ocasioes[0].id] : [];
+        if (tipo === 'embalagem') {
+            let nomePadrao = "Nova Embalagem";
+            const idUnico = gerarSlugId(nomePadrao);
+            catalogo.embalagens.unshift({ id: idUnico, nome: nomePadrao, tituloDesc: "", descricao: "", preco: 5.00, imgs: [], ocasioesIds: ocPadrao });
+            renderizarCamposAdminEmbalagens();
+        } else {
+            let nomePadrao = "Novo Item/Kit";
+            const idUnico = gerarSlugId(nomePadrao);
+            catalogo.itens.unshift({ id: idUnico, nome: nomePadrao, tituloDesc: "", descricao: "", preco: 3.00, imgs: [], ocasioesIds: ocPadrao, categorias: [], proibidoEm: [] });
+            renderizarCamposAdminItens();
+            renderizarCamposAdminEmbalagens();
+        }
+    }
+
+    function removerItemEstrutura(tipo, idx) {
+        if (confirm("Deseja realmente excluir este item?")) {
+            if (tipo === 'embalagem') {
+                catalogo.embalagens.splice(idx, 1);
+                renderizarCamposAdminEmbalagens();
+            } else {
+                catalogo.itens.splice(idx, 1);
+                renderizarCamposAdminItens();
+            }
+        }
+    }
+
+    function exportarJSON() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(catalogo, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "catalogo_esense.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+
+    async function salvarConfiguracoes() {
+        catalogo.valorCriacaoArte = parseFloat(document.getElementById('adm-valor-arte').value) || 0;
+        catalogo.logoUrl = sanitizarUrlImagem(document.getElementById('adm-logo-url').value);
+        catalogo.slogan = document.getElementById('adm-slogan').value.trim();
+        catalogo.instagramUrl = document.getElementById('adm-link-instagram').value.trim();
+        catalogo.whatsappNumero = document.getElementById('adm-link-whatsapp').value.trim();
+        catalogo.emailContato = document.getElementById('adm-link-email').value.trim();
+
+        const btnSalvar = document.getElementById('btn-adm-salvar');
+        btnSalvar.innerText = "Salvando no Firebase...";
+        btnSalvar.disabled = true;
+
+        try {
+            await window.dbSet(window.dbRef(window.firebaseDB, 'catalogo'), catalogo);
+            alert("✅ Alterações salvas com sucesso no Firebase! O catálogo já foi atualizado.");
+            fecharAdmin();
+            renderizarOcasioes();
+            calcularTotal();
+        } catch (err) {
+            console.error(err);
+            alert("❌ Erro ao salvar dados no Firebase. Verifique suas regras de banco.");
+        } finally {
+            btnSalvar.innerText = "Salvar Alterações";
+            btnSalvar.disabled = false;
+        }
+    }
+
+    function compartilharOrcamento() {
+        const objOcasiao = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
+        let objEmb = null;
+
+        if (modoSelecionado === 'monte_seu_kit') {
+            const embChecked = document.querySelector('input[name="embalagem"]:checked');
+            if (!embChecked) {
+                alert("Por favor, selecione uma embalagem.");
+                return;
+            }
+            objEmb = catalogo.embalagens.find(e => e.id === embChecked.value);
+        }
+
+        let itensSelecionados = [];
+        document.querySelectorAll('input[name="item"]:checked').forEach(chk => {
+            const objItem = catalogo.itens.find(i => i.id === chk.value);
+            if (objItem) itensSelecionados.push(objItem);
+        });
+
+        if (itensSelecionados.length === 0) {
+            alert(modoSelecionado === 'kits_prontos' ? "Por favor, selecione um item/produto." : "Por favor, selecione ao menos um item.");
+            return;
+        }
+
+        const qtd = document.getElementById('quantidade').value;
+        const unitario = document.getElementById('valor-unitario').innerText;
+        const total = document.getElementById('valor-total').innerText;
+        
+        const radioArte = document.querySelector('input[name="criacao_arte"]:checked');
+        const querArte = radioArte && radioArte.value === 'sim';
+        const valorArte = catalogo.valorCriacaoArte || 0;
+
+        let texto = `*ORÇAMENTO DE LEMBRANCINHAS*\n`;
+        texto += `------------------------------------\n`;
+        texto += `🎉 *Ocasião:* ${objOcasiao ? objOcasiao.nome : '-'}\n`;
+        texto += `📋 *Modalidade:* ${modoSelecionado === 'kits_prontos' ? 'Produto' : 'Monte Seu Kit'}\n`;
+        
+        if (objEmb) {
+            texto += `📦 *Embalagem:* ${objEmb.nome} (R$ ${objEmb.preco.toFixed(2)})\n`;
+        }
+
+        texto += `🎁 *${modoSelecionado === 'kits_prontos' ? 'Produto Selecionado:' : 'Itens Internos:'}*\n`;
+        itensSelecionados.forEach(item => {
+            texto += `   • ${item.nome} (R$ ${item.preco.toFixed(2)})\n`;
+        });
+
+        texto += `------------------------------------\n`;
+        texto += `🔢 *Quantidade:* ${qtd}\n`;
+        texto += `💵 *Valor Unitário:* ${unitario}\n`;
+        texto += `🎨 *Criação da Arte:* ${querArte ? 'Sim (R$ ' + valorArte.toFixed(2) + ')' : 'Não'}\n`;
+        texto += `💰 *VALOR TOTAL:* ${total}\n`;
+        texto += `------------------------------------\n`;
+        texto += `Gerado via eSense Costura Criativa`;
+
+        let numWhatsapp = (catalogo.whatsappNumero || "5554999999999").replace(/\D/g, '');
+        let urlWhatsApp = `https://wa.me/${numWhatsapp}?text=${encodeURIComponent(texto)}`;
+        window.open(urlWhatsApp, '_blank');
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        carregarDadosDaNuvem();
+    });
+</script>
+</body>
+</html>
