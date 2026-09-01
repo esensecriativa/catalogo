@@ -1394,12 +1394,22 @@
     }
 
     function gerarSlugId(texto, prefixo = '') {
-        if (!texto) return prefixo + 'id_' + Math.random().toString(36).substring(2, 6);
+        if (!texto) return prefixo + 'id_' + Math.random().toString(36).substring(2, 10);
         let slug = texto.toLowerCase()
             .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
             .replace(/[^a-z0-9]+/g, '_')
             .replace(/^_+|_+$/g, '');
-        return slug || (prefixo + 'id');
+        return slug || (prefixo + 'id_' + Math.random().toString(36).substring(2, 10));
+    }
+
+    function gerarIdUnicoParaColecao(texto, colecao, prefixo = '') {
+        const base = gerarSlugId(texto, prefixo);
+        let id = base;
+        let n = 2;
+        while (colecao.some(obj => obj && obj.id === id)) {
+            id = `${base}_${n++}`;
+        }
+        return id;
     }
 
     function renderizarOcasioes() {
@@ -2322,43 +2332,31 @@
     }
 
     function atualizarNomeEId(tipo, idx, novoNome) {
-        let novoId = gerarSlugId(novoNome);
-        if (tipo === 'ocasiao') {
-            catalogo.ocasioes[idx].nome = novoNome;
-            catalogo.ocasioes[idx].id = novoId;
-            document.getElementById(`oc-id-input-${idx}`).value = novoId;
-        } else if (tipo === 'embalagem') {
-            catalogo.embalagens[idx].nome = novoNome;
-            catalogo.embalagens[idx].id = novoId;
-            document.getElementById(`emb-id-input-${idx}`).value = novoId;
-        } else if (tipo === 'item') {
-            catalogo.itens[idx].nome = novoNome;
-            catalogo.itens[idx].id = novoId;
-            const idInput = document.getElementById(`item-id-input-${idx}`);
-            if (idInput) idInput.value = novoId;
-        }
+        const colecao = tipo === 'ocasiao' ? catalogo.ocasioes : tipo === 'embalagem' ? catalogo.embalagens : catalogo.itens;
+        const objeto = colecao[idx];
+        if (!objeto) return;
+        objeto.nome = novoNome;
     }
 
     function finalizarNomeNovoCadastro(tipo, idx, novoNome) {
-        if (tipo !== 'item' || !catalogo.itens[idx]) return;
-
+        const colecao = tipo === 'ocasiao' ? catalogo.ocasioes : tipo === 'embalagem' ? catalogo.embalagens : catalogo.itens;
+        const objeto = colecao[idx];
+        if (!objeto) return;
         const nome = (novoNome || '').trim();
-        const nomePadrao = 'Novo Item/Kit';
+        const nomesPadrao = {
+            item: 'Novo Item/Kit',
+            embalagem: 'Nova Embalagem',
+            ocasiao: 'Nova Ocasião'
+        };
+        if (!objeto._novoCadastro || !nome || nome === nomesPadrao[tipo]) return;
 
-        // Só tira o item do topo quando ele realmente recebeu um novo nome.
-        if (catalogo.itens[idx]._novoCadastro && nome && nome !== nomePadrao) {
-            catalogo.itens[idx].nome = nome;
-            catalogo.itens[idx].id = gerarSlugId(nome);
-            delete catalogo.itens[idx]._novoCadastro;
-            renderizarCamposAdminItens();
+        objeto.nome = nome;
+        objeto.id = gerarIdUnicoParaColecao(nome, colecao.filter((_, i) => i !== idx), tipo === 'embalagem' ? 'emb_' : 'item_');
+        delete objeto._novoCadastro;
 
-            // Mantém o item recém-nomeado visível para conferência.
-            requestAnimationFrame(() => {
-                const caixas = document.querySelectorAll('#admin-container-itens .admin-item-box');
-                const caixa = Array.from(caixas).find(el => el.querySelector(`#item-id-input-${idx}`));
-                if (caixa) caixa.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            });
-        }
+        if (tipo === 'item') renderizarCamposAdminItens();
+        else if (tipo === 'embalagem') renderizarCamposAdminEmbalagens();
+        else renderizarCamposAdminOcasioes();
     }
 
     function renderizarCamposAdminOcasioes() {
@@ -2401,7 +2399,6 @@
                         </div>
                     </div>
                     <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('ocasiao', ${idx}, this.value)"></div>
-                    <div class="admin-field"><label>ID:</label><input type="text" id="oc-id-input-${idx}" value="${oc.id}" readonly></div>
                 </div>
             `;
         });
@@ -2440,12 +2437,11 @@
             container.innerHTML += `
                 <div class="admin-item-box" id="admin-emb-${idx}">
                     <button class="btn-delete-item" onclick="removerItemEstrutura('embalagem', ${idx})">Excluir</button>
-                    <div class="admin-field"><label>Nome:</label><input type="text" value="${emb.nome}" oninput="atualizarNomeEId('embalagem', ${idx}, this.value)"></div>
+                    <div class="admin-field"><label>Nome:</label><input type="text" value="${emb.nome}" oninput="atualizarNomeEId('embalagem', ${idx}, this.value)" onblur="finalizarNomeNovoCadastro('embalagem', ${idx}, this.value)"></div>
                     <div class="admin-field"><label>Título da Descrição:</label><input type="text" value="${emb.tituloDesc || ''}" onchange="catalogo.embalagens[${idx}].tituloDesc = this.value"></div>
                     <div class="admin-field"><label>Descrição Completa:</label><textarea rows="2" onchange="catalogo.embalagens[${idx}].descricao = this.value">${emb.descricao || ''}</textarea></div>
                     <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('embalagem', ${idx}, this.value)"></div>
                     <div class="admin-field"><label>Valor (R$):</label><input type="number" step="0.01" value="${emb.preco}" onchange="catalogo.embalagens[${idx}].preco = parseFloat(this.value)||0"></div>
-                    <div class="admin-field"><label>ID:</label><input type="text" id="emb-id-input-${idx}" value="${emb.id}" readonly></div>
                     <div class="admin-field">
                         <label><b>🎉 Ocasião:</b></label>
                         <div class="admin-checkbox-group">${checkboxesOcasioesHTML}</div>
@@ -2584,7 +2580,7 @@
                     <div class="admin-field">
                         <label><b>🏷️ Tipo / Categoria:</b></label>
                         <div class="admin-checkbox-group">
-                            <label class="admin-checkbox-label" style="display:none;">
+                            <label class="admin-checkbox-label">
                                 <input type="checkbox" value="kits_prontos" ${isKitsProntosChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Kits Prontos
                             </label>
                             ${checkboxesCategoriasHTML}
@@ -2601,7 +2597,6 @@
                         <div class="admin-checkbox-group">${checkboxesProibidosHTML}</div>
                     </div>
 
-                    <div class="admin-field" style="margin-top: 8px;"><label>ID:</label><input type="text" id="item-id-input-${idx}" value="${item.id}" readonly></div>
                 </div>
             `;
         });
@@ -2648,15 +2643,14 @@
         const ocPadrao = catalogo.ocasioes.length > 0 ? [catalogo.ocasioes[0].id] : [];
         if (tipo === 'embalagem') {
             let nomePadrao = "Nova Embalagem";
-            const idUnico = gerarSlugId(nomePadrao);
-            catalogo.embalagens.unshift({ id: idUnico, nome: nomePadrao, tituloDesc: "", descricao: "", preco: 5.00, imgs: [], ocasioesIds: ocPadrao });
+            const idUnico = gerarIdUnicoParaColecao(nomePadrao, catalogo.embalagens, 'emb_');
+            catalogo.embalagens.unshift({ id: idUnico, nome: nomePadrao, tituloDesc: "", descricao: "", preco: 5.00, imgs: [], ocasioesIds: ocPadrao, _novoCadastro: true });
             renderizarCamposAdminEmbalagens();
         } else {
             let nomePadrao = "Novo Item/Kit";
-            const idUnico = gerarSlugId(nomePadrao);
+            const idUnico = gerarIdUnicoParaColecao(nomePadrao, catalogo.itens, 'item_');
             catalogo.itens.unshift({ id: idUnico, nome: nomePadrao, tituloDesc: "", descricao: "", preco: 3.00, imgs: [], ocasioesIds: ocPadrao, categorias: [], proibidoEm: [], maisVendido: false, novidade: false, _novoCadastro: true });
             renderizarCamposAdminItens();
-            renderizarCamposAdminEmbalagens();
         }
     }
 
@@ -2683,10 +2677,44 @@
     }
 
     async function salvarConfiguracoes() {
-        // O marcador de "novo cadastro" é apenas visual e não deve ser persistido.
-        catalogo.itens.forEach(item => delete item._novoCadastro);
-        catalogo.embalagens.forEach(item => delete item._novoCadastro);
-        catalogo.ocasioes.forEach(item => delete item._novoCadastro);
+        // Consolida e valida novos cadastros antes de gravar.
+        const consolidarColecao = (colecao, prefixo) => {
+            const usados = new Set();
+            colecao.forEach((obj) => {
+                if (!obj) return;
+                obj.nome = String(obj.nome || '').trim();
+                if (!obj.nome) obj.nome = prefixo === 'item_' ? 'Novo Item/Kit' : prefixo === 'emb_' ? 'Nova Embalagem' : 'Nova Ocasião';
+                if (!obj.id || usados.has(obj.id)) {
+                    obj.id = gerarIdUnicoParaColecao(obj.nome, colecao.filter(x => x !== obj), prefixo);
+                }
+                usados.add(obj.id);
+                delete obj._novoCadastro;
+            });
+        };
+
+        consolidarColecao(catalogo.itens, 'item_');
+        consolidarColecao(catalogo.embalagens, 'emb_');
+        // Ocasiões usam slug sem prefixo para manter compatibilidade com os dados existentes.
+        catalogo.ocasioes.forEach((oc) => {
+            if (!oc) return;
+            oc.nome = String(oc.nome || '').trim() || 'Nova Ocasião';
+            if (!oc.id) oc.id = gerarSlugId(oc.nome);
+            delete oc._novoCadastro;
+        });
+
+        // Garante que os campos usados pelos filtros e pelas listas sempre sejam arrays.
+        catalogo.itens.forEach(item => {
+            if (!Array.isArray(item.categorias)) item.categorias = item.categoria ? [item.categoria] : [];
+            if (!Array.isArray(item.ocasioesIds)) item.ocasioesIds = [];
+            if (!Array.isArray(item.proibidoEm)) item.proibidoEm = [];
+            if (!Array.isArray(item.imgs)) item.imgs = [];
+            item.preco = Number(item.preco) || 0;
+        });
+        catalogo.embalagens.forEach(emb => {
+            if (!Array.isArray(emb.ocasioesIds)) emb.ocasioesIds = [];
+            if (!Array.isArray(emb.imgs)) emb.imgs = [];
+            emb.preco = Number(emb.preco) || 0;
+        });
 
         catalogo.valorCriacaoArte = parseFloat(document.getElementById('adm-valor-arte').value) || 0;
         catalogo.logoUrl = sanitizarUrlImagem(document.getElementById('adm-logo-url').value);
@@ -2700,14 +2728,24 @@
         btnSalvar.disabled = true;
 
         try {
-            await window.dbSet(window.dbRef(window.firebaseDB, 'catalogo'), catalogo);
-            alert("✅ Alterações salvas com sucesso no Firebase! O catálogo já foi atualizado.");
+            const dadosParaSalvar = JSON.parse(JSON.stringify(catalogo));
+            await window.dbSet(window.dbRef(window.firebaseDB, 'catalogo'), dadosParaSalvar);
+
+            // Confirma a gravação lendo novamente o mesmo caminho.
+            const confirmacao = await window.dbGet(window.dbChild(window.dbRef(window.firebaseDB), 'catalogo'));
+            if (!confirmacao.exists()) throw new Error('O Firebase não confirmou o catálogo.');
+            const salvo = confirmacao.val();
+            if (!salvo || !Array.isArray(salvo.itens)) throw new Error('O Firebase não retornou a lista de itens.');
+
+            // Mantém a versão confirmada pelo Firebase como fonte local.
+            catalogo = salvo;
+            alert("✅ Alterações salvas e confirmadas no Firebase!");
             fecharAdmin();
             renderizarOcasioes();
             calcularTotal();
         } catch (err) {
-            console.error(err);
-            alert("❌ Erro ao salvar dados no Firebase. Verifique suas regras de banco.");
+            console.error('Erro ao salvar no Firebase:', err);
+            alert("❌ Não foi possível salvar no Firebase. Verifique a conexão e as regras do banco.");
         } finally {
             btnSalvar.innerText = "Salvar Alterações";
             btnSalvar.disabled = false;
