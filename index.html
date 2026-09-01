@@ -856,7 +856,14 @@
         .admin-section-title { font-size: 13px; font-weight: bold; color: var(--primary-dark); }
         .btn-add-item { background: #2f9e44; color: white; border: none; border-radius: 4px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; font-family: 'Montserrat', sans-serif; }
         .btn-delete-item { background: #e03131; color: white; border: none; border-radius: 4px; padding: 4px 8px; font-size: 11px; cursor: pointer; float: right; font-family: 'Montserrat', sans-serif; font-weight: bold; }
-        .admin-item-box { border: 1px solid #dee2e6; padding: 15px; border-radius: 8px; margin-bottom: 12px; background: #f8f9fa; }
+        .admin-item-box { border: 1px solid #dee2e6; border-radius: 8px; margin-bottom: 10px; background: #f8f9fa; overflow: hidden; }
+        .admin-item-box > summary { list-style: none; cursor: pointer; padding: 12px 15px; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: var(--text); background: #fff; user-select: none; }
+        .admin-item-box > summary::-webkit-details-marker { display: none; }
+        .admin-item-box > summary::before { content: '▶'; font-size: 9px; color: var(--primary-dark); transition: transform .2s ease; flex: 0 0 auto; }
+        .admin-item-box[open] > summary::before { transform: rotate(90deg); }
+        .admin-item-summary-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .admin-item-summary-new { font-size: 10px; font-weight: 700; color: #2f9e44; background: #ebfbee; padding: 3px 7px; border-radius: 10px; white-space: nowrap; }
+        .admin-item-details { padding: 15px; border-top: 1px solid #dee2e6; }
         .admin-field { display: flex; flex-direction: column; margin-bottom: 8px; }
         .admin-field label { font-size: 11px; font-weight: 600; margin-bottom: 2px; color: #495057; }
         .admin-field input, .admin-field select, .admin-field textarea { font-family: 'Montserrat', sans-serif; padding: 8px; border: 1px solid #ced4da; border-radius: 6px; font-size: 13px; color: var(--text); }
@@ -2352,55 +2359,42 @@
 
         objeto.nome = nome;
         objeto.id = gerarIdUnicoParaColecao(nome, colecao.filter((_, i) => i !== idx), tipo === 'embalagem' ? 'emb_' : 'item_');
-        delete objeto._novoCadastro;
-
-        if (tipo === 'item') renderizarCamposAdminItens();
-        else if (tipo === 'embalagem') renderizarCamposAdminEmbalagens();
-        else renderizarCamposAdminOcasioes();
+        const boxId = tipo === 'item' ? `admin-item-${idx}` : tipo === 'embalagem' ? `admin-emb-${idx}` : `admin-oc-${idx}`;
+        const box = document.getElementById(boxId);
+        const nameEl = box ? box.querySelector('.admin-item-summary-name') : null;
+        if (nameEl) nameEl.textContent = nome;
+        // Mantém _novoCadastro até o salvamento para deixar a linha no topo e aberta.
     }
 
     function renderizarCamposAdminOcasioes() {
         const container = document.getElementById('admin-container-ocasioes');
         container.innerHTML = "";
-        catalogo.ocasioes.forEach((oc, idx) => {
+        const ordenadas = catalogo.ocasioes.map((oc, idx) => ({oc, idx})).sort((a,b) => {
+            if (Boolean(a.oc._novoCadastro) !== Boolean(b.oc._novoCadastro)) return a.oc._novoCadastro ? -1 : 1;
+            return (a.oc.nome || '').localeCompare(b.oc.nome || '', 'pt-BR', {sensitivity:'base'});
+        });
+        ordenadas.forEach(({oc, idx}) => {
             let imgsString = (oc.imgs || []).join(', ');
             let modulosSelecionados = oc.tipoModulos || [oc.tipoModulo || 'eventos'];
-
             let isEvChecked = modulosSelecionados.includes('eventos') ? 'checked' : '';
             let isDcChecked = modulosSelecionados.includes('datas_comemorativas') ? 'checked' : '';
             let isBrChecked = modulosSelecionados.includes('brindes') ? 'checked' : '';
             let isConstrucaoChecked = oc.emConstrucao ? 'checked' : '';
-
             container.innerHTML += `
-                <div class="admin-item-box" id="admin-oc-${idx}">
-                    <button class="btn-delete-item" onclick="removerOcasiao(${idx})">Excluir</button>
-                    <div class="admin-field"><label>Nome:</label><input type="text" value="${oc.nome}" oninput="atualizarNomeEId('ocasiao', ${idx}, this.value)"></div>
-                    <div class="admin-field"><label>Descrição Breve:</label><textarea rows="2" onchange="catalogo.ocasioes[${idx}].descricao = this.value">${oc.descricao || ''}</textarea></div>
-                    <div class="admin-field">
-                        <label><b>Status da Página:</b></label>
-                        <div class="admin-checkbox-group">
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" ${isConstrucaoChecked} onchange="catalogo.ocasioes[${idx}].emConstrucao = this.checked"> 🚧 Marcar como Em Construção (Exibir "EM BREVE NOVIDADES 😊")
-                            </label>
-                        </div>
+                <details class="admin-item-box" id="admin-oc-${idx}" ${oc._novoCadastro ? 'open' : ''}>
+                    <summary onclick="event.stopPropagation();"><span class="admin-item-summary-name">${oc.nome || 'Nova Ocasião'}</span>${oc._novoCadastro ? '<span class="admin-item-summary-new">NOVO</span>' : ''}<button type="button" class="btn-delete-item" onclick="event.preventDefault(); event.stopPropagation(); removerOcasiao(${idx})">Excluir</button></summary>
+                    <div class="admin-item-details">
+                        <div class="admin-field"><label>Nome:</label><input type="text" value="${oc.nome || ''}" oninput="atualizarNomeEId('ocasiao', ${idx}, this.value)"></div>
+                        <div class="admin-field"><label>Descrição Breve:</label><textarea rows="2" onchange="catalogo.ocasioes[${idx}].descricao = this.value">${oc.descricao || ''}</textarea></div>
+                        <div class="admin-field"><label><b>Status da Página:</b></label><div class="admin-checkbox-group"><label class="admin-checkbox-label"><input type="checkbox" ${isConstrucaoChecked} onchange="catalogo.ocasioes[${idx}].emConstrucao = this.checked"> 🚧 Marcar como Em Construção (Exibir "EM BREVE NOVIDADES 😊")</label></div></div>
+                        <div class="admin-field"><label><b>Módulos / Categorias da Página Inicial (Múltipla Seleção):</b></label><div class="admin-checkbox-group">
+                            <label class="admin-checkbox-label"><input type="checkbox" value="eventos" ${isEvChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Eventos</label>
+                            <label class="admin-checkbox-label"><input type="checkbox" value="datas_comemorativas" ${isDcChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Datas Comemorativas</label>
+                            <label class="admin-checkbox-label"><input type="checkbox" value="brindes" ${isBrChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Brindes</label>
+                        </div></div>
+                        <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('ocasiao', ${idx}, this.value)"></div>
                     </div>
-                    <div class="admin-field">
-                        <label><b>Módulos / Categorias da Página Inicial (Múltipla Seleção):</b></label>
-                        <div class="admin-checkbox-group">
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" value="eventos" ${isEvChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Eventos
-                            </label>
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" value="datas_comemorativas" ${isDcChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Datas Comemorativas
-                            </label>
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" value="brindes" ${isBrChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Brindes
-                            </label>
-                        </div>
-                    </div>
-                    <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('ocasiao', ${idx}, this.value)"></div>
-                </div>
-            `;
+                </details>`;
         });
     }
 
@@ -2435,8 +2429,9 @@
             let imgsString = (emb.imgs || []).join(', ');
 
             container.innerHTML += `
-                <div class="admin-item-box" id="admin-emb-${idx}">
-                    <button class="btn-delete-item" onclick="removerItemEstrutura('embalagem', ${idx})">Excluir</button>
+                <details class="admin-item-box" id="admin-emb-${idx}" ${emb._novoCadastro ? 'open' : ''}>
+                    <summary onclick="event.stopPropagation();"><span class="admin-item-summary-name">${emb.nome || 'Nova Embalagem'}</span>${emb._novoCadastro ? '<span class="admin-item-summary-new">NOVO</span>' : ''}<button type="button" class="btn-delete-item" onclick="event.preventDefault(); event.stopPropagation(); removerItemEstrutura('embalagem', ${idx})">Excluir</button></summary>
+                    <div class="admin-item-details">
                     <div class="admin-field"><label>Nome:</label><input type="text" value="${emb.nome}" oninput="atualizarNomeEId('embalagem', ${idx}, this.value)" onblur="finalizarNomeNovoCadastro('embalagem', ${idx}, this.value)"></div>
                     <div class="admin-field"><label>Título da Descrição:</label><input type="text" value="${emb.tituloDesc || ''}" onchange="catalogo.embalagens[${idx}].tituloDesc = this.value"></div>
                     <div class="admin-field"><label>Descrição Completa:</label><textarea rows="2" onchange="catalogo.embalagens[${idx}].descricao = this.value">${emb.descricao || ''}</textarea></div>
@@ -2446,7 +2441,8 @@
                         <label><b>🎉 Ocasião:</b></label>
                         <div class="admin-checkbox-group">${checkboxesOcasioesHTML}</div>
                     </div>
-                </div>
+                    </div>
+                </details>
             `;
         });
     }
@@ -2555,8 +2551,9 @@
             let imgsString = (item.imgs || []).join(', ');
 
             container.innerHTML += `
-                <div class="admin-item-box" id="admin-item-${idx}">
-                    <button class="btn-delete-item" onclick="removerItemEstrutura('item', ${idx})">Excluir</button>
+                <details class="admin-item-box" id="admin-item-${idx}" ${item._novoCadastro ? 'open' : ''}>
+                    <summary onclick="event.stopPropagation();"><span class="admin-item-summary-name">${item.nome || 'Novo Item/Kit'}</span>${item._novoCadastro ? '<span class="admin-item-summary-new">NOVO</span>' : ''}<button type="button" class="btn-delete-item" onclick="event.preventDefault(); event.stopPropagation(); removerItemEstrutura('item', ${idx})">Excluir</button></summary>
+                    <div class="admin-item-details">
                     <div class="admin-field"><label>Nome:</label><input type="text" value="${item.nome}" oninput="atualizarNomeEId('item', ${idx}, this.value)" onblur="finalizarNomeNovoCadastro('item', ${idx}, this.value)"></div>
                     <div class="admin-field"><label>Título da Descrição:</label><input type="text" value="${item.tituloDesc || ''}" onchange="catalogo.itens[${idx}].tituloDesc = this.value"></div>
                     <div class="admin-field"><label>Descrição Completa:</label><textarea rows="2" onchange="catalogo.itens[${idx}].descricao = this.value">${item.descricao || ''}</textarea></div>
@@ -2597,7 +2594,8 @@
                         <div class="admin-checkbox-group">${checkboxesProibidosHTML}</div>
                     </div>
 
-                </div>
+                    </div>
+                </details>
             `;
         });
     }
@@ -2623,8 +2621,10 @@
 
     function adicionarNovaOcasiao() {
         let nomePadrao = "Nova Ocasião";
-        const idUnico = gerarSlugId(nomePadrao);
-        catalogo.ocasioes.unshift({ id: idUnico, nome: nomePadrao, descricao: "", tipoModulos: ["eventos"], imgs: [], emConstrucao: false });
+        let idUnico = gerarSlugId(nomePadrao);
+        let contador = 2;
+        while (catalogo.ocasioes.some(oc => oc.id === idUnico)) idUnico = gerarSlugId(nomePadrao) + '_' + contador++;
+        catalogo.ocasioes.unshift({ id: idUnico, nome: nomePadrao, descricao: "", tipoModulos: ["eventos"], imgs: [], emConstrucao: false, _novoCadastro: true });
         renderizarCamposAdminOcasioes();
         renderizarCamposAdminItens();
         renderizarCamposAdminEmbalagens();
@@ -2701,6 +2701,12 @@
             if (!oc.id) oc.id = gerarSlugId(oc.nome);
             delete oc._novoCadastro;
         });
+
+        // A ordem alfabética só é aplicada no momento do salvamento.
+        const ordenarPorNome = (a, b) => (a?.nome || '').localeCompare(b?.nome || '', 'pt-BR', { sensitivity: 'base' });
+        catalogo.itens.sort(ordenarPorNome);
+        catalogo.embalagens.sort(ordenarPorNome);
+        catalogo.ocasioes.sort(ordenarPorNome);
 
         // Garante que os campos usados pelos filtros e pelas listas sempre sejam arrays.
         catalogo.itens.forEach(item => {
