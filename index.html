@@ -1280,7 +1280,8 @@
         categorias: [
             { id: "brinquedos", nome: "Brinquedos" },
             { id: "doces", nome: "Doces" },
-            { id: "educativo", nome: "Educativos" }
+            { id: "educativo", nome: "Educativos" },
+            { id: "avulso", nome: "Avulso" }
         ],
         ocasioes: [
             { id: "festa_infantil", nome: "Festa Infantil", tipoModulos: ["eventos"], tituloDesc: "Lembrancinhas Divertidas", descricao: "Lembrancinhas divertidas e coloridas especialmente pensadas para a alegria das crianças.", imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], emConstrucao: false },
@@ -1349,12 +1350,19 @@
                         catalogo.categorias = [
                             { id: "brinquedos", nome: "Brinquedos" },
                             { id: "doces", nome: "Doces" },
-                            { id: "educativo", nome: "Educativos" }
+                            { id: "educativo", nome: "Educativos" },
+                            { id: "avulso", nome: "Avulso" }
                         ];
                     } else {
                         catalogo.categorias = catalogo.categorias.map(cat =>
                             typeof cat === "string" ? { id: gerarSlugId(cat), nome: cat } : cat
                         );
+                        // Categoria estrutural do catálogo: Avulso.
+                        // Itens marcados como Avulso ficam disponíveis no Monte Seu Kit
+                        // em qualquer ocasião, respeitando somente "Não Permitido Em".
+                        if (!catalogo.categorias.some(cat => cat.id === 'avulso')) {
+                            catalogo.categorias.push({ id: 'avulso', nome: 'Avulso' });
+                        }
                     }
                 }
             }
@@ -1713,11 +1721,27 @@
         }
 
         renderizarBotoesCategorias();
-
+        // A ocasião é um filtro de disponibilidade: item vinculado a uma ocasião
+        // só aparece quando aquela ocasião estiver selecionada. AVULSO é a exceção.
         let itensFiltrados = catalogo.itens
-            .filter(i => i.ocasioesIds && i.ocasioesIds.includes(ocasiaoSelecionadaId))
             .filter(i => {
-                let cats = i.categorias || [];
+                const ocasioes = Array.isArray(i.ocasioesIds) ? i.ocasioesIds : [];
+                const cats = Array.isArray(i.categorias) ? i.categorias : (i.categoria ? [i.categoria] : []);
+
+                if (modoSelecionado === 'monte_seu_kit') {
+                    // Todo item, inclusive Avulso, respeita a ocasião selecionada.
+                    // Só aparece quando estiver marcado para esta ocasião.
+                    return !cats.includes('kits_prontos') && ocasioes.includes(ocasiaoSelecionadaId);
+                }
+
+                // Avulso é exclusivo do Monte Seu Kit.
+                if (cats.includes('avulso')) return false;
+
+                // Eventos, datas comemorativas e brindes respeitam exatamente a ocasião selecionada.
+                return ocasioes.includes(ocasiaoSelecionadaId);
+            })
+            .filter(i => {
+                const cats = i.categorias || [];
                 if (modoSelecionado === 'kits_prontos') {
                     if (ehDataOuBrinde) return true;
                     return cats.includes('kits_prontos');
@@ -1856,7 +1880,31 @@
         const embChecked = document.querySelector('input[name="embalagem"]:checked');
         const embAtualId = embChecked ? embChecked.value : null;
 
-        const itensFiltrados = catalogo.itens.filter(i => i.ocasioesIds && i.ocasioesIds.includes(ocasiaoSelecionadaId));
+        // Este filtro é usado depois que a lista já foi renderizada. Ele deve aplicar
+        // exatamente a mesma regra de disponibilidade usada em renderizarItens(),
+        // caso contrário um item pode ser criado corretamente e logo em seguida
+        // ficar oculto pelo filtro de estatísticas.
+        let itensFiltrados = catalogo.itens.filter(i => {
+            const ocasioes = Array.isArray(i.ocasioesIds) ? i.ocasioesIds : [];
+            const cats = Array.isArray(i.categorias) ? i.categorias : (i.categoria ? [i.categoria] : []);
+
+            if (modoSelecionado === 'monte_seu_kit') {
+                // A mesma regra da renderização: todo item, inclusive Avulso,
+                // deve estar vinculado à ocasião atualmente selecionada.
+                return !cats.includes('kits_prontos') && ocasioes.includes(ocasiaoSelecionadaId);
+            }
+
+            // Avulso é exclusivo do Monte Seu Kit.
+            if (cats.includes('avulso')) return false;
+
+            // A ocasião deve ser exatamente a selecionada, inclusive para datas e brindes.
+            if (!ocasioes.includes(ocasiaoSelecionadaId)) return false;
+            if (cats.includes('kits_prontos')) return true;
+
+            const objOcasiao = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
+            const modulos = objOcasiao ? (objOcasiao.tipoModulos || [objOcasiao.tipoModulo || 'eventos']) : [];
+            return modulos.includes('datas_comemorativas') || modulos.includes('brindes');
+        });
         
         itensFiltrados.forEach(item => {
             const card = document.getElementById('card-item-' + item.id);
@@ -2517,7 +2565,7 @@
             let catsSelecionadas = item.categorias || (item.categoria ? [item.categoria] : []);
             let isKitsProntosChecked = catsSelecionadas.includes('kits_prontos') ? 'checked' : '';
 
-            let checkboxesCategoriasHTML = (catalogo.categorias || []).map(cat => {
+            let checkboxesCategoriasHTML = (catalogo.categorias || []).filter(cat => cat.id !== 'avulso' && cat.id !== 'kits_prontos').map(cat => {
                 let checked = catsSelecionadas.includes(cat.id) ? 'checked' : '';
                 return `
                     <label class="admin-checkbox-label">
@@ -2580,6 +2628,9 @@
                             <label class="admin-checkbox-label">
                                 <input type="checkbox" value="kits_prontos" ${isKitsProntosChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Kits Prontos
                             </label>
+                            <label class="admin-checkbox-label">
+                                <input type="checkbox" value="avulso" ${catsSelecionadas.includes('avulso') ? 'checked' : ''} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Avulso
+                            </label>
                             ${checkboxesCategoriasHTML}
                         </div>
                     </div>
@@ -2640,7 +2691,10 @@
     }
 
     function adicionarNovoItemEstrutura(tipo) {
-        const ocPadrao = catalogo.ocasioes.length > 0 ? [catalogo.ocasioes[0].id] : [];
+        // Um produto novo deve ficar disponível no "Monte seu Kit" para qualquer ocasião.
+        // Se já houver uma ocasião selecionada no site, ela é usada; caso contrário,
+        // vinculamos o novo produto a todas as ocasiões existentes.
+        const ocPadrao = [];
         if (tipo === 'embalagem') {
             let nomePadrao = "Nova Embalagem";
             const idUnico = gerarIdUnicoParaColecao(nomePadrao, catalogo.embalagens, 'emb_');
