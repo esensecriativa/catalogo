@@ -17,7 +17,7 @@
             --primary-light: #F8F088;
             --primary-dark: #a3852b;
             --text: #2D2D27;
-            --text-muted: #757575;
+            --text-muted: #b0b0b0; /* Alterado para cinza claro */
             --bg: #fdfdfb;
             --card-bg: #ffffff;
             --border: #e9ecef;
@@ -297,7 +297,7 @@
         .item-desc-title {
             font-size: 11px;
             font-weight: normal;
-            color: var(--text);
+            color: var(--text-muted); /* Ajustado para cinza claro */
             margin-bottom: 4px;
             display: block;
             text-align: left;
@@ -372,19 +372,6 @@
             border-color: var(--primary-dark);
         }
 
-        .qty-section {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #f8f9fa; padding: 18px; border-radius: 12px; margin-top: 25px;
-            border: 1px solid var(--border);
-        }
-
-        .qty-input {
-            font-family: 'Montserrat', sans-serif;
-            width: 90px; padding: 10px; border: 2px solid #dee2e6;
-            border-radius: 8px; font-size: 16px; text-align: center; font-weight: bold;
-            color: var(--text);
-        }
-
         /* Bloco de Criação de Arte no Orçamento */
         .arte-section {
             display: flex;
@@ -410,8 +397,125 @@
         }
 
         .resume-box { background: #2D2D27; color: white; padding: 22px; border-radius: 14px; margin-top: 30px; }
-        .resume-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; opacity: 0.85; }
+        .resume-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; opacity: 0.85; color: var(--text-muted); /* Ajustado para cinza claro */ }
         .total-row { border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 12px; margin-top: 12px; font-size: 22px; font-weight: 700; color: var(--primary-light); }
+        .valor-kit-row { font-size: 15px; font-weight: 600; color: var(--primary-light); margin-top: 5px; margin-bottom: 15px; opacity: 0.95; display: flex; justify-content: space-between; }
+
+        /* Tabela Resumo Personalizada */
+        .resume-table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+        .resume-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+            color: var(--text-muted); /* Ajustado para cinza claro */
+        }
+        .resume-table th, .resume-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+        .resume-table th {
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+        .resume-table input.table-estampa {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+            color: var(--text-muted); /* Ajustado para cinza claro */
+            padding: 4px 6px;
+            font-size: 12px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .resume-table input.table-qty {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+            color: var(--text-muted); /* Ajustado para cinza claro */
+            padding: 4px 4px;
+            font-size: 12px;
+            width: 50px;
+            text-align: center;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .btn-delete-row {
+            background: transparent;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .btn-delete-row:hover {
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        /* Campo de Quantidade de Kits Geral e Observações */
+        .config-kits-section {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .config-kits-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .config-kits-row label {
+            font-size: 14px;
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+        .config-kits-row input[type="number"] {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            padding: 6px 10px;
+            font-size: 15px;
+            width: 80px;
+            text-align: center;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .config-observacoes-row {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .config-observacoes-row label {
+            font-size: 13px;
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+        .config-observacoes-row textarea {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            padding: 8px;
+            font-size: 13px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            resize: vertical;
+            min-height: 60px;
+        }
 
         .btn-share-budget {
             font-family: 'Montserrat', sans-serif;
@@ -474,7 +578,7 @@
         .support-notice p {
             margin: 0 0 8px 0;
             font-size: 13px;
-            color: #7a7a7a;
+            color: var(--text-muted); /* Ajustado para cinza claro */
             line-height: 1.5;
             font-weight: 500;
         }
@@ -507,6 +611,53 @@
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        /* APRIMORAMENTOS DE CONVERSÃO E USABILIDADE */
+        .card-selo {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 4;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 12px;
+            padding: 4px 7px;
+            font-size: 9px;
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(45,45,39,0.15);
+        }
+
+        .card-selo.novidade {
+            background: #2f9e44;
+        }
+
+        .resumo-final-acoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-voltar-inicio {
+            flex: 0 0 auto;
+            font-family: 'Montserrat', sans-serif;
+            border: 1px solid var(--primary);
+            background: #fff;
+            color: var(--primary-dark);
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .resumo-final-aviso {
+            font-size: 11px;
+            line-height: 1.5;
+            color: var(--text-muted);
+            margin: 12px 0 0;
+            text-align: center;
         }
 
         /* MODAIS */
@@ -816,12 +967,17 @@
                 <div class="step">
                     <h2 id="titulo-secao-itens"><span class='step-number'>4</span> Adicione os Itens Internos</h2>
                     
-                    <!-- FILTROS DE CATEGORIA -->
-                    <div id="container-filtros-categorias" style="display: none; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
-                        <button type="button" class="btn-filtro-cat active" data-cat="todos" onclick="filtrarCategoria('todos')">Todos</button>
-                        <button type="button" class="btn-filtro-cat" data-cat="brinquedos" onclick="filtrarCategoria('brinquedos')">Brinquedos</button>
-                        <button type="button" class="btn-filtro-cat" data-cat="doces" onclick="filtrarCategoria('doces')">Doces</button>
-                        <button type="button" class="btn-filtro-cat" data-cat="educativo" onclick="filtrarCategoria('educativo')">Educativos</button>
+                    <!-- FILTROS DE CATEGORIA / BUSCA / ORDENACAO -->
+                    <div id="container-filtros-categorias" style="display: none; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;"></div>
+                    <div id="container-filtros-kits-prontos" style="display: none; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;">
+                        <input type="search" id="busca-kits-prontos" placeholder="🔎 Buscar kit..." oninput="aplicarFiltrosKitsProntos()" style="flex: 1; min-width: 150px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 12px;">
+                        <select id="ordenacao-kits-prontos" onchange="aplicarFiltrosKitsProntos()" style="padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 12px; background: #fff;">
+                            <option value="nome">Ordem alfabética</option>
+                            <option value="menor_valor">Menor valor</option>
+                            <option value="maior_valor">Maior valor</option>
+                            <option value="mais_vendidos">Mais vendidos</option>
+                            <option value="novidades">Novidades</option>
+                        </select>
                     </div>
 
                     <div class="image-grid" id="grid-itens"></div>
@@ -834,11 +990,6 @@
                     </div>
                 </div>
 
-                <div class="qty-section">
-                    <span id="txt-qtd-kits" style="font-weight: 600; font-size: 13px;">Quantidade de Kits:</span>
-                    <input type="number" id="quantidade" class="qty-input" value="10" min="1" oninput="calcularTotal()">
-                </div>
-
                 <!-- Tópico de Criação da Arte (Sim / Não) com valor exibido -->
                 <div class="arte-section">
                     <span style="font-weight: 600; font-size: 13px;" id="txt-label-criacao-arte">Criação da Arte (<span id="span-valor-arte-label">R$ 0,00</span>):</span>
@@ -848,24 +999,73 @@
                     </div>
                 </div>
 
+                <!-- RESUMO DETALHADO EM TABELA OU FORMATO MONTE SEU KIT -->
                 <div class="resume-box">
-                    <div class="resume-row"><span id="txt-resumo-un">Preço por Kit (Unitário):</span><span id="valor-unitario">---</span></div>
-                    <div class="resume-row"><span id="txt-resumo-qtd-label">Quantidade:</span><span id="resumo-qtd">10</span></div>
+                    <div style="font-weight: 600; font-size: 15px; margin-bottom: 12px; color: var(--primary-light);">Resumo do Orçamento</div>
+                    
+                    <!-- Bloco específico para Monte Seu Kit (Quantidade e Observações) -->
+                    <div id="container-config-monte-kit" class="config-kits-section" style="display: none;">
+                        <div class="config-kits-row">
+                            <label for="input-qtd-kits">Quantidade de Kits:</label>
+                            <input type="number" id="input-qtd-kits" value="10" min="1" oninput="calcularTotal()">
+                        </div>
+                        <div class="config-observacoes-row">
+                            <label for="input-obs-kits">Observações:</label>
+                            <textarea id="input-obs-kits" placeholder="Digite aqui suas observações ou detalhes adicionais..." oninput="calcularTotal()"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="resume-table-container">
+                        <table class="resume-table" id="resume-table-element">
+                            <thead>
+                                <tr id="resume-table-head-row">
+                                    <th>Item</th>
+                                    <th>Estampa</th>
+                                    <th style="text-align: center;">Qtd</th>
+                                    <th style="text-align: right;">Parcial</th>
+                                    <th style="text-align: center;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resume-table-body">
+                                <!-- Preenchido dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+
                     <div class="resume-row" id="linha-resumo-arte" style="display: none;"><span id="txt-resumo-arte-label">Criação da Arte:</span><span id="resumo-valor-arte">R$ 0,00</span></div>
+                    <div class="valor-kit-row"><span>Valor por kit:</span><span id="valor-por-kit">---</span></div>
                     <div class="resume-row total-row"><span id="txt-resumo-total-label">Valor Total:</span><span id="valor-total">---</span></div>
                 </div>
 
                 <button class="btn-share-budget" onclick="compartilharOrcamento()">
-                    <span id="txt-btn-compartilhar">📱 Nos envie seu pedido / orçamento pelo Whatsapp, clicando aqui!</span>
+                    <span id="txt-btn-compartilhar">📱 Enviar meu pedido / orçamento pelo WhatsApp</span>
                 </button>
+                <div class="resumo-final-acoes">
+                    <button class="btn-voltar-inicio" onclick="voltarParaOcasiao()">← Voltar ao início</button>
+                </div>
+                <p class="resumo-final-aviso">Seu orçamento será enviado pelo WhatsApp para conferirmos disponibilidade, personalização e prazo.</p>
             </div>
 
         </div>
     </div>
     
     <div class="support-notice">
-        <p>Agradecemos a preferência! Após finalizar o seu orçamento, compartilhe-o conosco para darmos prosseguimento à personalização do seu kit.</p>
-        <p>Em caso de dúvidas, estamos à disposição nos contatos abaixo.</p>
+        <p><strong>Agradecemos a preferência! 💛 Após finalizar seu orçamento, compartilhe-o conosco para darmos continuidade à personalização do seu kit.</strong></p>
+        <p><strong>Ficou com alguma dúvida? Estamos à disposição para ajudar pelos contatos abaixo.</strong></p>
+    </div>
+</div>
+
+<!-- MENSAGEM DE BOAS-VINDAS: EXIBIDA UMA ÚNICA VEZ POR NAVEGADOR -->
+<div id="modal-boas-vindas" class="desc-modal" style="z-index: 400;" onclick="fecharBoasVindas()">
+    <div class="desc-modal-content" onclick="event.stopPropagation();">
+        <span class="desc-modal-close" onclick="fecharBoasVindas()">&times;</span>
+        <div class="desc-modal-title">Olá, seja bem vindo! ✨</div>
+        <div class="desc-modal-body">
+            Olá, seja bem vindo ao nosso catálogo interativo, aqui você escolhe seus produtos ou monta seu kit de lembrancinha personalizado.<br><br>
+            Caso queira receber as opções direto no WhatsApp, é só chamar que te envio as opções e esclareço qualquer dúvida! É só clicar nos links de contato!<br><br>
+            Um abraço,<br>
+            Manuela
+        </div>
     </div>
 </div>
 
@@ -959,6 +1159,11 @@
             <div class="admin-field" style="margin-bottom:12px;">
                 <label><b>🎨 Valor do Serviço de Criação da Arte (R$):</b></label>
                 <input type="number" step="0.01" id="adm-valor-arte" placeholder="0.00">
+            </div>
+            <div class="admin-field" style="margin-bottom:12px;">
+                <label><b>🏷️ Categorias dos Itens:</b></label>
+                <div id="admin-container-categorias"></div>
+                <button type="button" class="btn-add-item" style="margin-top:8px;" onclick="adicionarNovaCategoria()">+ Nova Categoria</button>
             </div>
 
             <div class="admin-field">
@@ -1065,6 +1270,11 @@
         whatsappNumero: "5554999999999",
         emailContato: "contato@esense.com.br",
         valorCriacaoArte: 30.00,
+        categorias: [
+            { id: "brinquedos", nome: "Brinquedos" },
+            { id: "doces", nome: "Doces" },
+            { id: "educativo", nome: "Educativos" }
+        ],
         ocasioes: [
             { id: "festa_infantil", nome: "Festa Infantil", tipoModulos: ["eventos"], tituloDesc: "Lembrancinhas Divertidas", descricao: "Lembrancinhas divertidas e coloridas especialmente pensadas para a alegria das crianças.", imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], emConstrucao: false },
             { id: "primeira_comunhao", nome: "Primeira Comunhão", tipoModulos: ["eventos"], tituloDesc: "Kits Delicados", descricao: "Kits delicados e religiosos com fino acabamento.", imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], emConstrucao: false },
@@ -1080,12 +1290,12 @@
             { id: "caixa_cartonada_luxo", nome: "Caixa Cartonada Luxo", tituloDesc: "Acabamento Premium", descricao: "Fita de cetim personalizada e estrutura firme resistente.", preco: 12.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["casamento"] }
         ],
         itens: [
-            { id: "kit_pronto_pinta_e_borda", nome: "Kit Pronto Pinta e Borda", tituloDesc: "Kit Completo", descricao: "Acompanha bolsa + livro de colorir + giz de cera.", preco: 25.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["kits_prontos"], proibidoEm: [] },
-            { id: "kit_pronto_casamento_luxo", nome: "Kit Pronto Padrinhos Luxo", tituloDesc: "Kit Completo", descricao: "Acompanha caixa cartonada, gravata e toalhinha bordada.", preco: 45.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["casamento"], categorias: ["kits_prontos"], proibidoEm: [] },
-            { id: "gibi_de_colorir", nome: "Gibi de Colorir", tituloDesc: "Diversão Garantida", descricao: "12 páginas temáticas divertidas prontas para colorir.", preco: 4.50, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["brinquedos", "educativo"], proibidoEm: [] },
-            { id: "giz_de_cera", nome: "Giz de Cera", tituloDesc: "6 Cores Atóxicas", descricao: "Caixa com 6 cores atóxicas seguras para crianças.", preco: 3.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil", "cha_de_fraldas"], categorias: ["brinquedos", "educativo"], proibidoEm: [] },
-            { id: "pacote_de_bala", nome: "Pacote de Balas", tituloDesc: "Doces Variados", descricao: "Pacote de balas sortidas.", preco: 2.50, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["doces"], proibidoEm: [] },
-            { id: "mini_terco", nome: "Mini Terço", tituloDesc: "Lembrança Espiritual", descricao: "Perolado delicado com acabamento requintado.", preco: 4.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["primeira_comunhao", "casamento"], categorias: [], proibidoEm: [] }
+            { id: "kit_pronto_pinta_e_borda", nome: "Kit Pronto Pinta e Borda", tituloDesc: "Kit Completo", descricao: "Acompanha bolsa + livro de colorir + giz de cera.", preco: 25.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["kits_prontos"], proibidoEm: [], maisVendido: false, novidade: false },
+            { id: "kit_pronto_casamento_luxo", nome: "Kit Pronto Padrinhos Luxo", tituloDesc: "Kit Completo", descricao: "Acompanha caixa cartonada, gravata e toalhinha bordada.", preco: 45.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["casamento"], categorias: ["kits_prontos"], proibidoEm: [], maisVendido: false, novidade: false },
+            { id: "gibi_de_colorir", nome: "Gibi de Colorir", tituloDesc: "Diversão Garantida", descricao: "12 páginas temáticas divertidas prontas para colorir.", preco: 4.50, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["brinquedos", "educativo"], proibidoEm: [], maisVendido: false, novidade: false },
+            { id: "giz_de_cera", nome: "Giz de Cera", tituloDesc: "6 Cores Atóxicas", descricao: "Caixa com 6 cores atóxicas seguras para crianças.", preco: 3.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil", "cha_de_fraldas"], categorias: ["brinquedos", "educativo"], proibidoEm: [], maisVendido: false, novidade: false },
+            { id: "pacote_de_bala", nome: "Pacote de Balas", tituloDesc: "Doces Variados", descricao: "Pacote de balas sortidas.", preco: 2.50, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["doces"], proibidoEm: [], maisVendido: false, novidade: false },
+            { id: "mini_terco", nome: "Mini Terço", tituloDesc: "Lembrança Espiritual", descricao: "Perolado delicado com acabamento requintado.", preco: 4.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["primeira_comunhao", "casamento"], categorias: [], proibidoEm: [], maisVendido: false, novidade: false }
         ]
     };
 
@@ -1104,7 +1314,6 @@
                 const data = snapshot.val();
                 if (data && data.ocasioes) {
                     catalogo = data;
-                    // Conversão de compatibilidade caso venha do formato antigo `tipoModulo` string
                     catalogo.ocasioes.forEach(oc => {
                         if (oc.tipoModulo && !oc.tipoModulos) {
                             oc.tipoModulos = [oc.tipoModulo];
@@ -1122,13 +1331,57 @@
                     if (catalogo.valorCriacaoArte === undefined) {
                         catalogo.valorCriacaoArte = 30.00;
                     }
+                    if (Array.isArray(catalogo.itens)) {
+                        catalogo.itens.forEach(item => {
+                            if (item.maisVendido === undefined) item.maisVendido = false;
+                            if (item.novidade === undefined) item.novidade = false;
+                        });
+                    }
+
+                    if (!Array.isArray(catalogo.categorias)) {
+                        catalogo.categorias = [
+                            { id: "brinquedos", nome: "Brinquedos" },
+                            { id: "doces", nome: "Doces" },
+                            { id: "educativo", nome: "Educativos" }
+                        ];
+                    } else {
+                        catalogo.categorias = catalogo.categorias.map(cat =>
+                            typeof cat === "string" ? { id: gerarSlugId(cat), nome: cat } : cat
+                        );
+                    }
                 }
             }
         } catch (err) {
             console.error("Erro ao buscar dados do Firebase:", err);
         } finally {
+            carregarSelecaoStorage();
             renderizarOcasioes();
             atualizarTextoValorArte();
+            processarParametrosURL();
+        }
+    }
+
+    function processarParametrosURL() {
+        const params = new URLSearchParams(window.location.search);
+        const ocParam = params.get('ocasiao');
+        const modoParam = params.get('modo');
+
+        if (ocParam) {
+            const ocExiste = catalogo.ocasioes.some(o => o.id === ocParam);
+            if (ocExiste) {
+                if (modoParam && (modoParam === 'kits_prontos' || modoParam === 'monte_seu_kit')) {
+                    ocasiaoSelecionadaId = ocParam;
+                    const ocObj = catalogo.ocasioes.find(o => o.id === ocParam);
+                    if (ocObj) {
+                        document.getElementById('pagina-titulo-principal').innerText = ocObj.nome;
+                        document.getElementById('pagina-subtitulo-instrucao').innerText = ocObj.descricao || "";
+                    }
+                    document.getElementById('secao-ocasiao').style.display = 'none';
+                    selecionarTipoModo(modoParam);
+                } else {
+                    selecionarOcasiaoDiretoKitsProntos(ocParam);
+                }
+            }
         }
     }
 
@@ -1175,7 +1428,6 @@
         gridDatasComemorativas.innerHTML = '';
         gridBrindes.innerHTML = '';
         
-        // REQUISITO 2: Ordenação alfabética para ativos e "em construção" para o final da fila
         const ocasioesOrdenadas = [...catalogo.ocasioes].sort((a, b) => {
             if (a.emConstrucao === b.emConstrucao) {
                 return a.nome.localeCompare(b.nome);
@@ -1199,7 +1451,6 @@
                     </div>
                 `;
             } else {
-                // REQUISITO 1: Links criados para as páginas de ocasiões dinamicamente
                 cardHtml = `
                     <div class="selectable-card" onclick="selecionarOcasiaoDiretoKitsProntos('${oc.id}')">
                         ${carouselHtml}
@@ -1310,7 +1561,6 @@
 
         ocasiaoSelecionadaId = id;
         
-        // Atualizar o título da página e a breve descrição com os dados da ocasião selecionada
         const tituloPrincipal = document.getElementById('pagina-titulo-principal');
         const subtituloInstrucao = document.getElementById('pagina-subtitulo-instrucao');
         
@@ -1328,7 +1578,8 @@
         ocasiaoSelecionadaId = null;
         modoSelecionado = null;
         
-        // Restaurar título padrão da página inicial
+        window.history.pushState({}, '', window.location.pathname);
+
         document.getElementById('pagina-titulo-principal').innerText = "brindes, lembrancinhas e presentes";
         document.getElementById('pagina-subtitulo-instrucao').innerText = "Clique no evento ou data comemorativa";
 
@@ -1359,7 +1610,6 @@
         document.getElementById('secao-catalogo').style.display = 'none';
         document.getElementById('secao-ocasiao').style.display = 'block';
         
-        // Restaurar título padrão ao retornar para a lista de ocasiões
         document.getElementById('pagina-titulo-principal').innerText = "brindes, lembrancinhas e presentes";
         document.getElementById('pagina-subtitulo-instrucao').innerText = "Clique no evento ou data comemorativa";
 
@@ -1424,6 +1674,7 @@
 
     function renderizarItens() {
         const containerFiltros = document.getElementById('container-filtros-categorias');
+        const containerBuscaKits = document.getElementById('container-filtros-kits-prontos');
         const tituloSecao = document.getElementById('titulo-secao-itens');
         const containerNaoEncontrou = document.getElementById('container-nao-encontrou');
 
@@ -1434,41 +1685,62 @@
 
         if (modoSelecionado === 'kits_prontos') {
             tituloSecao.innerHTML = `<span class='step-number'>2</span> ${nomeSecaoItens}`;
-            if (ehDataOuBrinde) {
-                containerFiltros.style.display = 'none';
-            } else {
-                containerFiltros.style.display = 'flex';
-            }
+            containerFiltros.style.display = ehDataOuBrinde ? 'none' : 'flex';
+            containerBuscaKits.style.display = (!ehDataOuBrinde && nomeSecaoItens === 'Kits Prontos') ? 'flex' : 'none';
             if (containerNaoEncontrou) containerNaoEncontrou.style.display = ehDataOuBrinde ? 'none' : 'block';
         } else {
             tituloSecao.innerHTML = `<span class='step-number'>4</span> Adicione os Itens Internos`;
             if (containerNaoEncontrou) containerNaoEncontrou.style.display = 'none';
             containerFiltros.style.display = 'flex';
+            containerBuscaKits.style.display = 'none';
         }
 
-        const itensFiltrados = catalogo.itens
+        renderizarBotoesCategorias();
+
+        let itensFiltrados = catalogo.itens
             .filter(i => i.ocasioesIds && i.ocasioesIds.includes(ocasiaoSelecionadaId))
             .filter(i => {
                 let cats = i.categorias || [];
                 if (modoSelecionado === 'kits_prontos') {
-                    if (ehDataOuBrinde) {
-                        return true;
-                    }
+                    if (ehDataOuBrinde) return true;
                     return cats.includes('kits_prontos');
-                } else {
-                    return !cats.includes('kits_prontos');
                 }
-            })
-            .sort((a, b) => a.nome.localeCompare(b.nome));
+                return !cats.includes('kits_prontos');
+            });
+
+        const termoBusca = (document.getElementById('busca-kits-prontos')?.value || '').trim().toLocaleLowerCase('pt-BR');
+        if (modoSelecionado === 'kits_prontos' && !ehDataOuBrinde && termoBusca) {
+            itensFiltrados = itensFiltrados.filter(i => (i.nome || '').toLocaleLowerCase('pt-BR').includes(termoBusca));
+        }
+
+        if (modoSelecionado !== 'kits_prontos' || ehDataOuBrinde) {
+            if (categoriaAtual !== 'todos') {
+                itensFiltrados = itensFiltrados.filter(i => (i.categorias || []).includes(categoriaAtual));
+            }
+        }
+
+        if (modoSelecionado === 'kits_prontos' && !ehDataOuBrinde) {
+            const ordem = document.getElementById('ordenacao-kits-prontos')?.value || 'nome';
+            if (ordem === 'menor_valor') {
+                itensFiltrados.sort((a,b) => (Number(a.preco)||0) - (Number(b.preco)||0));
+            } else if (ordem === 'maior_valor') {
+                itensFiltrados.sort((a,b) => (Number(b.preco)||0) - (Number(a.preco)||0));
+            } else if (ordem === 'mais_vendidos') {
+                itensFiltrados.sort((a,b) => Number(Boolean(b.maisVendido)) - Number(Boolean(a.maisVendido)) || (a.nome || '').localeCompare(b.nome || '', 'pt-BR', { sensitivity: 'base' }));
+            } else if (ordem === 'novidades') {
+                itensFiltrados.sort((a,b) => Number(Boolean(b.novidade)) - Number(Boolean(a.novidade)) || (a.nome || '').localeCompare(b.nome || '', 'pt-BR', { sensitivity: 'base' }));
+            } else {
+                itensFiltrados.sort((a,b) => (a.nome || '').localeCompare(b.nome || '', 'pt-BR', { sensitivity: 'base' }));
+            }
+        } else {
+            itensFiltrados.sort((a,b) => (a.nome || '').localeCompare(b.nome || '', 'pt-BR', { sensitivity: 'base' }));
+        }
 
         const gridItens = document.getElementById('grid-itens');
         gridItens.innerHTML = '';
-
         if (itensFiltrados.length === 0) {
-            gridItens.innerHTML = '<p style="grid-column: 1/-1; text-align:center; font-size:12px; color:var(--text-muted);">Nenhum item/kit cadastrado para esta ocasião.</p>';
+            gridItens.innerHTML = '<p style="grid-column: 1/-1; text-align:center; font-size:12px; color:var(--text-muted);">Nenhum item/kit encontrado para esta busca ou filtro.</p>';
         }
-
-        let inputType = (modoSelecionado === 'kits_prontos') ? 'radio' : 'checkbox';
 
         itensFiltrados.forEach((item) => {
             let descHtml = '';
@@ -1477,12 +1749,19 @@
             } else {
                 descHtml = criarHtmlDescricao(item.nome, item.tituloDesc, item.descricao);
             }
-
             let carouselHtml = criarHtmlCarrossel(item.imgs, `item-${item.id}`, true);
+            let seloHtml = '';
+            if (item.novidade) {
+                seloHtml = '<span class="card-selo novidade">✨ NOVIDADE</span>';
+            } else if (item.maisVendido) {
+                seloHtml = '<span class="card-selo">⭐ MAIS VENDIDO</span>';
+            }
+
             gridItens.innerHTML += `
                 <div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')">
-                    <input type="${inputType}" name="item" value="${item.id}">
+                    <input type="checkbox" name="item" value="${item.id}">
                     <div class="badge-selected">✓</div>
+                    ${seloHtml}
                     ${carouselHtml}
                     <div class="info-container">
                         <span class="item-title">${item.nome}</span>
@@ -1493,7 +1772,25 @@
             `;
         });
 
-        filtrarCategoria('todos');
+        if (modoSelecionado !== 'kits_prontos' || ehDataOuBrinde) aplicarFiltrolEstatisticas();
+        else restaurarSelecoesVisiveis();
+        salvarSelecaoStorage();
+    }
+
+    function aplicarFiltrosKitsProntos() {
+        renderizarItens();
+    }
+
+    function renderizarBotoesCategorias() {
+        const container = document.getElementById('container-filtros-categorias');
+        if (!container) return;
+        let html = `<button type="button" class="btn-filtro-cat" data-cat="todos" onclick="filtrarCategoria('todos')">Todos</button>`;
+        (catalogo.categorias || []).forEach(cat => {
+            html += `<button type="button" class="btn-filtro-cat" data-cat="${cat.id}" onclick="filtrarCategoria('${cat.id}')">${cat.nome}</button>`;
+        });
+        container.innerHTML = html;
+        const ativo = container.querySelector(`[data-cat="${categoriaAtual}"]`) || container.querySelector('[data-cat="todos"]');
+        ativo?.classList.add('active');
     }
 
     function toggleItem(id) {
@@ -1501,27 +1798,27 @@
         if (!card || card.style.display === 'none') return;
         const checkbox = card.querySelector('input');
         
-        if (modoSelecionado === 'kits_prontos') {
-            if (card.classList.contains('active')) {
-                card.classList.remove('active');
-                checkbox.checked = false;
-            } else {
-                document.querySelectorAll('#grid-itens .selectable-card').forEach(c => {
-                    c.classList.remove('active');
-                    c.querySelector('input').checked = false;
-                });
-                card.classList.add('active');
-                checkbox.checked = true;
-            }
+        checkbox.checked = !checkbox.checked;
+        if (checkbox.checked) {
+            card.classList.add('active');
         } else {
-            checkbox.checked = !checkbox.checked;
-            if (checkbox.checked) {
-                card.classList.add('active');
-            } else {
-                card.classList.remove('active');
-            }
+            card.classList.remove('active');
         }
         calcularTotal();
+        salvarSelecaoStorage();
+    }
+
+    function removerItemResumo(id) {
+        const checkbox = document.querySelector(`input[name="item"][value="${id}"]`);
+        if (checkbox) {
+            checkbox.checked = false;
+        }
+        const card = document.getElementById('card-item-' + id);
+        if (card) {
+            card.classList.remove('active');
+        }
+        calcularTotal();
+        salvarSelecaoStorage();
     }
 
     function filtrarCategoria(cat) {
@@ -1579,44 +1876,316 @@
     }
 
     function calcularTotal() {
-        let precoEmb = 0;
+        const tableHeadRow = document.getElementById('resume-table-head-row');
+        const tableBody = document.getElementById('resume-table-body');
+        const configMonteKitDiv = document.getElementById('container-config-monte-kit');
+
         if (modoSelecionado === 'monte_seu_kit') {
-            const embChecked = document.querySelector('input[name="embalagem"]:checked');
-            if (embChecked) {
-                const objEmb = catalogo.embalagens.find(e => e.id === embChecked.value);
-                if (objEmb) precoEmb = objEmb.preco;
+            if (configMonteKitDiv) configMonteKitDiv.style.display = 'flex';
+            if (tableHeadRow) {
+                tableHeadRow.innerHTML = `
+                    <th>Embalagem e Itens Selecionados</th>
+                    <th style="text-align: right; width: 40px;">Ações</th>
+                `;
             }
+
+            let embChecked = document.querySelector('input[name="embalagem"]:checked');
+            let nomeEmb = embChecked ? (catalogo.embalagens.find(e => e.id === embChecked.value)?.nome || '') : '';
+            
+            let itensSelecionadosObj = [];
+            document.querySelectorAll('input[name="item"]:checked').forEach(chk => {
+                let objItem = catalogo.itens.find(i => i.id === chk.value);
+                if (objItem) itensSelecionadosObj.push(objItem);
+            });
+
+            let qtdKitsInput = document.getElementById('input-qtd-kits');
+            let qtdKits = qtdKitsInput ? (parseInt(qtdKitsInput.value) || 1) : 1;
+            if (qtdKits < 1) qtdKits = 1;
+
+            tableBody.innerHTML = '';
+            let totalGeral = 0;
+
+            if (nomeEmb && embChecked) {
+                let objEmb = catalogo.embalagens.find(e => e.id === embChecked.value);
+                if (objEmb) {
+                    let totalItemEmbalagem = objEmb.preco * qtdKits;
+                    totalGeral += objEmb.preco;
+                    tableBody.innerHTML += `
+                        <tr>
+                            <td><b>[Embalagem]</b> ${nomeEmb} - R$ ${objEmb.preco.toFixed(2)} - R$ ${totalItemEmbalagem.toFixed(2)}</td>
+                            <td style="text-align: right;"></td>
+                        </tr>`;
+                }
+            }
+
+            itensSelecionadosObj.forEach(objItem => {
+                let totalItem = objItem.preco * qtdKits;
+                totalGeral += objItem.preco;
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>• ${objItem.nome} - R$ ${objItem.preco.toFixed(2)} - R$ ${totalItem.toFixed(2)}</td>
+                        <td style="text-align: right;"><button class="btn-delete-row" onclick="removerItemResumo('${objItem.id}')" title="Excluir item">🗑️</button></td>
+                    </tr>`;
+            });
+
+            if (!nomeEmb && itensSelecionadosObj.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="2" style="text-align: center; color: rgba(255,255,255,0.6); padding: 12px;">Nenhum item selecionado</td></tr>`;
+            }
+
+            let valorPorKit = totalGeral;
+            totalGeral = totalGeral * qtdKits;
+
+            atualizarRodapeTotal(totalGeral, valorPorKit, qtdKits);
+
+        } else {
+            if (configMonteKitDiv) configMonteKitDiv.style.display = 'none';
+            if (tableHeadRow) {
+                tableHeadRow.innerHTML = `
+                    <th>Item</th>
+                    <th>Estampa</th>
+                    <th style="text-align: center;">Qtd</th>
+                    <th style="text-align: right;">Parcial</th>
+                    <th style="text-align: center;">Ações</th>
+                `;
+            }
+
+            const valoresInputsEstampa = {};
+            const valoresInputsQtd = {};
+            document.querySelectorAll('.resume-table tbody tr').forEach(tr => {
+                const rowId = tr.getAttribute('data-id');
+                if (rowId) {
+                    const estInput = document.getElementById(`estampa-${rowId}`);
+                    const qtdInput = document.getElementById(`qtd-${rowId}`);
+                    if (estInput) valoresInputsEstampa[rowId] = estInput.value;
+                    if (qtdInput) valoresInputsQtd[rowId] = qtdInput.value;
+                }
+            });
+
+            tableBody.innerHTML = '';
+            let totalGeral = 0;
+            let somaQtdKits = 0;
+
+            document.querySelectorAll('input[name="item"]:checked').forEach(chk => {
+                const objItem = catalogo.itens.find(i => i.id === chk.value);
+                if (objItem) {
+                    let rowId = objItem.id;
+                    let estampaVal = valoresInputsEstampa[rowId] !== undefined ? valoresInputsEstampa[rowId] : '';
+                    let qtdVal = valoresInputsQtd[rowId] !== undefined ? (parseInt(valoresInputsQtd[rowId]) || 1) : 1;
+                    let parcial = objItem.preco * qtdVal;
+                    totalGeral += parcial;
+                    somaQtdKits += qtdVal;
+
+                    tableBody.innerHTML += `
+                        <tr data-id="${rowId}">
+                            <td>${objItem.nome}</td>
+                            <td><input type="text" class="table-estampa" id="estampa-${rowId}" value="${estampaVal}" placeholder="Ex: Nome/Tema" oninput="atualizarParcialLinha('${rowId}', ${objItem.preco})"></td>
+                            <td style="text-align: center;"><input type="number" class="table-qty" id="qtd-${rowId}" value="${qtdVal}" min="1" oninput="atualizarParcialLinha('${rowId}', ${objItem.preco})"></td>
+                            <td style="text-align: right;" id="parcial-${rowId}">R$ ${parcial.toFixed(2)}</td>
+                            <td style="text-align: center;"><button class="btn-delete-row" onclick="removerItemResumo('${rowId}')" title="Excluir item">🗑️</button></td>
+                        </tr>
+                    `;
+                }
+            });
+
+            if (tableBody.innerHTML === '') {
+                tableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: rgba(255,255,255,0.6); padding: 12px;">Nenhum produto selecionado</td></tr>`;
+            }
+
+            let valorPorKit = somaQtdKits > 0 ? (totalGeral / somaQtdKits) : 0;
+            atualizarRodapeTotal(totalGeral, valorPorKit, somaQtdKits);
         }
+        salvarSelecaoStorage();
+    }
 
-        let precoItens = 0;
-        document.querySelectorAll('input[name="item"]:checked').forEach(chk => {
-            const objItem = catalogo.itens.find(i => i.id === chk.value);
-            if (objItem) precoItens += objItem.preco;
-        });
+    function atualizarParcialLinha(rowId, precoUnitario) {
+        const qtdInput = document.getElementById(`qtd-${rowId}`);
+        const parcialTd = document.getElementById(`parcial-${rowId}`);
+        
+        let qtd = parseInt(qtdInput.value) || 0;
+        if (qtd < 1) qtd = 1;
+        
+        let parcial = precoUnitario * qtd;
+        if (parcialTd) {
+            parcialTd.innerText = `R$ ${parcial.toFixed(2)}`;
+        }
+        
+        recalcularSomaTotalGeral();
+    }
 
-        const unitario = precoEmb + precoItens;
-        const qtd = parseInt(document.getElementById('quantidade').value) || 1;
+    function recalcularSomaTotalGeral() {
+        let totalGeral = 0;
+        let somaQtdKits = 0;
         
-        let subtotalKits = unitario * qtd;
-        
+        if (modoSelecionado === 'monte_seu_kit') {
+            let embChecked = document.querySelector('input[name="embalagem"]:checked');
+            if (embChecked) {
+                let objEmb = catalogo.embalagens.find(e => e.id === embChecked.value);
+                if (objEmb) totalGeral += objEmb.preco;
+            }
+            document.querySelectorAll('input[name="item"]:checked').forEach(chk => {
+                let objItem = catalogo.itens.find(i => i.id === chk.value);
+                if (objItem) totalGeral += objItem.preco;
+            });
+            let qtdKitsInput = document.getElementById('input-qtd-kits');
+            let qtdKits = qtdKitsInput ? (parseInt(qtdKitsInput.value) || 1) : 1;
+            if (qtdKits < 1) qtdKits = 1;
+            
+            let valorPorKit = totalGeral;
+            totalGeral = totalGeral * qtdKits;
+            atualizarRodapeTotal(totalGeral, valorPorKit, qtdKits);
+        } else {
+            document.querySelectorAll('.resume-table tbody tr').forEach(tr => {
+                const rowId = tr.getAttribute('data-id');
+                if (rowId) {
+                    const qtdInput = document.getElementById(`qtd-${rowId}`);
+                    const parcialTd = document.getElementById(`parcial-${rowId}`);
+                    if (qtdInput && parcialTd) {
+                        let qtd = parseInt(qtdInput.value) || 1;
+                        if (qtd < 1) qtd = 1;
+                        somaQtdKits += qtd;
+                        const objItem = catalogo.itens.find(i => i.id === rowId);
+                        if (objItem) {
+                            totalGeral += objItem.preco * qtd;
+                        }
+                    }
+                }
+            });
+            let valorPorKit = somaQtdKits > 0 ? (totalGeral / somaQtdKits) : 0;
+            atualizarRodapeTotal(totalGeral, valorPorKit, somaQtdKits);
+        }
+        salvarSelecaoStorage();
+    }
+
+    function atualizarRodapeTotal(totalGeral, valorPorKit, quantidadeKits) {
         const radioArte = document.querySelector('input[name="criacao_arte"]:checked');
         const querArte = radioArte && radioArte.value === 'sim';
         const valorArte = catalogo.valorCriacaoArte || 0;
 
-        let total = subtotalKits;
+        let totalFinal = totalGeral;
         const linhaResumoArte = document.getElementById('linha-resumo-arte');
 
         if (querArte) {
-            total += valorArte;
+            totalFinal += valorArte;
             if (linhaResumoArte) linhaResumoArte.style.display = 'flex';
             document.getElementById('resumo-valor-arte').innerText = `R$ ${valorArte.toFixed(2)}`;
         } else {
             if (linhaResumoArte) linhaResumoArte.style.display = 'none';
         }
 
-        document.getElementById('valor-unitario').innerText = `R$ ${unitario.toFixed(2)}`;
-        document.getElementById('resumo-qtd').innerText = qtd;
-        document.getElementById('valor-total').innerText = `R$ ${total.toFixed(2)}`;
+        // Se houver criação de arte, ela impacta o valor total, dividindo também o valor proporcional por kit ou mantendo o cálculo limpo por kit
+        let finalValorPorKit = quantidadeKits > 0 ? (totalFinal / quantidadeKits) : 0;
+
+        document.getElementById('valor-por-kit').innerText = `R$ ${finalValorPorKit.toFixed(2)}`;
+        document.getElementById('valor-total').innerText = `R$ ${totalFinal.toFixed(2)}`;
+    }
+
+    function salvarSelecaoStorage() {
+        const dadosSalvar = {
+            ocasiaoSelecionadaId,
+            modoSelecionado,
+            embalagemId: document.querySelector('input[name="embalagem"]:checked')?.value || null,
+            itensIds: Array.from(document.querySelectorAll('input[name="item"]:checked')).map(i => i.value),
+            qtdKits: document.getElementById('input-qtd-kits')?.value || 1,
+            obsKits: document.getElementById('input-obs-kits')?.value || '',
+            criacaoArte: document.querySelector('input[name="criacao_arte"]:checked')?.value || 'nao',
+            estampas: {},
+            quantidadesItens: {}
+        };
+
+        document.querySelectorAll('.resume-table tbody tr').forEach(tr => {
+            const rowId = tr.getAttribute('data-id');
+            if (rowId) {
+                const estInput = document.getElementById(`estampa-${rowId}`);
+                const qtdInput = document.getElementById(`qtd-${rowId}`);
+                if (estInput) dadosSalvar.estampas[rowId] = estInput.value;
+                if (qtdInput) dadosSalvar.quantidadesItens[rowId] = qtdInput.value;
+            }
+        });
+
+        sessionStorage.setItem('esense_orcamento_sessao', JSON.stringify(dadosSalvar));
+    }
+
+    function carregarSelecaoStorage() {
+        const salvoStr = sessionStorage.getItem('esense_orcamento_sessao');
+        if (!salvoStr) return;
+
+        try {
+            const dados = JSON.parse(salvoStr);
+            if (dados.ocasiaoSelecionadaId) {
+                ocasiaoSelecionadaId = dados.ocasiaoSelecionadaId;
+                const ocObj = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
+                if (ocObj) {
+                    document.getElementById('pagina-titulo-principal').innerText = ocObj.nome;
+                    document.getElementById('pagina-subtitulo-instrucao').innerText = ocObj.descricao || "";
+                }
+                document.getElementById('secao-ocasiao').style.display = 'none';
+
+                if (dados.modoSelecionado) {
+                    modoSelecionado = dados.modoSelecionado;
+                    document.getElementById('secao-tipo-kit').style.display = 'none';
+                    document.getElementById('secao-catalogo').style.display = 'block';
+
+                    if (modoSelecionado === 'monte_seu_kit') {
+                        document.getElementById('tela-embalagens').style.display = 'block';
+                        document.getElementById('tela-itens').style.display = 'none';
+                        renderizarEmbalagens();
+                        
+                        if (dados.embalagemId) {
+                            setTimeout(() => {
+                                selecionarEmbalagem(dados.embalagemId);
+                            }, 50);
+                        }
+                    } else {
+                        document.getElementById('tela-embalagens').style.display = 'none';
+                        document.getElementById('tela-itens').style.display = 'block';
+                        renderizarItens();
+                    }
+
+                    setTimeout(() => {
+                        if (dados.itensIds && dados.itensIds.length > 0) {
+                            dados.itensIds.forEach(idItem => {
+                                const chk = document.querySelector(`input[name="item"][value="${idItem}"]`);
+                                const card = document.getElementById('card-item-' + idItem);
+                                if (chk && card) {
+                                    chk.checked = true;
+                                    card.classList.add('active');
+                                }
+                            });
+                        }
+
+                        if (dados.qtdKits) {
+                            const qInput = document.getElementById('input-qtd-kits');
+                            if (qInput) qInput.value = dados.qtdKits;
+                        }
+                        if (dados.obsKits) {
+                            const oInput = document.getElementById('input-obs-kits');
+                            if (oInput) oInput.value = dados.obsKits;
+                        }
+                        if (dados.criacaoArte) {
+                            const rArte = document.querySelector(`input[name="criacao_arte"][value="${dados.criacaoArte}"]`);
+                            if (rArte) rArte.checked = true;
+                        }
+
+                        if (dados.estampas) {
+                            for (let rId in dados.estampas) {
+                                const estInput = document.getElementById(`estampa-${rId}`);
+                                if (estInput) estInput.value = dados.estampas[rId];
+                            }
+                        }
+                        if (dados.quantidadesItens) {
+                            for (let rId in dados.quantidadesItens) {
+                                const qInput = document.getElementById(`qtd-${rId}`);
+                                if (qInput) qInput.value = dados.quantidadesItens[rId];
+                            }
+                        }
+
+                        calcularTotal();
+                    }, 100);
+                }
+            }
+        } catch (e) {
+            console.error("Erro ao carregar sessão:", e);
+        }
     }
 
     function abrirZoom(jsonImgsEnc, idUnico) {
@@ -1730,6 +2299,7 @@
         document.getElementById('adm-link-whatsapp').value = catalogo.whatsappNumero || "";
         document.getElementById('adm-link-email').value = catalogo.emailContato || "";
 
+        renderizarCamposAdminCategorias();
         renderizarCamposAdminItens();
         renderizarCamposAdminEmbalagens();
         renderizarCamposAdminOcasioes();
@@ -1764,7 +2334,30 @@
         } else if (tipo === 'item') {
             catalogo.itens[idx].nome = novoNome;
             catalogo.itens[idx].id = novoId;
-            document.getElementById(`item-id-input-${idx}`).value = novoId;
+            const idInput = document.getElementById(`item-id-input-${idx}`);
+            if (idInput) idInput.value = novoId;
+        }
+    }
+
+    function finalizarNomeNovoCadastro(tipo, idx, novoNome) {
+        if (tipo !== 'item' || !catalogo.itens[idx]) return;
+
+        const nome = (novoNome || '').trim();
+        const nomePadrao = 'Novo Item/Kit';
+
+        // Só tira o item do topo quando ele realmente recebeu um novo nome.
+        if (catalogo.itens[idx]._novoCadastro && nome && nome !== nomePadrao) {
+            catalogo.itens[idx].nome = nome;
+            catalogo.itens[idx].id = gerarSlugId(nome);
+            delete catalogo.itens[idx]._novoCadastro;
+            renderizarCamposAdminItens();
+
+            // Mantém o item recém-nomeado visível para conferência.
+            requestAnimationFrame(() => {
+                const caixas = document.querySelectorAll('#admin-container-itens .admin-item-box');
+                const caixa = Array.from(caixas).find(el => el.querySelector(`#item-id-input-${idx}`));
+                if (caixa) caixa.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
         }
     }
 
@@ -1862,16 +2455,84 @@
         });
     }
 
+    function renderizarCamposAdminCategorias() {
+        const container = document.getElementById('admin-container-categorias');
+        if (!container) return;
+        if (!Array.isArray(catalogo.categorias)) catalogo.categorias = [];
+        container.innerHTML = '';
+        catalogo.categorias.forEach((cat, idx) => {
+            container.innerHTML += `
+                <div style="display:flex; gap:6px; margin-bottom:6px; align-items:center;">
+                    <input type="text" value="${cat.nome || ''}" oninput="atualizarNomeCategoria(${idx}, this.value)" style="flex:1; padding:8px; border:1px solid #ced4da; border-radius:6px; font-family:'Montserrat',sans-serif; font-size:13px;">
+                    <button type="button" class="btn-delete-item" style="float:none;" onclick="removerCategoria(${idx})">Excluir</button>
+                </div>`;
+        });
+    }
+
+    function atualizarNomeCategoria(idx, novoNome) {
+        const nome = novoNome.trim();
+        if (!catalogo.categorias[idx]) return;
+        const idAntigo = catalogo.categorias[idx].id;
+        catalogo.categorias[idx].nome = novoNome;
+        catalogo.categorias[idx].id = gerarSlugId(nome || 'categoria');
+        if (idAntigo !== catalogo.categorias[idx].id) {
+            catalogo.itens.forEach(item => {
+                if (Array.isArray(item.categorias) && item.categorias.includes(idAntigo)) {
+                    item.categorias = item.categorias.map(id => id === idAntigo ? catalogo.categorias[idx].id : id);
+                }
+            });
+        }
+    }
+
+    function adicionarNovaCategoria() {
+        const nomePadrao = 'Nova Categoria';
+        let id = gerarSlugId(nomePadrao);
+        let contador = 2;
+        while ((catalogo.categorias || []).some(c => c.id === id)) id = gerarSlugId(nomePadrao) + '_' + contador++;
+        catalogo.categorias.push({ id, nome: nomePadrao });
+        renderizarCamposAdminCategorias();
+        renderizarCamposAdminItens();
+    }
+
+    function removerCategoria(idx) {
+        if (!catalogo.categorias[idx]) return;
+        if (!confirm(`Excluir a categoria "${catalogo.categorias[idx].nome}"?`)) return;
+        const id = catalogo.categorias[idx].id;
+        catalogo.categorias.splice(idx, 1);
+        catalogo.itens.forEach(item => {
+            if (Array.isArray(item.categorias)) item.categorias = item.categorias.filter(catId => catId !== id);
+        });
+        if (categoriaAtual === id) categoriaAtual = 'todos';
+        renderizarCamposAdminCategorias();
+        renderizarCamposAdminItens();
+    }
+
     function renderizarCamposAdminItens() {
         const container = document.getElementById('admin-container-itens');
         container.innerHTML = "";
-        catalogo.itens.forEach((item, idx) => {
-            let catsSelecionadas = item.categorias || (item.categoria ? [item.categoria] : []);
 
+        const itensOrdenados = catalogo.itens
+            .map((item, idx) => ({ item, idx }))
+            .sort((a, b) => {
+                // Um item recém-criado permanece no topo até receber um novo nome.
+                if (Boolean(a.item._novoCadastro) !== Boolean(b.item._novoCadastro)) {
+                    return a.item._novoCadastro ? -1 : 1;
+                }
+                return (a.item.nome || '').localeCompare(b.item.nome || '', 'pt-BR', { sensitivity: 'base' });
+            });
+
+        itensOrdenados.forEach(({ item, idx }) => {
+            let catsSelecionadas = item.categorias || (item.categoria ? [item.categoria] : []);
             let isKitsProntosChecked = catsSelecionadas.includes('kits_prontos') ? 'checked' : '';
-            let isBrinquedosChecked = catsSelecionadas.includes('brinquedos') ? 'checked' : '';
-            let isDocesChecked = catsSelecionadas.includes('doces') ? 'checked' : '';
-            let isEducativoChecked = catsSelecionadas.includes('educativo') ? 'checked' : '';
+
+            let checkboxesCategoriasHTML = (catalogo.categorias || []).map(cat => {
+                let checked = catsSelecionadas.includes(cat.id) ? 'checked' : '';
+                return `
+                    <label class="admin-checkbox-label">
+                        <input type="checkbox" value="${cat.id}" ${checked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> ${cat.nome}
+                    </label>
+                `;
+            }).join('');
 
             let checkboxesOcasioesHTML = '';
             let ocSelecionadas = item.ocasioesIds || [];
@@ -1900,27 +2561,33 @@
             container.innerHTML += `
                 <div class="admin-item-box" id="admin-item-${idx}">
                     <button class="btn-delete-item" onclick="removerItemEstrutura('item', ${idx})">Excluir</button>
-                    <div class="admin-field"><label>Nome:</label><input type="text" value="${item.nome}" oninput="atualizarNomeEId('item', ${idx}, this.value)"></div>
+                    <div class="admin-field"><label>Nome:</label><input type="text" value="${item.nome}" oninput="atualizarNomeEId('item', ${idx}, this.value)" onblur="finalizarNomeNovoCadastro('item', ${idx}, this.value)"></div>
                     <div class="admin-field"><label>Título da Descrição:</label><input type="text" value="${item.tituloDesc || ''}" onchange="catalogo.itens[${idx}].tituloDesc = this.value"></div>
                     <div class="admin-field"><label>Descrição Completa:</label><textarea rows="2" onchange="catalogo.itens[${idx}].descricao = this.value">${item.descricao || ''}</textarea></div>
                     <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('item', ${idx}, this.value)"></div>
                     <div class="admin-field"><label>Valor (R$):</label><input type="number" step="0.01" value="${item.preco}" onchange="catalogo.itens[${idx}].preco = parseFloat(this.value)||0"></div>
                     
                     <div class="admin-field">
+                        <label><b>⭐ Destaques de venda:</b></label>
+                        <div class="admin-checkbox-group" style="max-height:none;">
+                            <label class="admin-checkbox-label">
+                                <input type="checkbox" ${item.maisVendido ? 'checked' : ''} onchange="catalogo.itens[${idx}].maisVendido = this.checked">
+                                ⭐ Mais vendido
+                            </label>
+                            <label class="admin-checkbox-label">
+                                <input type="checkbox" ${item.novidade ? 'checked' : ''} onchange="catalogo.itens[${idx}].novidade = this.checked">
+                                ✨ Novidade
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="admin-field">
                         <label><b>🏷️ Tipo / Categoria:</b></label>
                         <div class="admin-checkbox-group">
                             <label class="admin-checkbox-label" style="display:none;">
                                 <input type="checkbox" value="kits_prontos" ${isKitsProntosChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Kits Prontos
                             </label>
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" value="brinquedos" ${isBrinquedosChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Brinquedos
-                            </label>
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" value="doces" ${isDocesChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Doces
-                            </label>
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" value="educativo" ${isEducativoChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Educativos
-                            </label>
+                            ${checkboxesCategoriasHTML}
                         </div>
                     </div>
 
@@ -1987,7 +2654,7 @@
         } else {
             let nomePadrao = "Novo Item/Kit";
             const idUnico = gerarSlugId(nomePadrao);
-            catalogo.itens.unshift({ id: idUnico, nome: nomePadrao, tituloDesc: "", descricao: "", preco: 3.00, imgs: [], ocasioesIds: ocPadrao, categorias: [], proibidoEm: [] });
+            catalogo.itens.unshift({ id: idUnico, nome: nomePadrao, tituloDesc: "", descricao: "", preco: 3.00, imgs: [], ocasioesIds: ocPadrao, categorias: [], proibidoEm: [], maisVendido: false, novidade: false, _novoCadastro: true });
             renderizarCamposAdminItens();
             renderizarCamposAdminEmbalagens();
         }
@@ -2016,6 +2683,11 @@
     }
 
     async function salvarConfiguracoes() {
+        // O marcador de "novo cadastro" é apenas visual e não deve ser persistido.
+        catalogo.itens.forEach(item => delete item._novoCadastro);
+        catalogo.embalagens.forEach(item => delete item._novoCadastro);
+        catalogo.ocasioes.forEach(item => delete item._novoCadastro);
+
         catalogo.valorCriacaoArte = parseFloat(document.getElementById('adm-valor-arte').value) || 0;
         catalogo.logoUrl = sanitizarUrlImagem(document.getElementById('adm-logo-url').value);
         catalogo.slogan = document.getElementById('adm-slogan').value.trim();
@@ -2061,37 +2733,52 @@
             if (objItem) itensSelecionados.push(objItem);
         });
 
-        if (itensSelecionados.length === 0) {
-            alert(modoSelecionado === 'kits_prontos' ? "Por favor, selecione um item/produto." : "Por favor, selecione ao menos um item.");
+        if (itensSelecionados.length === 0 && !objEmb) {
+            alert(modoSelecionado === 'kits_prontos' ? "Por favor, selecione ao menos um produto." : "Por favor, selecione ao menos um item.");
             return;
         }
 
-        const qtd = document.getElementById('quantidade').value;
-        const unitario = document.getElementById('valor-unitario').innerText;
         const total = document.getElementById('valor-total').innerText;
-        
+        const valorPorKit = document.getElementById('valor-por-kit').innerText;
         const radioArte = document.querySelector('input[name="criacao_arte"]:checked');
         const querArte = radioArte && radioArte.value === 'sim';
         const valorArte = catalogo.valorCriacaoArte || 0;
+        const qtdKitsVal = modoSelecionado === 'monte_seu_kit' ? (document.getElementById('input-qtd-kits')?.value || '10') : '10';
+        const obsVal = modoSelecionado === 'monte_seu_kit' ? (document.getElementById('input-obs-kits')?.value || '') : '';
 
         let texto = `*ORÇAMENTO DE LEMBRANCINHAS*\n`;
         texto += `------------------------------------\n`;
         texto += `🎉 *Ocasião:* ${objOcasiao ? objOcasiao.nome : '-'}\n`;
-        texto += `📋 *Modalidade:* ${modoSelecionado === 'kits_prontos' ? 'Produto' : 'Monte Seu Kit'}\n`;
-        
+        texto += `📋 *Modalidade:* ${modoSelecionado === 'kits_prontos' ? 'Produtos / Kits Prontos' : 'Monte Seu Kit'}\n`;
+        if (modoSelecionado === 'monte_seu_kit') {
+            texto += `📦 *Quantidade de Kits:* ${qtdKitsVal}\n`;
+        }
+        texto += `\n📦 *RESUMO DOS ITENS:*\n`;
+
         if (objEmb) {
-            texto += `📦 *Embalagem:* ${objEmb.nome} (R$ ${objEmb.preco.toFixed(2)})\n`;
+            const qtdParaCalculo = modoSelecionado === 'monte_seu_kit'
+                ? (parseInt(qtdKitsVal) || 1)
+                : 1;
+            texto += `• [Embalagem] ${objEmb.nome} — unitário R$ ${Number(objEmb.preco).toFixed(2)} — total R$ ${(Number(objEmb.preco) * qtdParaCalculo).toFixed(2)}\n`;
         }
 
-        texto += `🎁 *${modoSelecionado === 'kits_prontos' ? 'Produto Selecionado:' : 'Itens Internos:'}*\n`;
         itensSelecionados.forEach(item => {
-            texto += `   • ${item.nome} (R$ ${item.preco.toFixed(2)})\n`;
+            if (modoSelecionado === 'monte_seu_kit') {
+                const qtd = parseInt(document.getElementById(`qtd-${item.id}`)?.value) || 1;
+                const parcial = Number(item.preco) * qtd;
+                texto += `• ${item.nome} — unitário R$ ${Number(item.preco).toFixed(2)} — qtd ${qtd} — total R$ ${parcial.toFixed(2)}\n`;
+            } else {
+                texto += `• ${item.nome} — R$ ${Number(item.preco).toFixed(2)}\n`;
+            }
         });
 
+        if (modoSelecionado === 'monte_seu_kit' && obsVal.trim() !== '') {
+            texto += `\n📝 *Observações:* ${obsVal.trim()}\n`;
+        }
+
         texto += `------------------------------------\n`;
-        texto += `🔢 *Quantidade:* ${qtd}\n`;
-        texto += `💵 *Valor Unitário:* ${unitario}\n`;
         texto += `🎨 *Criação da Arte:* ${querArte ? 'Sim (R$ ' + valorArte.toFixed(2) + ')' : 'Não'}\n`;
+        texto += `🏷️ *Valor por kit:* ${valorPorKit}\n`;
         texto += `💰 *VALOR TOTAL:* ${total}\n`;
         texto += `------------------------------------\n`;
         texto += `Gerado via eSense Costura Criativa`;
@@ -2101,9 +2788,24 @@
         window.open(urlWhatsApp, '_blank');
     }
 
+    function fecharBoasVindas() {
+        const modal = document.getElementById('modal-boas-vindas');
+        if (modal) modal.style.display = 'none';
+        localStorage.setItem('esense_boas_vindas_exibida', '1');
+    }
+
+    function exibirBoasVindasUmaVez() {
+        if (!localStorage.getItem('esense_boas_vindas_exibida')) {
+            const modal = document.getElementById('modal-boas-vindas');
+            if (modal) modal.style.display = 'flex';
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
         carregarDadosDaNuvem();
+        exibirBoasVindasUmaVez();
     });
+
 </script>
 </body>
 </html>
