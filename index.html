@@ -1826,7 +1826,7 @@
         const container = document.getElementById('container-filtros-categorias');
         if (!container) return;
         let html = `<button type="button" class="btn-filtro-cat" data-cat="todos" onclick="filtrarCategoria('todos')">Todos</button>`;
-        (catalogo.categorias || []).forEach(cat => {
+        (catalogo.categorias || []).filter(cat => cat.id !== 'avulso').forEach(cat => {
             html += `<button type="button" class="btn-filtro-cat" data-cat="${cat.id}" onclick="filtrarCategoria('${cat.id}')">${cat.nome}</button>`;
         });
         container.innerHTML = html;
