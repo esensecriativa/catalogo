@@ -71,10 +71,10 @@
         /* LOGO E SLOGAN */
         .logo-container {
             text-align: center;
-            margin-bottom: 25px;
-            max-width: 360px;
+            margin-bottom: 12px;
+            max-width: 300px;
             width: 100%;
-            min-height: 100px;
+            min-height: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -83,19 +83,20 @@
         }
 
         .logo-container img {
-            width: 100%;
+            width: 92%;
             height: auto;
-            max-height: 180px;
+            max-height: 150px;
             object-fit: contain;
             display: block;
         }
 
         .slogan-text {
-            font-size: 17px;
+            font-size: 14px;
             color: var(--text-muted);
-            margin-top: 10px;
+            margin-top: 3px;
             font-weight: 500;
             text-align: center;
+            white-space: nowrap;
         }
 
         .container {
@@ -112,7 +113,7 @@
         h1 {
             text-align: center;
             color: var(--text);
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-size: 20px;
             font-weight: 600;
             text-transform: uppercase;
@@ -123,7 +124,8 @@
             text-align: center;
             font-size: 14px;
             color: var(--text-muted);
-            margin-bottom: 35px;
+            margin-bottom: 20px;
+            white-space: nowrap;
             font-weight: 500;
         }
 
@@ -421,6 +423,16 @@
         .resume-table th {
             color: var(--primary-light);
             font-weight: 600;
+        }
+        .resume-table td:nth-child(2),
+        .resume-table td:nth-child(3) {
+            white-space: nowrap;
+            text-align: right;
+        }
+        .resume-table th:nth-child(2),
+        .resume-table th:nth-child(3) {
+            white-space: nowrap;
+            text-align: right;
         }
         .resume-table input.table-estampa {
             background: rgba(255,255,255,0.1);
@@ -879,6 +891,115 @@
         .btn-json { background: #4c6ef5; color: white; }
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(45,45,39,0.4); z-index: 99; }
 
+        /* ESCOLHA DE EMBALAGEM POR KIT PRONTO */
+        .kit-embalagem-opcoes {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-align: left;
+        }
+        .kit-embalagem-titulo {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 7px;
+        }
+        .kit-embalagem-opcao {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            padding: 6px 7px;
+            border: 1px solid #e1e5e9;
+            border-radius: 7px;
+            background: #fff;
+            margin-bottom: 5px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all .2s ease;
+        }
+        .kit-embalagem-opcao:last-child { margin-bottom: 0; }
+        .kit-embalagem-opcao:hover { border-color: var(--primary); }
+        .kit-embalagem-opcao.selecionada {
+            border-color: var(--primary);
+            background: rgba(248,240,136,.18);
+        }
+        .kit-embalagem-opcao input { margin: 0; flex: 0 0 auto; }
+        .kit-embalagem-nome { flex: 1; font-weight: 600; color: var(--text); }
+        .kit-embalagem-preco { color: var(--primary-dark); font-weight: 700; white-space: nowrap; }
+        .kit-embalagem-final {
+            display: block;
+            margin-top: 7px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        .kit-embalagem-pendente {
+            display: block;
+            margin-top: 7px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #c92a2a;
+        }
+
+        /* OPÇÕES DE EMBALAGEM DOS KITS PRONTOS */
+        .kit-embalagem-opcoes {
+            margin-top: 10px;
+            padding: 10px;
+            border-top: 1px solid var(--border);
+            background: #fffdf4;
+            border-radius: 10px;
+            text-align: left;
+        }
+        .kit-embalagem-titulo {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+        .kit-embalagem-opcao {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px;
+            margin-bottom: 6px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+        .kit-embalagem-opcao:hover, .kit-embalagem-opcao.selecionada {
+            border-color: var(--primary);
+            background: rgba(248,240,136,.18);
+        }
+        .kit-embalagem-opcao input { margin: 0; accent-color: var(--primary); }
+        .kit-embalagem-nome { flex: 1; font-size: 11px; font-weight: 600; color: var(--text); }
+        .kit-embalagem-preco { font-size: 11px; font-weight: 700; color: var(--primary-dark); white-space: nowrap; }
+        .kit-embalagem-final { display:block; margin-top:7px; font-size:10px; font-weight:700; color:var(--primary-dark); text-align:center; }
+        .kit-embalagem-pendente { display:block; font-size:10px; color:#9a6b00; line-height:1.4; text-align:center; }
+        .admin-kit-linhas { background:#fffdf4; border:1px solid rgba(192,160,56,.25); border-radius:8px; padding:10px; margin-top:8px; }
+        .admin-kit-linha { background:#fff; border:1px solid #dee2e6; border-radius:7px; padding:9px; margin-bottom:8px; }
+        .admin-kit-linha:last-child { margin-bottom:0; }
+        .admin-kit-linha-titulo { font-size:11px; font-weight:700; color:var(--primary-dark); margin-bottom:7px; }
+
+
+        /* PAINEL: LINHAS DOS KITS PRONTOS */
+        .admin-kit-linhas { background:#fffdf4; border:1px solid rgba(192,160,56,.25); border-radius:8px; padding:8px; margin-top:8px; }
+        .admin-kit-linha { background:#fff; border:1px solid #dee2e6; border-radius:8px; margin-bottom:8px; overflow:hidden; }
+        .admin-kit-linha:last-child { margin-bottom:0; }
+        .admin-kit-linha > summary { list-style:none; cursor:pointer; padding:11px 12px; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; color:var(--primary-dark); user-select:none; }
+        .admin-kit-linha > summary::-webkit-details-marker { display:none; }
+        .admin-kit-linha > summary::before { content:'▶'; font-size:8px; color:var(--primary-dark); transition:transform .2s ease; }
+        .admin-kit-linha[open] > summary::before { transform:rotate(90deg); }
+        .admin-kit-linha-conteudo { padding:10px 12px 4px; border-top:1px solid #dee2e6; }
+        .admin-kit-linha .admin-field { margin-bottom:9px; }
+        .admin-kit-linha .admin-field:last-child { margin-bottom:4px; }
+
         /* MODO RESPONSIVO CELULAR */
         @media (max-width: 480px) {
             body { padding: 10px; }
@@ -890,14 +1011,15 @@
             .tipo-opcao-grid { grid-template-columns: 1fr; }
 
             .logo-container {
-                max-width: 252px;
-                margin-bottom: 18px;
+                max-width: 220px;
+                margin-bottom: 10px;
             }
             .logo-container img {
-                max-height: 126px;
+                max-height: 110px;
             }
             .slogan-text {
-                font-size: 12px;
+                font-size: 10px;
+                white-space: nowrap;
             }
         }
     </style>
@@ -1008,7 +1130,7 @@
 
                 <!-- RESUMO DETALHADO EM TABELA OU FORMATO MONTE SEU KIT -->
                 <div class="resume-box">
-                    <div style="font-weight: 600; font-size: 15px; margin-bottom: 12px; color: var(--primary-light);">Resumo do Orçamento</div>
+                    <div id="titulo-resumo-orcamento" style="font-weight: 600; font-size: 15px; margin-bottom: 12px; color: var(--primary-light);">Resumo do Orçamento</div>
                     
                     <!-- Bloco específico para Monte Seu Kit (Quantidade e Observações) -->
                     <div id="container-config-monte-kit" class="config-kits-section" style="display: none;">
@@ -1040,7 +1162,7 @@
                     </div>
 
                     <div class="resume-row" id="linha-resumo-arte" style="display: none;"><span id="txt-resumo-arte-label">Criação da Arte:</span><span id="resumo-valor-arte">R$ 0,00</span></div>
-                    <div class="valor-kit-row"><span>Valor por kit:</span><span id="valor-por-kit">---</span></div>
+                    <div class="valor-kit-row" id="linha-valor-por-kit"><span>Valor por kit:</span><span id="valor-por-kit">---</span></div>
                     <div class="resume-row total-row"><span id="txt-resumo-total-label">Valor Total:</span><span id="valor-total">---</span></div>
                 </div>
 
@@ -1298,8 +1420,16 @@
             { id: "caixa_cartonada_luxo", nome: "Caixa Cartonada Luxo", tituloDesc: "Acabamento Premium", descricao: "Fita de cetim personalizada e estrutura firme resistente.", preco: 12.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["casamento"] }
         ],
         itens: [
-            { id: "kit_pronto_pinta_e_borda", nome: "Kit Pronto Pinta e Borda", tituloDesc: "Kit Completo", descricao: "Acompanha bolsa + livro de colorir + giz de cera.", preco: 25.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["kits_prontos"], proibidoEm: [], maisVendido: false, novidade: false },
-            { id: "kit_pronto_casamento_luxo", nome: "Kit Pronto Padrinhos Luxo", tituloDesc: "Kit Completo", descricao: "Acompanha caixa cartonada, gravata e toalhinha bordada.", preco: 45.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["casamento"], categorias: ["kits_prontos"], proibidoEm: [], maisVendido: false, novidade: false },
+            { id: "kit_pronto_pinta_e_borda", nome: "Kit Pronto Pinta e Borda", tituloDesc: "Kit Completo", descricao: "Acompanha bolsa + livro de colorir + giz de cera.", preco: 25.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["kits_prontos"], proibidoEm: [], maisVendido: false, novidade: false, opcoesEmbalagem: [
+                { id: "linha_algodao", nome: "Linha Algodão", tituloDesc: "", descricao: "", preco: 0, valorTotal: 0, imgs: [] },
+                { id: "linha_organza", nome: "Linha Organza", tituloDesc: "", descricao: "", preco: 0, valorTotal: 0, imgs: [] },
+                { id: "linha_eco", nome: "Linha Eco", tituloDesc: "", descricao: "", preco: 0, valorTotal: 0, imgs: [] }
+            ] },
+            { id: "kit_pronto_casamento_luxo", nome: "Kit Pronto Padrinhos Luxo", tituloDesc: "Kit Completo", descricao: "Acompanha caixa cartonada, gravata e toalhinha bordada.", preco: 45.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["casamento"], categorias: ["kits_prontos"], proibidoEm: [], maisVendido: false, novidade: false, opcoesEmbalagem: [
+                { id: "linha_algodao", nome: "Linha Algodão", tituloDesc: "", descricao: "", preco: 0, valorTotal: 0, imgs: [] },
+                { id: "linha_organza", nome: "Linha Organza", tituloDesc: "", descricao: "", preco: 0, valorTotal: 0, imgs: [] },
+                { id: "linha_eco", nome: "Linha Eco", tituloDesc: "", descricao: "", preco: 0, valorTotal: 0, imgs: [] }
+            ] },
             { id: "gibi_de_colorir", nome: "Gibi de Colorir", tituloDesc: "Diversão Garantida", descricao: "12 páginas temáticas divertidas prontas para colorir.", preco: 4.50, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["brinquedos", "educativo"], proibidoEm: [], maisVendido: false, novidade: false },
             { id: "giz_de_cera", nome: "Giz de Cera", tituloDesc: "6 Cores Atóxicas", descricao: "Caixa com 6 cores atóxicas seguras para crianças.", preco: 3.00, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil", "cha_de_fraldas"], categorias: ["brinquedos", "educativo"], proibidoEm: [], maisVendido: false, novidade: false },
             { id: "pacote_de_bala", nome: "Pacote de Balas", tituloDesc: "Doces Variados", descricao: "Pacote de balas sortidas.", preco: 2.50, imgs: ["https://i.ibb.co/6ccm0vXF/esense-costura-criativa-01.png"], ocasioesIds: ["festa_infantil"], categorias: ["doces"], proibidoEm: [], maisVendido: false, novidade: false },
@@ -1312,6 +1442,45 @@
     let categoriaAtual = 'todos';
     let zoomImgsAtual = [];
     let zoomIndexAtual = 0;
+    // Guarda a embalagem escolhida para cada Kit Pronto, mesmo quando a lista é redesenhada.
+    let embalagensKitsProntosSelecionadas = {};
+    // Mantém a quantidade digitada de cada item/kit mesmo quando o resumo é reconstruído.
+    let quantidadesItensSelecionadas = {};
+
+    function garantirOpcoesEmbalagemKitsProntos() {
+        const padrao = [
+            { id: 'linha_algodao', nome: 'Linha Algodão', tituloDesc: '', descricao: '', preco: 0, valorTotal: 0, imgs: [] },
+            { id: 'linha_organza', nome: 'Linha Organza', tituloDesc: '', descricao: '', preco: 0, valorTotal: 0, imgs: [] },
+            { id: 'linha_eco', nome: 'Linha Eco', tituloDesc: '', descricao: '', preco: 0, valorTotal: 0, imgs: [] }
+        ];
+        if (!Array.isArray(catalogo.itens)) return;
+        catalogo.itens.forEach(item => {
+            const ehKit = Array.isArray(item.categorias) && item.categorias.includes('kits_prontos');
+            if (!ehKit) return;
+            if (!Array.isArray(item.opcoesEmbalagem) || item.opcoesEmbalagem.length === 0) {
+                item.opcoesEmbalagem = JSON.parse(JSON.stringify(padrao));
+            } else {
+                padrao.forEach(op => {
+                    if (!item.opcoesEmbalagem.some(x => x && x.id === op.id)) {
+                        item.opcoesEmbalagem.push(JSON.parse(JSON.stringify(op)));
+                    }
+                });
+                item.opcoesEmbalagem = item.opcoesEmbalagem.slice(0, 3);
+                item.opcoesEmbalagem.forEach((op, i) => {
+                    if (!op.id) op.id = padrao[i]?.id || ('linha_' + i);
+                    if (!op.nome) op.nome = padrao[i]?.nome || 'Linha';
+                    op.tituloDesc = op.tituloDesc || '';
+                    op.descricao = op.descricao || '';
+                    if (op.valorTotal === undefined || op.valorTotal === null || op.valorTotal === '') {
+                        op.valorTotal = (Number(item.preco) || 0) + (Number(op.preco) || 0);
+                    }
+                    op.valorTotal = Number(op.valorTotal) || 0;
+                    op.preco = Number(op.preco) || 0;
+                    if (!Array.isArray(op.imgs)) op.imgs = [];
+                });
+            }
+        });
+    }
 
     async function carregarDadosDaNuvem() {
         try {
@@ -1369,6 +1538,7 @@
         } catch (err) {
             console.error("Erro ao buscar dados do Firebase:", err);
         } finally {
+            garantirOpcoesEmbalagemKitsProntos();
             carregarSelecaoStorage();
             renderizarOcasioes();
             atualizarTextoValorArte();
@@ -1786,7 +1956,9 @@
         itensFiltrados.forEach((item) => {
             let descHtml = '';
             if (modoSelecionado === 'kits_prontos') {
-                descHtml = ehDataOuBrinde ? criarHtmlDescricao(item.nome, item.tituloDesc, item.descricao) : criarHtmlDescricaoKitPronto(item.nome, item.descricao);
+                // Nos Kits Prontos, o botão separado "O que inclui" foi removido.
+                // A descrição do kit será aberta ao clicar em qualquer linha de embalagem.
+                descHtml = ehDataOuBrinde ? criarHtmlDescricao(item.nome, item.tituloDesc, item.descricao) : '';
             } else {
                 descHtml = criarHtmlDescricao(item.nome, item.tituloDesc, item.descricao);
             }
@@ -1798,6 +1970,11 @@
                 seloHtml = '<span class="card-selo">⭐ MAIS VENDIDO</span>';
             }
 
+            const ehKitPronto = modoSelecionado === 'kits_prontos' && (item.categorias || []).includes('kits_prontos');
+            const precoInicialHtml = ehKitPronto
+                ? `<span class="item-price" id="preco-kit-${item.id}">A partir de R$ ${obterMenorValorLinhaKit(item).toFixed(2)}</span>`
+                : `<span class="item-price">R$ ${Number(item.preco).toFixed(2)}</span>`;
+
             gridItens.innerHTML += `
                 <div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')">
                     <input type="checkbox" name="item" value="${item.id}">
@@ -1807,7 +1984,8 @@
                     <div class="info-container">
                         <span class="item-title">${item.nome}</span>
                         ${descHtml}
-                        <span class="item-price">R$ ${item.preco.toFixed(2)}</span>
+                        ${precoInicialHtml}
+                        ${ehKitPronto ? `<div id="embalagens-kit-${item.id}" class="kit-embalagem-opcoes" style="display:none;"></div>` : ''}
                     </div>
                 </div>
             `;
@@ -1837,16 +2015,119 @@
     function toggleItem(id) {
         const card = document.getElementById('card-item-' + id);
         if (!card || card.style.display === 'none') return;
-        const checkbox = card.querySelector('input');
-        
+        const checkbox = card.querySelector('input[name="item"]');
+
         checkbox.checked = !checkbox.checked;
         if (checkbox.checked) {
             card.classList.add('active');
         } else {
             card.classList.remove('active');
         }
+
+        const item = catalogo.itens.find(i => i.id === id);
+        const ehKitPronto = modoSelecionado === 'kits_prontos' && item && (item.categorias || []).includes('kits_prontos');
+        if (ehKitPronto) {
+            renderizarOpcoesEmbalagemKitPronto(id);
+        }
+
         calcularTotal();
         salvarSelecaoStorage();
+    }
+
+    function obterOpcoesEmbalagemKitPronto(itemId) {
+        const item = catalogo.itens.find(i => i.id === itemId);
+        return item && Array.isArray(item.opcoesEmbalagem) ? item.opcoesEmbalagem : [];
+    }
+
+    function renderizarOpcoesEmbalagemKitPronto(itemId) {
+        const container = document.getElementById('embalagens-kit-' + itemId);
+        const item = catalogo.itens.find(i => i.id === itemId);
+        if (!container || !item) return;
+
+        const checkbox = document.querySelector(`input[name="item"][value="${itemId}"]`);
+        if (!checkbox || !checkbox.checked) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+            return;
+        }
+
+        const opcoes = obterOpcoesEmbalagemKitPronto(itemId);
+        container.style.display = 'block';
+        if (opcoes.length === 0) {
+            container.innerHTML = `<span class="kit-embalagem-pendente">Nenhuma opção de embalagem cadastrada para este kit.</span>`;
+            return;
+        }
+
+        const selecionada = embalagensKitsProntosSelecionadas[itemId] || '';
+        let html = `<span class="kit-embalagem-titulo">Escolha a linha de embalagem do seu kit:</span>`;
+        opcoes.forEach(op => {
+            const checked = op.id === selecionada ? 'checked' : '';
+            const classe = op.id === selecionada ? 'selecionada' : '';
+            const valorFinal = obterValorTotalLinhaKit(item, op);
+            html += `
+                <label class="kit-embalagem-opcao ${classe}" onclick="abrirDetalhesAoClicarLinhaKitPronto(event, '${itemId}', '${op.id}')">
+                    <input type="radio" name="embalagem-kit-${itemId}" value="${op.id}" ${checked}>
+                    <span class="kit-embalagem-nome">${op.nome}</span>
+                    <span class="kit-embalagem-preco">R$ ${valorFinal.toFixed(2)}</span>
+                </label>`;
+        });
+
+        if (selecionada) {
+            const op = opcoes.find(e => e.id === selecionada);
+            if (op) html += `<span class="kit-embalagem-final">Valor do kit com esta embalagem: R$ ${obterValorTotalLinhaKit(item, op).toFixed(2)}</span>`;
+        } else {
+            html += `<span class="kit-embalagem-pendente">Selecione uma linha para definir o valor final.</span>`;
+        }
+        container.innerHTML = html;
+        atualizarPrecoCardKitPronto(itemId);
+    }
+
+    function abrirDetalhesAoClicarLinhaKitPronto(e, itemId, embalagemId) {
+        if (e) e.stopPropagation();
+
+        // Primeiro seleciona a linha e atualiza o orçamento.
+        selecionarEmbalagemKitPronto(itemId, embalagemId);
+
+        // Ao clicar na linha, abre o conteúdo do kit que antes era acessado
+        // pelo botão "O que inclui".
+        const item = catalogo.itens.find(i => i.id === itemId);
+        if (item && item.descricao && item.descricao.trim()) {
+            abrirModalDescricao(
+                null,
+                encodeURIComponent(item.nome + ' - O que inclui'),
+                encodeURIComponent(item.descricao)
+            );
+        }
+    }
+
+    function selecionarEmbalagemKitPronto(itemId, embalagemId) {
+        const item = catalogo.itens.find(i => i.id === itemId);
+        const op = obterOpcoesEmbalagemKitPronto(itemId).find(e => e.id === embalagemId);
+        const checkbox = document.querySelector(`input[name="item"][value="${itemId}"]`);
+        if (!item || !op || !checkbox) return;
+
+        checkbox.checked = true;
+        embalagensKitsProntosSelecionadas[itemId] = embalagemId;
+        const card = document.getElementById('card-item-' + itemId);
+        if (card) card.classList.add('active');
+        renderizarOpcoesEmbalagemKitPronto(itemId);
+        calcularTotal();
+        salvarSelecaoStorage();
+    }
+
+    function obterMenorValorLinhaKit(item) {
+        const opcoes = Array.isArray(item?.opcoesEmbalagem) ? item.opcoesEmbalagem : [];
+        const valores = opcoes.map(op => obterValorTotalLinhaKit(item, op)).filter(v => v > 0);
+        return valores.length ? Math.min(...valores) : (Number(item?.preco) || 0);
+    }
+
+    function atualizarPrecoCardKitPronto(itemId) {
+        const item = catalogo.itens.find(i => i.id === itemId);
+        const span = document.getElementById('preco-kit-' + itemId);
+        if (!item || !span) return;
+        const selecionada = embalagensKitsProntosSelecionadas[itemId];
+        const op = obterOpcoesEmbalagemKitPronto(itemId).find(e => e.id === selecionada);
+        span.innerText = op ? `R$ ${obterValorTotalLinhaKit(item, op).toFixed(2)} por kit` : `A partir de R$ ${Number(item.preco).toFixed(2)}`;
     }
 
     function removerItemResumo(id) {
@@ -1947,10 +2228,14 @@
 
         if (modoSelecionado === 'monte_seu_kit') {
             if (configMonteKitDiv) configMonteKitDiv.style.display = 'flex';
+            const tituloResumo = document.getElementById('titulo-resumo-orcamento');
+            if (tituloResumo) tituloResumo.innerText = 'Resumo do Orçamento - Monte seu Kit';
             if (tableHeadRow) {
                 tableHeadRow.innerHTML = `
-                    <th>Embalagem e Itens Selecionados</th>
-                    <th style="text-align: right; width: 40px;">Ações</th>
+                    <th>Embalagem / Item</th>
+                    <th style="text-align: right; width: 95px;">Valor unitário</th>
+                    <th style="text-align: right; width: 95px;">Total</th>
+                    <th style="text-align: center; width: 45px;">Ações</th>
                 `;
             }
 
@@ -1977,8 +2262,10 @@
                     totalGeral += objEmb.preco;
                     tableBody.innerHTML += `
                         <tr>
-                            <td><b>[Embalagem]</b> ${nomeEmb} - R$ ${objEmb.preco.toFixed(2)} - R$ ${totalItemEmbalagem.toFixed(2)}</td>
-                            <td style="text-align: right;"></td>
+                            <td><b>[Embalagem]</b> ${nomeEmb}</td>
+                            <td style="text-align: right; white-space: nowrap;">R$ ${objEmb.preco.toFixed(2)}</td>
+                            <td style="text-align: right; white-space: nowrap;">R$ ${totalItemEmbalagem.toFixed(2)}</td>
+                            <td style="text-align: center;"></td>
                         </tr>`;
                 }
             }
@@ -1988,19 +2275,154 @@
                 totalGeral += objItem.preco;
                 tableBody.innerHTML += `
                     <tr>
-                        <td>• ${objItem.nome} - R$ ${objItem.preco.toFixed(2)} - R$ ${totalItem.toFixed(2)}</td>
-                        <td style="text-align: right;"><button class="btn-delete-row" onclick="removerItemResumo('${objItem.id}')" title="Excluir item">🗑️</button></td>
+                        <td>• ${objItem.nome}</td>
+                        <td style="text-align: right; white-space: nowrap;">R$ ${objItem.preco.toFixed(2)}</td>
+                        <td style="text-align: right; white-space: nowrap;">R$ ${totalItem.toFixed(2)}</td>
+                        <td style="text-align: center;"><button class="btn-delete-row" onclick="removerItemResumo('${objItem.id}')" title="Excluir item">🗑️</button></td>
                     </tr>`;
             });
 
             if (!nomeEmb && itensSelecionadosObj.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="2" style="text-align: center; color: rgba(255,255,255,0.6); padding: 12px;">Nenhum item selecionado</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: rgba(255,255,255,0.6); padding: 12px;">Nenhum item selecionado</td></tr>`;
             }
 
             let valorPorKit = totalGeral;
             totalGeral = totalGeral * qtdKits;
 
             atualizarRodapeTotal(totalGeral, valorPorKit, qtdKits);
+
+        } else if (modoSelecionado === 'kits_prontos') {
+            const tituloResumo = document.getElementById('titulo-resumo-orcamento');
+            if (tituloResumo) tituloResumo.innerText = 'Resumo do Orçamento';
+            // Em Datas Comemorativas e Brindes, a tela usa produtos normais.
+            // O fluxo de Linha Algodão/Organza/Eco é exclusivo dos Kits Prontos.
+            const objOcasiaoCalculo = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
+            const modulosCalculo = objOcasiaoCalculo ? (objOcasiaoCalculo.tipoModulos || [objOcasiaoCalculo.tipoModulo || 'eventos']) : [];
+            const ehDataOuBrindeCalculo = modulosCalculo.includes('datas_comemorativas') || modulosCalculo.includes('brindes');
+
+            if (ehDataOuBrindeCalculo) {
+                if (configMonteKitDiv) configMonteKitDiv.style.display = 'none';
+                if (tableHeadRow) {
+                    tableHeadRow.innerHTML = `
+                        <th>Produto</th>
+                        <th style="text-align: center; width: 70px;">Qtd</th>
+                        <th style="text-align: right;">Parcial</th>
+                        <th style="text-align: center; width: 40px;">Ações</th>
+                    `;
+                }
+
+                // Guarda as quantidades já digitadas antes de reconstruir a tabela.
+                const quantidadesProdutos = {};
+                document.querySelectorAll('.resume-table tbody tr').forEach(tr => {
+                    const rowId = tr.getAttribute('data-id');
+                    if (rowId) {
+                        const qInput = document.getElementById(`qtd-${rowId}`);
+                        if (qInput) quantidadesProdutos[rowId] = qInput.value;
+                    }
+                });
+
+                tableBody.innerHTML = '';
+                let totalGeral = 0;
+                let somaQtdProdutos = 0;
+
+                document.querySelectorAll('input[name="item"]:checked').forEach(chk => {
+                    const objItem = catalogo.itens.find(i => i.id === chk.value);
+                    if (!objItem) return;
+
+                    const qtd = Math.max(1, parseInt(quantidadesProdutos[objItem.id]) || 1);
+                    const parcial = Number(objItem.preco) * qtd;
+                    totalGeral += parcial;
+                    somaQtdProdutos += qtd;
+
+                    tableBody.innerHTML += `
+                        <tr data-id="${objItem.id}">
+                            <td><b>${objItem.nome}</b></td>
+                            <td style="text-align:center;"><input type="number" class="table-qty" id="qtd-${objItem.id}" value="${qtd}" min="1" oninput="atualizarParcialLinha('${objItem.id}', ${Number(objItem.preco)})"></td>
+                            <td style="text-align:right;" id="parcial-${objItem.id}">R$ ${parcial.toFixed(2)}</td>
+                            <td style="text-align:center;"><button class="btn-delete-row" onclick="removerItemResumo('${objItem.id}')" title="Excluir produto">🗑️</button></td>
+                        </tr>`;
+                });
+
+                if (tableBody.innerHTML === '') {
+                    tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.6);padding:12px;">Nenhum produto selecionado</td></tr>`;
+                }
+
+                const valorPorKit = somaQtdProdutos > 0 ? totalGeral / somaQtdProdutos : 0;
+                atualizarRodapeTotal(totalGeral, valorPorKit, somaQtdProdutos);
+                salvarSelecaoStorage();
+                return;
+            }
+
+            if (configMonteKitDiv) configMonteKitDiv.style.display = 'none';
+            if (tableHeadRow) {
+                tableHeadRow.innerHTML = `
+                    <th>Kit / Embalagem</th>
+                    <th style="text-align: center; width: 70px;">Qtd</th>
+                    <th style="text-align: right;">Parcial</th>
+                    <th style="text-align: center; width: 40px;">Ações</th>
+                `;
+            }
+
+            tableBody.innerHTML = '';
+            let totalGeral = 0;
+            let somaQtdKits = 0;
+            let faltaEmbalagem = false;
+
+            document.querySelectorAll('input[name="item"]:checked').forEach(chk => {
+                const objItem = catalogo.itens.find(i => i.id === chk.value);
+                if (!objItem) return;
+
+                const ehKitPronto = (objItem.categorias || []).includes('kits_prontos');
+                if (!ehKitPronto) return;
+
+                const embId = embalagensKitsProntosSelecionadas[objItem.id];
+                const objEmb = (objItem.opcoesEmbalagem || []).find(e => e.id === embId) || null;
+                const qtdInputExistente = document.getElementById(`qtd-${objItem.id}`);
+                const qtdSalva = quantidadesItensSelecionadas[objItem.id];
+                const qtd = qtdSalva !== undefined
+                    ? Math.max(1, parseInt(qtdSalva) || 1)
+                    : (qtdInputExistente ? Math.max(1, parseInt(qtdInputExistente.value) || 1) : 1);
+                quantidadesItensSelecionadas[objItem.id] = qtd;
+
+                if (!objEmb) {
+                    faltaEmbalagem = true;
+                    tableBody.innerHTML += `
+                        <tr data-id="${objItem.id}">
+                            <td><b>${objItem.nome}</b><br><span style="font-size:11px;color:#ffb4b4;">⚠ Escolha a embalagem</span></td>
+                            <td style="text-align:center;">${qtd}</td>
+                            <td style="text-align:right;">---</td>
+                            <td style="text-align:center;"><button class="btn-delete-row" onclick="removerItemResumo('${objItem.id}')" title="Excluir kit">🗑️</button></td>
+                        </tr>`;
+                    return;
+                }
+
+                const valorUnitarioFinal = obterValorTotalLinhaKit(objItem, objEmb);
+                const parcial = valorUnitarioFinal * qtd;
+                totalGeral += parcial;
+                somaQtdKits += qtd;
+
+                tableBody.innerHTML += `
+                    <tr data-id="${objItem.id}">
+                        <td><b>${objItem.nome}</b><br><span style="font-size:11px;opacity:.8;">Embalagem: ${objEmb.nome} — R$ ${valorUnitarioFinal.toFixed(2)}/kit</span></td>
+                        <td style="text-align:center;"><input type="number" class="table-qty" id="qtd-${objItem.id}" value="${qtd}" min="1" oninput="atualizarParcialKitPronto('${objItem.id}', ${valorUnitarioFinal})"></td>
+                        <td style="text-align:right;" id="parcial-${objItem.id}">R$ ${parcial.toFixed(2)}</td>
+                        <td style="text-align:center;"><button class="btn-delete-row" onclick="removerItemResumo('${objItem.id}')" title="Excluir kit">🗑️</button></td>
+                    </tr>`;
+            });
+
+            if (tableBody.innerHTML === '') {
+                tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.6);padding:12px;">Nenhum kit selecionado</td></tr>`;
+            }
+
+            if (faltaEmbalagem) {
+                document.getElementById('valor-por-kit').innerText = 'Escolha a embalagem';
+                document.getElementById('valor-total').innerText = '---';
+                const linhaResumoArte = document.getElementById('linha-resumo-arte');
+                if (linhaResumoArte) linhaResumoArte.style.display = 'none';
+            } else {
+                const valorPorKit = somaQtdKits > 0 ? totalGeral / somaQtdKits : 0;
+                atualizarRodapeTotal(totalGeral, valorPorKit, somaQtdKits);
+            }
 
         } else {
             if (configMonteKitDiv) configMonteKitDiv.style.display = 'none';
@@ -2062,6 +2484,20 @@
         salvarSelecaoStorage();
     }
 
+    function atualizarParcialKitPronto(rowId, precoUnitario) {
+        const qtdInput = document.getElementById(`qtd-${rowId}`);
+        const parcialTd = document.getElementById(`parcial-${rowId}`);
+        let qtd = parseInt(qtdInput?.value) || 1;
+        if (qtd < 1) qtd = 1;
+        if (qtdInput) qtdInput.value = qtd;
+        quantidadesItensSelecionadas[rowId] = qtd;
+
+        // Mantém a parcial visível imediatamente e recalcula usando o preço
+        // final da linha escolhida (não o preço base do kit).
+        if (parcialTd) parcialTd.innerText = `R$ ${(Number(precoUnitario) * qtd).toFixed(2)}`;
+        recalcularSomaTotalGeral();
+    }
+
     function atualizarParcialLinha(rowId, precoUnitario) {
         const qtdInput = document.getElementById(`qtd-${rowId}`);
         const parcialTd = document.getElementById(`parcial-${rowId}`);
@@ -2069,6 +2505,7 @@
         let qtd = parseInt(qtdInput.value) || 0;
         if (qtd < 1) qtd = 1;
         
+        quantidadesItensSelecionadas[rowId] = qtd;
         let parcial = precoUnitario * qtd;
         if (parcialTd) {
             parcialTd.innerText = `R$ ${parcial.toFixed(2)}`;
@@ -2080,7 +2517,7 @@
     function recalcularSomaTotalGeral() {
         let totalGeral = 0;
         let somaQtdKits = 0;
-        
+
         if (modoSelecionado === 'monte_seu_kit') {
             let embChecked = document.querySelector('input[name="embalagem"]:checked');
             if (embChecked) {
@@ -2094,11 +2531,83 @@
             let qtdKitsInput = document.getElementById('input-qtd-kits');
             let qtdKits = qtdKitsInput ? (parseInt(qtdKitsInput.value) || 1) : 1;
             if (qtdKits < 1) qtdKits = 1;
-            
+
             let valorPorKit = totalGeral;
             totalGeral = totalGeral * qtdKits;
             atualizarRodapeTotal(totalGeral, valorPorKit, qtdKits);
+
+        } else if (modoSelecionado === 'kits_prontos') {
+            // Datas Comemorativas e Brindes são produtos normais, mesmo estando
+            // dentro do modo visual de Kits Prontos.
+            const objOcasiaoRecalculo = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
+            const modulosRecalculo = objOcasiaoRecalculo ? (objOcasiaoRecalculo.tipoModulos || [objOcasiaoRecalculo.tipoModulo || 'eventos']) : [];
+            const ehDataOuBrindeRecalculo = modulosRecalculo.includes('datas_comemorativas') || modulosRecalculo.includes('brindes');
+
+            if (ehDataOuBrindeRecalculo) {
+                document.querySelectorAll('.resume-table tbody tr').forEach(tr => {
+                    const rowId = tr.getAttribute('data-id');
+                    if (!rowId) return;
+                    const qtdInput = document.getElementById(`qtd-${rowId}`);
+                    const parcialTd = document.getElementById(`parcial-${rowId}`);
+                    const objItem = catalogo.itens.find(i => i.id === rowId);
+                    if (!objItem) return;
+                    let qtd = qtdInput ? (parseInt(qtdInput.value) || 1) : 1;
+                    if (qtd < 1) qtd = 1;
+                    if (qtdInput) qtdInput.value = qtd;
+                    const parcial = Number(objItem.preco) * qtd;
+                    totalGeral += parcial;
+                    somaQtdKits += qtd;
+                    if (parcialTd) parcialTd.innerText = `R$ ${parcial.toFixed(2)}`;
+                });
+                const valorPorKit = somaQtdKits > 0 ? totalGeral / somaQtdKits : 0;
+                atualizarRodapeTotal(totalGeral, valorPorKit, somaQtdKits);
+                salvarSelecaoStorage();
+                return;
+            }
+
+            // Kits Prontos usam o valor FINAL da linha de embalagem escolhida
+            // para cada kit. Alterar a quantidade deve multiplicar esse valor.
+            let faltaEmbalagem = false;
+
+            document.querySelectorAll('input[name="item"]:checked').forEach(chk => {
+                const objItem = catalogo.itens.find(i => i.id === chk.value);
+                if (!objItem || !(objItem.categorias || []).includes('kits_prontos')) return;
+
+                const embId = embalagensKitsProntosSelecionadas[objItem.id];
+                const objEmb = (objItem.opcoesEmbalagem || []).find(e => e.id === embId) || null;
+                const qtdInput = document.getElementById(`qtd-${objItem.id}`);
+                let qtd = qtdInput ? (parseInt(qtdInput.value) || 1) : 1;
+                if (qtd < 1) qtd = 1;
+                if (qtdInput) qtdInput.value = qtd;
+                quantidadesItensSelecionadas[objItem.id] = qtd;
+
+                if (!objEmb) {
+                    faltaEmbalagem = true;
+                    return;
+                }
+
+                const valorUnitarioFinal = obterValorTotalLinhaKit(objItem, objEmb);
+                const parcial = valorUnitarioFinal * qtd;
+                totalGeral += parcial;
+                somaQtdKits += qtd;
+
+                const parcialTd = document.getElementById(`parcial-${objItem.id}`);
+                if (parcialTd) parcialTd.innerText = `R$ ${parcial.toFixed(2)}`;
+            });
+
+            if (faltaEmbalagem) {
+                document.getElementById('valor-por-kit').innerText = 'Escolha a embalagem';
+                document.getElementById('valor-total').innerText = '---';
+                const linhaResumoArte = document.getElementById('linha-resumo-arte');
+                if (linhaResumoArte) linhaResumoArte.style.display = 'none';
+            } else {
+                const valorPorKit = somaQtdKits > 0 ? totalGeral / somaQtdKits : 0;
+                atualizarRodapeTotal(totalGeral, valorPorKit, somaQtdKits);
+            }
+
         } else {
+            const tituloResumo = document.getElementById('titulo-resumo-orcamento');
+            if (tituloResumo) tituloResumo.innerText = 'Resumo do Orçamento';
             document.querySelectorAll('.resume-table tbody tr').forEach(tr => {
                 const rowId = tr.getAttribute('data-id');
                 if (rowId) {
@@ -2111,6 +2620,7 @@
                         const objItem = catalogo.itens.find(i => i.id === rowId);
                         if (objItem) {
                             totalGeral += objItem.preco * qtd;
+                            parcialTd.innerText = `R$ ${(Number(objItem.preco) * qtd).toFixed(2)}`;
                         }
                     }
                 }
@@ -2122,6 +2632,14 @@
     }
 
     function atualizarRodapeTotal(totalGeral, valorPorKit, quantidadeKits) {
+        // Nas Datas Comemorativas, o resumo deve mostrar somente o Valor Total.
+        // O campo Valor por kit continua existindo para os demais fluxos, preservando a estrutura atual.
+        const linhaValorPorKit = document.getElementById('linha-valor-por-kit');
+        const objOcasiaoRodape = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
+        const modulosOcasiaoRodape = objOcasiaoRodape ? (objOcasiaoRodape.tipoModulos || [objOcasiaoRodape.tipoModulo || 'eventos']) : [];
+        const ehDataComemorativaRodape = modulosOcasiaoRodape.includes('datas_comemorativas');
+        if (linhaValorPorKit) linhaValorPorKit.style.display = ehDataComemorativaRodape ? 'none' : 'flex';
+
         const radioArte = document.querySelector('input[name="criacao_arte"]:checked');
         const querArte = radioArte && radioArte.value === 'sim';
         const valorArte = catalogo.valorCriacaoArte || 0;
@@ -2149,6 +2667,7 @@
             ocasiaoSelecionadaId,
             modoSelecionado,
             embalagemId: document.querySelector('input[name="embalagem"]:checked')?.value || null,
+            embalagensKitsProntos: { ...embalagensKitsProntosSelecionadas },
             itensIds: Array.from(document.querySelectorAll('input[name="item"]:checked')).map(i => i.value),
             qtdKits: document.getElementById('input-qtd-kits')?.value || 1,
             obsKits: document.getElementById('input-obs-kits')?.value || '',
@@ -2163,7 +2682,12 @@
                 const estInput = document.getElementById(`estampa-${rowId}`);
                 const qtdInput = document.getElementById(`qtd-${rowId}`);
                 if (estInput) dadosSalvar.estampas[rowId] = estInput.value;
-                if (qtdInput) dadosSalvar.quantidadesItens[rowId] = qtdInput.value;
+                if (qtdInput) {
+                    dadosSalvar.quantidadesItens[rowId] = qtdInput.value;
+                    quantidadesItensSelecionadas[rowId] = qtdInput.value;
+                } else if (quantidadesItensSelecionadas[rowId] !== undefined) {
+                    dadosSalvar.quantidadesItens[rowId] = quantidadesItensSelecionadas[rowId];
+                }
             }
         });
 
@@ -2238,13 +2762,38 @@
                             }
                         }
                         if (dados.quantidadesItens) {
+                            quantidadesItensSelecionadas = { ...dados.quantidadesItens };
                             for (let rId in dados.quantidadesItens) {
                                 const qInput = document.getElementById(`qtd-${rId}`);
                                 if (qInput) qInput.value = dados.quantidadesItens[rId];
                             }
                         }
 
+                        if (modoSelecionado === 'kits_prontos' && dados.embalagensKitsProntos) {
+                            embalagensKitsProntosSelecionadas = { ...dados.embalagensKitsProntos };
+                            Object.keys(dados.embalagensKitsProntos).forEach(itemId => {
+                                const checkboxItem = document.querySelector(`input[name="item"][value="${itemId}"]`);
+                                if (checkboxItem && checkboxItem.checked) {
+                                    renderizarOpcoesEmbalagemKitPronto(itemId);
+                                    const radio = document.querySelector(`input[name="embalagem-kit-${itemId}"][value="${dados.embalagensKitsProntos[itemId]}"]`);
+                                    if (radio) {
+                                        radio.checked = true;
+                                        renderizarOpcoesEmbalagemKitPronto(itemId);
+                                    }
+                                }
+                            });
+                        }
+
                         calcularTotal();
+
+                        if (modoSelecionado === 'kits_prontos' && dados.quantidadesItens) {
+                            quantidadesItensSelecionadas = { ...quantidadesItensSelecionadas, ...dados.quantidadesItens };
+                            Object.keys(dados.quantidadesItens).forEach(itemId => {
+                                const qInput = document.getElementById(`qtd-${itemId}`);
+                                if (qInput) qInput.value = dados.quantidadesItens[itemId];
+                            });
+                            recalcularSomaTotalGeral();
+                        }
                     }, 100);
                 }
             }
@@ -2554,7 +3103,6 @@
         const itensOrdenados = catalogo.itens
             .map((item, idx) => ({ item, idx }))
             .sort((a, b) => {
-                // Um item recém-criado permanece no topo até receber um novo nome.
                 if (Boolean(a.item._novoCadastro) !== Boolean(b.item._novoCadastro)) {
                     return a.item._novoCadastro ? -1 : 1;
                 }
@@ -2563,7 +3111,56 @@
 
         itensOrdenados.forEach(({ item, idx }) => {
             let catsSelecionadas = item.categorias || (item.categoria ? [item.categoria] : []);
-            let isKitsProntosChecked = catsSelecionadas.includes('kits_prontos') ? 'checked' : '';
+            let isKitsProntosChecked = catsSelecionadas.includes('kits_prontos');
+
+            // Para Kits Prontos, o painel mostra somente as 3 linhas de embalagem.
+            // Os campos gerais do produto não são exibidos aqui.
+            if (isKitsProntosChecked) {
+                garantirOpcoesEmbalagemKitsProntos();
+                const opcoes = (item.opcoesEmbalagem || []).slice(0, 3);
+                const nomesPadrao = ['Linha Algodão', 'Linha Organza', 'Linha Eco'];
+
+                const linhasHTML = opcoes.map((op, opIdx) => `
+                    <details class="admin-kit-linha">
+                        <summary>${op.nome || nomesPadrao[opIdx]}</summary>
+                        <div class="admin-kit-linha-conteudo">
+                            <div class="admin-field">
+                                <label>Nome da linha:</label>
+                                <input type="text" value="${op.nome || nomesPadrao[opIdx]}" onchange="atualizarOpcaoEmbalagemKit(${idx}, ${opIdx}, 'nome', this.value)">
+                            </div>
+                            <div class="admin-field">
+                                <label>Título curto:</label>
+                                <input type="text" value="${op.tituloDesc || ''}" onchange="atualizarOpcaoEmbalagemKit(${idx}, ${opIdx}, 'tituloDesc', this.value)">
+                            </div>
+                            <div class="admin-field">
+                                <label>Descrição completa:</label>
+                                <textarea rows="2" onchange="atualizarOpcaoEmbalagemKit(${idx}, ${opIdx}, 'descricao', this.value)">${op.descricao || ''}</textarea>
+                            </div>
+                            <div class="admin-field">
+                                <label><b>Valor total da linha (R$):</b></label>
+                                <input type="number" step="0.01" value="${Number(obterValorTotalLinhaKit(item, op)).toFixed(2)}" onchange="atualizarOpcaoEmbalagemKit(${idx}, ${opIdx}, 'valorTotal', parseFloat(this.value)||0)">
+                            </div>
+                            <div class="admin-field">
+                                <label>Links das imagens (separados por vírgula):</label>
+                                <input type="text" value="${(op.imgs || []).join(', ')}" onchange="atualizarOpcaoImagensEmbalagemKit(${idx}, ${opIdx}, this.value)">
+                            </div>
+                        </div>
+                    </details>
+                `).join('');
+
+                container.innerHTML += `
+                    <details class="admin-item-box" id="admin-item-${idx}" ${item._novoCadastro ? 'open' : ''}>
+                        <summary onclick="event.stopPropagation();"><span class="admin-item-summary-name">${item.nome || 'Novo Item/Kit'}</span>${item._novoCadastro ? '<span class="admin-item-summary-new">NOVO</span>' : ''}<button type="button" class="btn-delete-item" onclick="event.preventDefault(); event.stopPropagation(); removerItemEstrutura('item', ${idx})">Excluir</button></summary>
+                        <div class="admin-item-details">
+                            <div class="admin-section-header" style="margin-bottom:8px;">
+                                <div class="admin-section-title">📦 Linhas de embalagem</div>
+                            </div>
+                            <div class="admin-kit-linhas">${linhasHTML}</div>
+                        </div>
+                    </details>
+                `;
+                return;
+            }
 
             let checkboxesCategoriasHTML = (catalogo.categorias || []).filter(cat => cat.id !== 'avulso' && cat.id !== 'kits_prontos').map(cat => {
                 let checked = catsSelecionadas.includes(cat.id) ? 'checked' : '';
@@ -2607,48 +3204,54 @@
                     <div class="admin-field"><label>Descrição Completa:</label><textarea rows="2" onchange="catalogo.itens[${idx}].descricao = this.value">${item.descricao || ''}</textarea></div>
                     <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('item', ${idx}, this.value)"></div>
                     <div class="admin-field"><label>Valor (R$):</label><input type="number" step="0.01" value="${item.preco}" onchange="catalogo.itens[${idx}].preco = parseFloat(this.value)||0"></div>
-                    
                     <div class="admin-field">
                         <label><b>⭐ Destaques de venda:</b></label>
                         <div class="admin-checkbox-group" style="max-height:none;">
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" ${item.maisVendido ? 'checked' : ''} onchange="catalogo.itens[${idx}].maisVendido = this.checked">
-                                ⭐ Mais vendido
-                            </label>
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" ${item.novidade ? 'checked' : ''} onchange="catalogo.itens[${idx}].novidade = this.checked">
-                                ✨ Novidade
-                            </label>
+                            <label class="admin-checkbox-label"><input type="checkbox" ${item.maisVendido ? 'checked' : ''} onchange="catalogo.itens[${idx}].maisVendido = this.checked"> ⭐ Mais vendido</label>
+                            <label class="admin-checkbox-label"><input type="checkbox" ${item.novidade ? 'checked' : ''} onchange="catalogo.itens[${idx}].novidade = this.checked"> ✨ Novidade</label>
                         </div>
                     </div>
-
                     <div class="admin-field">
                         <label><b>🏷️ Tipo / Categoria:</b></label>
                         <div class="admin-checkbox-group">
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" value="kits_prontos" ${isKitsProntosChecked} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Kits Prontos
-                            </label>
-                            <label class="admin-checkbox-label">
-                                <input type="checkbox" value="avulso" ${catsSelecionadas.includes('avulso') ? 'checked' : ''} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Avulso
-                            </label>
+                            <label class="admin-checkbox-label"><input type="checkbox" value="kits_prontos" ${isKitsProntosChecked ? 'checked' : ''} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this); renderizarCamposAdminItens()"> Kits Prontos</label>
+                            <label class="admin-checkbox-label"><input type="checkbox" value="avulso" ${catsSelecionadas.includes('avulso') ? 'checked' : ''} onchange="atualizarCheckboxArray('item', ${idx}, 'categorias', this)"> Avulso</label>
                             ${checkboxesCategoriasHTML}
                         </div>
                     </div>
-
-                    <div class="admin-field" style="margin-top: 8px;">
-                        <label><b>🎉 Ocasião:</b></label>
-                        <div class="admin-checkbox-group">${checkboxesOcasioesHTML}</div>
-                    </div>
-
-                    <div class="admin-field" style="margin-top: 8px;">
-                        <label><b>❌ Não Permitido Em:</b></label>
-                        <div class="admin-checkbox-group">${checkboxesProibidosHTML}</div>
-                    </div>
-
+                    <div class="admin-field" style="margin-top: 8px;"><label><b>🎉 Ocasião:</b></label><div class="admin-checkbox-group">${checkboxesOcasioesHTML}</div></div>
+                    <div class="admin-field" style="margin-top: 8px;"><label><b>❌ Não Permitido Em:</b></label><div class="admin-checkbox-group">${checkboxesProibidosHTML}</div></div>
                     </div>
                 </details>
             `;
         });
+    }
+
+    function obterValorTotalLinhaKit(item, op) {
+        if (!op) return 0;
+        if (op.valorTotal !== undefined && op.valorTotal !== null && op.valorTotal !== '') {
+            return Number(op.valorTotal) || 0;
+        }
+        // Compatibilidade com a versão anterior, em que op.preco era o adicional.
+        return (Number(item?.preco) || 0) + (Number(op.preco) || 0);
+    }
+
+    function atualizarOpcaoEmbalagemKit(itemIdx, opIdx, propriedade, valor) {
+        const item = catalogo.itens[itemIdx];
+        if (!item) return;
+        if (!Array.isArray(item.opcoesEmbalagem)) garantirOpcoesEmbalagemKitsProntos();
+        if (!item.opcoesEmbalagem || !item.opcoesEmbalagem[opIdx]) return;
+        if (propriedade === 'valorTotal') {
+            item.opcoesEmbalagem[opIdx].valorTotal = Number(valor) || 0;
+        } else {
+            item.opcoesEmbalagem[opIdx][propriedade] = valor;
+        }
+    }
+
+    function atualizarOpcaoImagensEmbalagemKit(itemIdx, opIdx, stringUrls) {
+        const item = catalogo.itens[itemIdx];
+        if (!item || !Array.isArray(item.opcoesEmbalagem) || !item.opcoesEmbalagem[opIdx]) return;
+        item.opcoesEmbalagem[opIdx].imgs = stringUrls.split(',').map(url => sanitizarUrlImagem(url)).filter(Boolean);
     }
 
     function atualizarImagensArray(tipo, idx, stringUrls) {
@@ -2703,7 +3306,11 @@
         } else {
             let nomePadrao = "Novo Item/Kit";
             const idUnico = gerarIdUnicoParaColecao(nomePadrao, catalogo.itens, 'item_');
-            catalogo.itens.unshift({ id: idUnico, nome: nomePadrao, tituloDesc: "", descricao: "", preco: 3.00, imgs: [], ocasioesIds: ocPadrao, categorias: [], proibidoEm: [], maisVendido: false, novidade: false, _novoCadastro: true });
+            catalogo.itens.unshift({ id: idUnico, nome: nomePadrao, tituloDesc: "", descricao: "", preco: 3.00, imgs: [], ocasioesIds: ocPadrao, categorias: [], proibidoEm: [], maisVendido: false, novidade: false, opcoesEmbalagem: [
+                { id: "linha_algodao", nome: "Linha Algodão", tituloDesc: "", descricao: "", preco: 0, valorTotal: 0, imgs: [] },
+                { id: "linha_organza", nome: "Linha Organza", tituloDesc: "", descricao: "", preco: 0, valorTotal: 0, imgs: [] },
+                { id: "linha_eco", nome: "Linha Eco", tituloDesc: "", descricao: "", preco: 0, valorTotal: 0, imgs: [] }
+            ], _novoCadastro: true });
             renderizarCamposAdminItens();
         }
     }
@@ -2768,6 +3375,24 @@
             if (!Array.isArray(item.ocasioesIds)) item.ocasioesIds = [];
             if (!Array.isArray(item.proibidoEm)) item.proibidoEm = [];
             if (!Array.isArray(item.imgs)) item.imgs = [];
+            if (Array.isArray(item.categorias) && item.categorias.includes('kits_prontos')) {
+                if (!Array.isArray(item.opcoesEmbalagem)) item.opcoesEmbalagem = [];
+                garantirOpcoesEmbalagemKitsProntos();
+                item.opcoesEmbalagem = item.opcoesEmbalagem.slice(0, 3);
+                item.opcoesEmbalagem.forEach((op, opIdx) => {
+                    op.id = op.id || ['linha_algodao','linha_organza','linha_eco'][opIdx];
+                    op.nome = String(op.nome || ['Linha Algodão','Linha Organza','Linha Eco'][opIdx]).trim();
+                    op.tituloDesc = String(op.tituloDesc || '');
+                    op.descricao = String(op.descricao || '');
+                    if (op.valorTotal === undefined || op.valorTotal === null || op.valorTotal === '') {
+                        op.valorTotal = (Number(item.preco) || 0) + (Number(op.preco) || 0);
+                    }
+                    op.valorTotal = Number(op.valorTotal) || 0;
+                    // Mantém op.preco apenas para compatibilidade com dados antigos.
+                    if (op.preco === undefined) op.preco = 0;
+                    if (!Array.isArray(op.imgs)) op.imgs = [];
+                });
+            }
             item.preco = Number(item.preco) || 0;
         });
         catalogo.embalagens.forEach(emb => {
@@ -2815,6 +3440,7 @@
     function compartilharOrcamento() {
         const objOcasiao = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
         let objEmb = null;
+        let embalagemPorKitPronto = {};
 
         if (modoSelecionado === 'monte_seu_kit') {
             const embChecked = document.querySelector('input[name="embalagem"]:checked');
@@ -2823,6 +3449,39 @@
                 return;
             }
             objEmb = catalogo.embalagens.find(e => e.id === embChecked.value);
+        } else if (modoSelecionado === 'kits_prontos') {
+            const objOcasiaoWhats = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
+            const modulosWhats = objOcasiaoWhats ? (objOcasiaoWhats.tipoModulos || [objOcasiaoWhats.tipoModulo || 'eventos']) : [];
+            const ehDataOuBrindeWhats = modulosWhats.includes('datas_comemorativas') || modulosWhats.includes('brindes');
+            const kitsMarcados = Array.from(document.querySelectorAll('input[name="item"]:checked'))
+                .map(chk => catalogo.itens.find(i => i.id === chk.value))
+                .filter(i => i && (ehDataOuBrindeWhats || (i.categorias || []).includes('kits_prontos')));
+            if (ehDataOuBrindeWhats) {
+                embalagemPorKitPronto = {};
+            }
+            for (const kit of kitsMarcados) {
+                const opId = embalagensKitsProntosSelecionadas[kit.id];
+                const op = (kit.opcoesEmbalagem || []).find(e => e.id === opId);
+                if (!op) {
+                    alert(`Por favor, selecione a embalagem do kit "${kit.nome}".`);
+                    return;
+                }
+                embalagemPorKitPronto[kit.id] = op;
+            }
+        }
+
+        if (modoSelecionado === 'kits_prontos') {
+            const objOcasiaoWhats2 = catalogo.ocasioes.find(o => o.id === ocasiaoSelecionadaId);
+            const modulosWhats2 = objOcasiaoWhats2 ? (objOcasiaoWhats2.tipoModulos || [objOcasiaoWhats2.tipoModulo || 'eventos']) : [];
+            const ehDataOuBrindeWhats2 = modulosWhats2.includes('datas_comemorativas') || modulosWhats2.includes('brindes');
+            const kitsSelecionados = Array.from(document.querySelectorAll('input[name="item"]:checked'))
+                .map(chk => catalogo.itens.find(i => i.id === chk.value))
+                .filter(i => i && !ehDataOuBrindeWhats2 && (i.categorias || []).includes('kits_prontos'));
+            const kitSemEmbalagem = kitsSelecionados.find(item => !document.querySelector(`input[name="embalagem-kit-${item.id}"]:checked`));
+            if (kitSemEmbalagem) {
+                alert(`Por favor, escolha a embalagem do kit "${kitSemEmbalagem.nome}".`);
+                return;
+            }
         }
 
         let itensSelecionados = [];
@@ -2866,7 +3525,17 @@
                 const parcial = Number(item.preco) * qtd;
                 texto += `• ${item.nome} — unitário R$ ${Number(item.preco).toFixed(2)} — qtd ${qtd} — total R$ ${parcial.toFixed(2)}\n`;
             } else {
-                texto += `• ${item.nome} — R$ ${Number(item.preco).toFixed(2)}\n`;
+                const ehKitPronto = (item.categorias || []).includes('kits_prontos');
+                if (modoSelecionado === 'kits_prontos' && ehKitPronto) {
+                    const embCheckedKit = document.querySelector(`input[name="embalagem-kit-${item.id}"]:checked`);
+                    const embKit = embCheckedKit ? catalogo.embalagens.find(e => e.id === embCheckedKit.value) : null;
+                    const qtdKit = parseInt(document.getElementById(`qtd-${item.id}`)?.value) || 1;
+                    const valorUnitarioFinal = embKit ? Number(item.preco) + Number(embKit.preco) : Number(item.preco);
+                    const parcialKit = valorUnitarioFinal * qtdKit;
+                    texto += `• ${item.nome} — embalagem: ${embKit ? embKit.nome : 'não selecionada'} — unitário R$ ${valorUnitarioFinal.toFixed(2)} — qtd ${qtdKit} — total R$ ${parcialKit.toFixed(2)}\n`;
+                } else {
+                    texto += `• ${item.nome} — R$ ${Number(item.preco).toFixed(2)}\n`;
+                }
             }
         });
 
@@ -2876,7 +3545,10 @@
 
         texto += `------------------------------------\n`;
         texto += `🎨 *Criação da Arte:* ${querArte ? 'Sim (R$ ' + valorArte.toFixed(2) + ')' : 'Não'}\n`;
-        texto += `🏷️ *Valor por kit:* ${valorPorKit}\n`;
+        const ehDataComemorativaWhats = objOcasiao && (objOcasiao.tipoModulos || [objOcasiao.tipoModulo || 'eventos']).includes('datas_comemorativas');
+        if (!ehDataComemorativaWhats) {
+            texto += `🏷️ *Valor por kit:* ${valorPorKit}\n`;
+        }
         texto += `💰 *VALOR TOTAL:* ${total}\n`;
         texto += `------------------------------------\n`;
         texto += `Gerado via eSense Costura Criativa`;
