@@ -1000,6 +1000,21 @@
         .admin-kit-linha .admin-field { margin-bottom:9px; }
         .admin-kit-linha .admin-field:last-child { margin-bottom:4px; }
 
+        /* UPLOAD DE IMAGENS - CLOUDINARY */
+        .admin-image-upload { border: 1px solid #ced4da; border-radius: 8px; padding: 10px; background: #fff; }
+        .admin-image-upload-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .admin-image-upload input[type="file"] { display: none; }
+        .btn-upload-image { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--primary); color: #fff; border: none; border-radius: 7px; padding: 8px 12px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; }
+        .btn-upload-image:hover { background: var(--primary-dark); }
+        .btn-upload-image:disabled { opacity: .65; cursor: wait; }
+        .admin-upload-status { font-size: 10px; color: #6c757d; min-height: 15px; margin-top: 5px; }
+        .admin-image-preview-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+        .admin-image-preview-item { position: relative; width: 62px; height: 62px; }
+        .admin-image-preview { width: 62px; height: 62px; object-fit: cover; border-radius: 6px; border: 1px solid #dee2e6; background: #f8f9fa; display: block; }
+        .btn-delete-admin-image { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border: 0; border-radius: 50%; background: #dc3545; color: #fff; font-size: 13px; font-weight: 800; line-height: 20px; padding: 0; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+        .btn-delete-admin-image:hover { background: #b02a37; transform: scale(1.08); }
+        .admin-image-url-readonly { margin-top: 7px; width: 100%; box-sizing: border-box; font-size: 10px !important; color: #6c757d !important; background: #f8f9fa !important; }
+
         /* MODO RESPONSIVO CELULAR */
         @media (max-width: 480px) {
             body { padding: 10px; }
@@ -1355,32 +1370,197 @@
 </script>
 
 <script>
-    async function fazerUploadCloudinary(arquivo) {
-      const cloudName = "qeqv2pcm"; 
-      const uploadPreset = "esense_mimos"; 
+    const CLOUDINARY_CONFIG = {
+        cloudName: "qeqv2pcm",
+        uploadPreset: "esense_mimos",
+        folder: "esense/catalogo"
+    };
 
-      const formData = new FormData();
-      formData.append("file", arquivo);
-      formData.append("upload_preset", uploadPreset);
+    // Prepara a imagem no navegador: máximo de 1200 px no maior lado e WebP com qualidade 82%.
+    async function prepararImagemParaCloudinary(arquivo) {
+        if (!arquivo || !arquivo.type || !arquivo.type.startsWith('image/')) {
+            throw new Error('Selecione um arquivo de imagem válido.');
+        }
 
-      try {
-        const resposta = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-          method: "POST",
-          body: formData
+        const dataUrl = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => reject(new Error('Não foi possível ler a imagem.'));
+            reader.readAsDataURL(arquivo);
+        });
+
+        const img = await new Promise((resolve, reject) => {
+            const imagem = new Image();
+            imagem.onload = () => resolve(imagem);
+            imagem.onerror = () => reject(new Error('Não foi possível processar a imagem.'));
+            imagem.src = dataUrl;
+        });
+
+        const limite = 1200;
+        const maiorLado = Math.max(img.naturalWidth || img.width, img.naturalHeight || img.height);
+        const escala = maiorLado > limite ? limite / maiorLado : 1;
+        const largura = Math.max(1, Math.round((img.naturalWidth || img.width) * escala));
+        const altura = Math.max(1, Math.round((img.naturalHeight || img.height) * escala));
+
+        const canvas = document.createElement('canvas');
+        canvas.width = largura;
+        canvas.height = altura;
+        const ctx = canvas.getContext('2d', { alpha: true });
+        if (!ctx) throw new Error('Seu navegador não conseguiu preparar a imagem.');
+        ctx.drawImage(img, 0, 0, largura, altura);
+
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/webp', 0.82));
+        if (!blob) throw new Error('Não foi possível converter a imagem para WebP.');
+
+        return new File([blob], 'imagem.webp', { type: 'image/webp', lastModified: Date.now() });
+    }
+
+    async function fazerUploadCloudinary(arquivo, pasta = CLOUDINARY_CONFIG.folder) {
+        const imagemWebp = await prepararImagemParaCloudinary(arquivo);
+        const formData = new FormData();
+        formData.append("file", imagemWebp);
+        formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+        if (pasta) formData.append("folder", pasta);
+
+        const resposta = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`, {
+            method: "POST",
+            body: formData
         });
 
         const dados = await resposta.json();
-        
-        if (dados.secure_url) {
-          console.log("URL Segura da Imagem:", dados.secure_url);
-          return dados.secure_url; 
-        } else {
-          throw new Error("Falha no upload para o Cloudinary.");
+        if (!resposta.ok || !dados.secure_url) {
+            console.error("Resposta Cloudinary:", dados);
+            throw new Error(dados.error?.message || "Falha no upload para o Cloudinary.");
         }
-      } catch (error) {
-        console.error("Erro no upload:", error);
-        alert("Erro ao enviar a imagem.");
-      }
+
+        return dados.secure_url;
+    }
+
+    function obterListaImagensAdmin(tipo, idx, opIdx = null) {
+        if (tipo === 'item') return catalogo.itens[idx]?.imgs || [];
+        if (tipo === 'embalagem') return catalogo.embalagens[idx]?.imgs || [];
+        if (tipo === 'ocasiao') return catalogo.ocasioes[idx]?.imgs || [];
+        if (tipo === 'kit_opcao') return catalogo.itens[idx]?.opcoesEmbalagem?.[opIdx]?.imgs || [];
+        return [];
+    }
+
+    function atualizarListaImagensAdmin(tipo, idx, urls, opIdx = null) {
+        const limpas = urls.map(sanitizarUrlImagem).filter(Boolean);
+        if (tipo === 'item' && catalogo.itens[idx]) catalogo.itens[idx].imgs = limpas;
+        if (tipo === 'embalagem' && catalogo.embalagens[idx]) catalogo.embalagens[idx].imgs = limpas;
+        if (tipo === 'ocasiao' && catalogo.ocasioes[idx]) catalogo.ocasioes[idx].imgs = limpas;
+        if (tipo === 'kit_opcao' && catalogo.itens[idx]?.opcoesEmbalagem?.[opIdx]) {
+            catalogo.itens[idx].opcoesEmbalagem[opIdx].imgs = limpas;
+        }
+    }
+
+    function renderizarPreviewImagensAdmin(tipo, idx, opIdx = null) {
+        const urls = obterListaImagensAdmin(tipo, idx, opIdx);
+        return urls.map((url, imgIdx) => `
+            <div class="admin-image-preview-item">
+                <img class="admin-image-preview" src="${sanitizarUrlImagem(url)}" alt="Imagem ${imgIdx + 1}" onerror="this.style.display='none'">
+                <button type="button" class="btn-delete-admin-image" title="Excluir esta imagem" aria-label="Excluir esta imagem" onclick="removerImagemAdmin('${tipo}', ${idx}, ${imgIdx}, ${opIdx === null ? 'null' : opIdx})">×</button>
+            </div>
+        `).join('');
+    }
+
+    function removerImagemAdmin(tipo, idx, imgIdx, opIdx = null) {
+        const urls = obterListaImagensAdmin(tipo, idx, opIdx);
+        if (!urls[imgIdx]) return;
+
+        if (!confirm('Excluir esta imagem da lista?\n\nA alteração será gravada no Firebase quando você clicar em "Salvar Alterações".')) return;
+
+        urls.splice(imgIdx, 1);
+        atualizarListaImagensAdmin(tipo, idx, urls, opIdx);
+
+        const bloco = document.querySelector(`.admin-image-upload[data-image-key="${tipo}-${idx}-${opIdx === null ? 'main' : opIdx}"]`);
+        if (bloco) {
+            const preview = bloco.querySelector('.admin-image-preview-list');
+            if (preview) preview.innerHTML = renderizarPreviewImagensAdmin(tipo, idx, opIdx);
+            const campoUrls = bloco.querySelector('.admin-image-url-readonly');
+            if (campoUrls) campoUrls.value = urls.join(', ');
+            const status = bloco.querySelector('.admin-upload-status');
+            if (status) status.textContent = '🗑️ Imagem removida da lista. Clique em "Salvar Alterações" para gravar no Firebase.';
+        }
+    }
+
+    async function uploadImagemAdmin(tipo, idx, input, opIdx = null) {
+        const arquivos = Array.from(input?.files || []);
+        if (!arquivos.length) return;
+
+        const bloco = input.closest('.admin-image-upload');
+        const botao = bloco?.querySelector('.btn-upload-image');
+        const status = bloco?.querySelector('.admin-upload-status');
+
+        if (botao) {
+            botao.disabled = true;
+            botao.textContent = `⏳ Enviando ${arquivos.length} imagem(ns)...`;
+        }
+        if (status) status.textContent = `Preparando ${arquivos.length} imagem(ns), redimensionando e convertendo para WebP...`;
+
+        try {
+            const pasta = tipo === 'item' ? 'esense/catalogo/itens'
+                : tipo === 'embalagem' ? 'esense/catalogo/embalagens'
+                : tipo === 'ocasiao' ? 'esense/catalogo/ocasioes'
+                : 'esense/catalogo/kits';
+
+            // Envia todas as imagens selecionadas simultaneamente.
+            const resultados = await Promise.allSettled(
+                arquivos.map(arquivo => fazerUploadCloudinary(arquivo, pasta))
+            );
+
+            const urlsNovas = resultados
+                .filter(resultado => resultado.status === 'fulfilled')
+                .map(resultado => resultado.value);
+            const erros = resultados.filter(resultado => resultado.status === 'rejected');
+
+            if (urlsNovas.length) {
+                const urls = [...obterListaImagensAdmin(tipo, idx, opIdx), ...urlsNovas];
+                atualizarListaImagensAdmin(tipo, idx, urls, opIdx);
+
+                const preview = bloco?.querySelector('.admin-image-preview-list');
+                if (preview) preview.innerHTML = renderizarPreviewImagensAdmin(tipo, idx, opIdx);
+
+                const campoUrls = bloco?.querySelector('.admin-image-url-readonly');
+                if (campoUrls) campoUrls.value = urls.join(', ');
+            }
+
+            if (erros.length) {
+                console.error('Falhas no upload:', erros);
+                if (status) status.textContent = `⚠️ ${urlsNovas.length} enviada(s) e ${erros.length} com erro. Clique em "Salvar Alterações" para gravar as enviadas.`;
+                alert(`${urlsNovas.length} imagem(ns) enviada(s) com sucesso.\n${erros.length} imagem(ns) não puderam ser enviadas.`);
+            } else {
+                if (status) status.textContent = `✅ ${urlsNovas.length} imagem(ns) enviada(s) com sucesso. Clique em "Salvar Alterações" para gravar no Firebase.`;
+            }
+
+            input.value = '';
+        } catch (error) {
+            console.error('Erro no upload das imagens:', error);
+            if (status) status.textContent = '❌ ' + (error.message || 'Erro ao enviar as imagens.');
+            alert('Não foi possível enviar as imagens para o Cloudinary.\n\n' + (error.message || 'Verifique a configuração do Cloudinary.'));
+        } finally {
+            if (botao) {
+                botao.disabled = false;
+                botao.textContent = '📷 Escolher imagens';
+            }
+        }
+    }
+    function htmlUploadImagemAdmin(tipo, idx, urls = [], opIdx = null) {
+        const chave = `${tipo}-${idx}-${opIdx === null ? 'main' : opIdx}`;
+        const lista = urls || [];
+        return `
+            <div class="admin-image-upload" data-image-key="${chave}">
+                <div class="admin-image-upload-row">
+                    <label class="btn-upload-image" for="upload-img-${chave}">📷 Escolher imagens</label>
+                    <input id="upload-img-${chave}" type="file" accept="image/*" multiple
+                           onchange="uploadImagemAdmin('${tipo}', ${idx}, this, ${opIdx === null ? 'null' : opIdx})">
+                </div>
+                <div class="admin-upload-status">Até 1200 px • WebP • qualidade 82% • Cloudinary</div>
+                <div class="admin-image-preview-list">${renderizarPreviewImagensAdmin(tipo, idx, opIdx)}</div>
+                <input class="admin-image-url-readonly" type="text" value="${lista.join(', ')}" readonly
+                       title="URLs geradas automaticamente pelo Cloudinary">
+            </div>
+        `;
     }
 
     function sanitizarUrlImagem(url) {
@@ -2989,7 +3169,7 @@
                             <label class="admin-checkbox-label"><input type="checkbox" value="datas_comemorativas" ${isDcChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Datas Comemorativas</label>
                             <label class="admin-checkbox-label"><input type="checkbox" value="brindes" ${isBrChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Brindes</label>
                         </div></div>
-                        <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('ocasiao', ${idx}, this.value)"></div>
+                        <div class="admin-field"><label><b>📷 Imagem da ocasião:</b></label>${htmlUploadImagemAdmin('ocasiao', idx, oc.imgs || [])}</div>
                     </div>
                 </details>`;
         });
@@ -3032,7 +3212,7 @@
                     <div class="admin-field"><label>Nome:</label><input type="text" value="${emb.nome}" oninput="atualizarNomeEId('embalagem', ${idx}, this.value)" onblur="finalizarNomeNovoCadastro('embalagem', ${idx}, this.value)"></div>
                     <div class="admin-field"><label>Título da Descrição:</label><input type="text" value="${emb.tituloDesc || ''}" onchange="catalogo.embalagens[${idx}].tituloDesc = this.value"></div>
                     <div class="admin-field"><label>Descrição Completa:</label><textarea rows="2" onchange="catalogo.embalagens[${idx}].descricao = this.value">${emb.descricao || ''}</textarea></div>
-                    <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('embalagem', ${idx}, this.value)"></div>
+                    <div class="admin-field"><label><b>📷 Imagem da embalagem:</b></label>${htmlUploadImagemAdmin('embalagem', idx, emb.imgs || [])}</div>
                     <div class="admin-field"><label>Valor (R$):</label><input type="number" step="0.01" value="${emb.preco}" onchange="catalogo.embalagens[${idx}].preco = parseFloat(this.value)||0"></div>
                     <div class="admin-field">
                         <label><b>🎉 Ocasião:</b></label>
@@ -3141,8 +3321,8 @@
                                 <input type="number" step="0.01" value="${Number(obterValorTotalLinhaKit(item, op)).toFixed(2)}" onchange="atualizarOpcaoEmbalagemKit(${idx}, ${opIdx}, 'valorTotal', parseFloat(this.value)||0)">
                             </div>
                             <div class="admin-field">
-                                <label>Links das imagens (separados por vírgula):</label>
-                                <input type="text" value="${(op.imgs || []).join(', ')}" onchange="atualizarOpcaoImagensEmbalagemKit(${idx}, ${opIdx}, this.value)">
+                                <label><b>📷 Imagens da linha:</b></label>
+                                ${htmlUploadImagemAdmin('kit_opcao', idx, op.imgs || [], opIdx)}
                             </div>
                         </div>
                     </details>
@@ -3202,7 +3382,7 @@
                     <div class="admin-field"><label>Nome:</label><input type="text" value="${item.nome}" oninput="atualizarNomeEId('item', ${idx}, this.value)" onblur="finalizarNomeNovoCadastro('item', ${idx}, this.value)"></div>
                     <div class="admin-field"><label>Título da Descrição:</label><input type="text" value="${item.tituloDesc || ''}" onchange="catalogo.itens[${idx}].tituloDesc = this.value"></div>
                     <div class="admin-field"><label>Descrição Completa:</label><textarea rows="2" onchange="catalogo.itens[${idx}].descricao = this.value">${item.descricao || ''}</textarea></div>
-                    <div class="admin-field"><label>Link (URL das imagens separadas por vírgula):</label><input type="text" value="${imgsString}" onchange="atualizarImagensArray('item', ${idx}, this.value)"></div>
+                    <div class="admin-field"><label><b>📷 Imagem do produto:</b></label>${htmlUploadImagemAdmin('item', idx, item.imgs || [])}</div>
                     <div class="admin-field"><label>Valor (R$):</label><input type="number" step="0.01" value="${item.preco}" onchange="catalogo.itens[${idx}].preco = parseFloat(this.value)||0"></div>
                     <div class="admin-field">
                         <label><b>⭐ Destaques de venda:</b></label>
