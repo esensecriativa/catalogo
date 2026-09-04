@@ -1556,13 +1556,82 @@
                     <label class="btn-upload-image" for="upload-img-${chave}">📷 Escolher imagens</label>
                     <input id="upload-img-${chave}" type="file" accept="image/*" multiple
                            onchange="uploadImagemAdmin('${tipo}', ${idx}, this, ${opIdx === null ? 'null' : opIdx})">
+                    <input id="link-img-${chave}" type="text" placeholder="Cole vários links separados por vírgula" style="flex:1; min-width:220px; padding:8px 10px; border:1px solid #dee2e6; border-radius:7px; font-size:11px; font-family:'Montserrat',sans-serif;">
+                    <button type="button" class="btn-upload-image" onclick="adicionarLinkImagemAdmin('${tipo}', ${idx}, '${chave}', ${opIdx === null ? 'null' : opIdx})">🔗 Adicionar link</button>
                 </div>
-                <div class="admin-upload-status">Até 1200 px • WebP • qualidade 82% • Cloudinary</div>
+                <div class="admin-upload-status">Até 1200 px • WebP • qualidade 82% • Cloudinary | Você também pode adicionar uma imagem por link</div>
                 <div class="admin-image-preview-list">${renderizarPreviewImagensAdmin(tipo, idx, opIdx)}</div>
                 <input class="admin-image-url-readonly" type="text" value="${lista.join(', ')}" readonly
                        title="URLs geradas automaticamente pelo Cloudinary">
             </div>
         `;
+    }
+
+    function adicionarLinkImagemAdmin(tipo, idx, chave, opIdx = null) {
+        const campo = document.getElementById(`link-img-${chave}`);
+        if (!campo) return;
+
+        const linksDigitados = campo.value
+            .split(',')
+            .map(link => link.trim())
+            .filter(Boolean);
+
+        if (!linksDigitados.length) {
+            alert('Cole pelo menos um link de imagem antes de adicionar. Para vários links, separe-os por vírgula.');
+            campo.focus();
+            return;
+        }
+
+        const urlsValidas = [];
+        const linksInvalidos = [];
+
+        linksDigitados.forEach(link => {
+            const url = sanitizarUrlImagem(link);
+            if (!url) return;
+
+            try {
+                const parsed = new URL(url);
+                if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error();
+                urlsValidas.push(url);
+            } catch (e) {
+                linksInvalidos.push(link);
+            }
+        });
+
+        if (!urlsValidas.length) {
+            alert('Nenhum link válido foi encontrado. Use links começando com http:// ou https:// e separe vários links por vírgula.');
+            campo.focus();
+            return;
+        }
+
+        const urlsAtuais = obterListaImagensAdmin(tipo, idx, opIdx);
+        const novasUrls = urlsValidas.filter(url => !urlsAtuais.includes(url));
+        const duplicadas = urlsValidas.filter(url => urlsAtuais.includes(url));
+
+        if (!novasUrls.length) {
+            alert('Todas as imagens informadas já foram adicionadas.');
+            campo.value = '';
+            return;
+        }
+
+        atualizarListaImagensAdmin(tipo, idx, [...urlsAtuais, ...novasUrls], opIdx);
+
+        const bloco = document.querySelector(`.admin-image-upload[data-image-key="${chave}"]`);
+        if (bloco) {
+            const preview = bloco.querySelector('.admin-image-preview-list');
+            if (preview) preview.innerHTML = renderizarPreviewImagensAdmin(tipo, idx, opIdx);
+            const campoUrls = bloco.querySelector('.admin-image-url-readonly');
+            if (campoUrls) campoUrls.value = obterListaImagensAdmin(tipo, idx, opIdx).join(', ');
+            const status = bloco.querySelector('.admin-upload-status');
+            if (status) {
+                let mensagem = `🔗 ${novasUrls.length} imagem(ns) por link adicionada(s). Clique em "Salvar Alterações" para gravar no Firebase.`;
+                if (duplicadas.length) mensagem += ` ${duplicadas.length} duplicada(s) ignorada(s).`;
+                if (linksInvalidos.length) mensagem += ` ${linksInvalidos.length} link(s) inválido(s) ignorado(s).`;
+                status.textContent = mensagem;
+            }
+        }
+
+        campo.value = '';
     }
 
     function sanitizarUrlImagem(url) {
