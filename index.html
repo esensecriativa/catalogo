@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!-- CORREÇÃO PARA IMAGENS DO IBB / CROSS-ORIGIN HOTLINKING -->
     <meta name="referrer" content="no-referrer">
-    <title>eSense Costura Criativa - Orçamento de Lembrancinhas</title>
+    <title>eSense | Mimos - Orçamento de Lembrancinhas</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -303,6 +303,7 @@
             margin-bottom: 4px;
             display: block;
             text-align: left;
+            white-space: pre-wrap;
         }
 
         .btn-ver-mais {
@@ -777,6 +778,7 @@
             color: var(--text);
             max-height: 60vh;
             overflow-y: auto;
+            white-space: pre-wrap;
         }
 
         /* MODAL SENHA ADMINISTRADOR */
@@ -1008,7 +1010,7 @@
         .btn-upload-image:hover { background: var(--primary-dark); }
         .btn-upload-image:disabled { opacity: .65; cursor: wait; }
         .admin-upload-status { font-size: 10px; color: #6c757d; min-height: 15px; margin-top: 5px; }
-        .admin-image-preview-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+        .admin-image-preview-list { display: none; }
         .admin-image-preview-item { position: relative; width: 62px; height: 62px; }
         .admin-image-preview { width: 62px; height: 62px; object-fit: cover; border-radius: 6px; border: 1px solid #dee2e6; background: #f8f9fa; display: block; }
         .btn-delete-admin-image { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border: 0; border-radius: 50%; background: #dc3545; color: #fff; font-size: 13px; font-weight: 800; line-height: 20px; padding: 0; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
@@ -1821,7 +1823,7 @@
                         ${carouselHtml}
                         <div class="info-container" style="background: rgba(192, 160, 56, 0.12); text-align: center; justify-content: center; padding: 12px 8px;">
                             <span class="item-title" style="margin-bottom: 2px;">${oc.nome}</span>
-                            <span style="font-size: 11px; font-weight: 700; color: var(--primary-dark); display: block;">EM BREVE NOVIDADES 😊</span>
+                            <span style="font-size: 11px; font-weight: 700; color: var(--primary-dark); display: block;">NOVIDADES EM BREVE</span>
                         </div>
                     </div>
                 `;
@@ -1890,17 +1892,31 @@
         track.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
+    function escaparHtml(texto) {
+        return String(texto || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function formatarDescricaoComNegrito(texto) {
+        const textoSeguro = escaparHtml(texto);
+        return textoSeguro.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
+    }
+
     function criarHtmlDescricao(nomeItem, tituloDesc, descricaoCompleta) {
-        let exibeTitulo = tituloDesc ? tituloDesc : '';
+        let exibeTitulo = tituloDesc ? formatarDescricaoComNegrito(tituloDesc) : '';
         let temDesc = (descricaoCompleta && descricaoCompleta.trim().length > 0);
-        
+
         let safeTituloModal = encodeURIComponent(nomeItem + (tituloDesc ? ' - ' + tituloDesc : ''));
         let safeDescModal = encodeURIComponent(descricaoCompleta || '');
 
         return `
             <div>
                 ${exibeTitulo ? `<span class="item-desc-title">${exibeTitulo}</span>` : ''}
-                ${temDesc ? `<span class="btn-ver-mais" onclick="abrirModalDescricao(event, '${safeTituloModal}', '${safeDescModal}')">ver mais</span>` : ''}
+                ${temDesc ? `<span class="btn-ver-mais" onclick="abrirModalDescricao(event, '${safeTituloModal}', '${safeDescModal}')">detalhes</span>` : ''}
             </div>
         `;
     }
@@ -1908,7 +1924,7 @@
     function criarHtmlDescricaoKitPronto(nomeItem, descricaoCompleta) {
         let temDesc = (descricaoCompleta && descricaoCompleta.trim().length > 0);
         if (!temDesc) return '';
-        
+
         let safeTituloModal = encodeURIComponent(nomeItem);
         let safeDescModal = encodeURIComponent(descricaoCompleta);
 
@@ -1921,8 +1937,8 @@
 
     function abrirModalDescricao(e, tituloEnc, textoEnc) {
         if(e) e.stopPropagation();
-        document.getElementById('desc-modal-titulo').innerText = decodeURIComponent(tituloEnc);
-        document.getElementById('desc-modal-texto').innerText = decodeURIComponent(textoEnc);
+        document.getElementById('desc-modal-titulo').innerHTML = formatarDescricaoComNegrito(decodeURIComponent(tituloEnc));
+        document.getElementById('desc-modal-texto').innerHTML = formatarDescricaoComNegrito(decodeURIComponent(textoEnc));
         document.getElementById('modal-desc').style.display = 'flex';
     }
 
@@ -3163,7 +3179,7 @@
                     <div class="admin-item-details">
                         <div class="admin-field"><label>Nome:</label><input type="text" value="${oc.nome || ''}" oninput="atualizarNomeEId('ocasiao', ${idx}, this.value)"></div>
                         <div class="admin-field"><label>Descrição Breve:</label><textarea rows="2" onchange="catalogo.ocasioes[${idx}].descricao = this.value">${oc.descricao || ''}</textarea></div>
-                        <div class="admin-field"><label><b>Status da Página:</b></label><div class="admin-checkbox-group"><label class="admin-checkbox-label"><input type="checkbox" ${isConstrucaoChecked} onchange="catalogo.ocasioes[${idx}].emConstrucao = this.checked"> 🚧 Marcar como Em Construção (Exibir "EM BREVE NOVIDADES 😊")</label></div></div>
+                        <div class="admin-field"><label><b>Status da Página:</b></label><div class="admin-checkbox-group"><label class="admin-checkbox-label"><input type="checkbox" ${isConstrucaoChecked} onchange="catalogo.ocasioes[${idx}].emConstrucao = this.checked"> 🚧 Marcar como Em Construção (Exibir "NOVIDADES EM BREVE")</label></div></div>
                         <div class="admin-field"><label><b>Módulos / Categorias da Página Inicial (Múltipla Seleção):</b></label><div class="admin-checkbox-group">
                             <label class="admin-checkbox-label"><input type="checkbox" value="eventos" ${isEvChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Eventos</label>
                             <label class="admin-checkbox-label"><input type="checkbox" value="datas_comemorativas" ${isDcChecked} onchange="atualizarCheckboxArrayOcasiao(${idx}, 'tipoModulos', this)"> Datas Comemorativas</label>
