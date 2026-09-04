@@ -3760,17 +3760,21 @@
             const kitsMarcados = Array.from(document.querySelectorAll('input[name="item"]:checked'))
                 .map(chk => catalogo.itens.find(i => i.id === chk.value))
                 .filter(i => i && (ehDataOuBrindeWhats || (i.categorias || []).includes('kits_prontos')));
+            // Em Datas Comemorativas e Brindes não existe seleção de embalagem.
+            // Esses produtos são tratados como produtos normais, sem exigir
+            // qualquer linha de embalagem do Kit Pronto.
             if (ehDataOuBrindeWhats) {
                 embalagemPorKitPronto = {};
-            }
-            for (const kit of kitsMarcados) {
-                const opId = embalagensKitsProntosSelecionadas[kit.id];
-                const op = (kit.opcoesEmbalagem || []).find(e => e.id === opId);
-                if (!op) {
-                    alert(`Por favor, selecione a embalagem do kit "${kit.nome}".`);
-                    return;
+            } else {
+                for (const kit of kitsMarcados) {
+                    const opId = embalagensKitsProntosSelecionadas[kit.id];
+                    const op = (kit.opcoesEmbalagem || []).find(e => e.id === opId);
+                    if (!op) {
+                        alert(`Por favor, selecione a embalagem do kit "${kit.nome}".`);
+                        return;
+                    }
+                    embalagemPorKitPronto[kit.id] = op;
                 }
-                embalagemPorKitPronto[kit.id] = op;
             }
         }
 
