@@ -404,6 +404,38 @@
         .total-row { border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 12px; margin-top: 12px; font-size: 22px; font-weight: 700; color: var(--primary-light); }
         .valor-kit-row { font-size: 15px; font-weight: 600; color: var(--primary-light); margin-top: 5px; margin-bottom: 15px; opacity: 0.95; display: flex; justify-content: space-between; }
 
+        .orcamento-nome-cliente {
+            margin-top: 18px;
+            padding: 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+        }
+        .orcamento-nome-cliente label {
+            display: block;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--primary-light);
+            margin-bottom: 6px;
+        }
+        .orcamento-nome-cliente input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .orcamento-nome-cliente input::placeholder { color: rgba(255,255,255,0.55); }
+        .orcamento-nome-cliente input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(192,160,56,0.15);
+        }
+
         /* Tabela Resumo Personalizada */
         .resume-table-container {
             width: 100%;
@@ -1141,6 +1173,74 @@
         }
 
         /* MODO RESPONSIVO CELULAR */
+        .visitas-dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .visita-card {
+            border: 1px solid rgba(192,160,56,.22);
+            background: #fffdf4;
+            border-radius: 10px;
+            padding: 14px;
+        }
+        .visita-card .visita-label {
+            display: block;
+            font-size: 10px;
+            color: #6c757d;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .visita-card .visita-valor {
+            display: block;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        .visita-card .visita-detalhe {
+            display: block;
+            font-size: 9px;
+            color: #868e96;
+            margin-top: 3px;
+        }
+        .visitas-ranking {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background: #f8f9fa;
+            overflow: hidden;
+        }
+        .visitas-ranking-title {
+            padding: 10px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            background: #fff;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .visitas-ranking-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .visitas-ranking-list li {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 12px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 10px;
+        }
+        .visitas-ranking-list li:last-child { border-bottom: none; }
+        .visitas-ranking-list .visita-nome { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .visitas-ranking-list .visita-qtd { font-weight: 700; color: var(--primary-dark); }
+        .visitas-atualizacao {
+            font-size: 9px;
+            color: #868e96;
+            margin-top: 10px;
+            text-align: right;
+        }
+
         @media (max-width: 480px) {
             body { padding: 10px; }
             .container { padding: 15px; border-radius: 14px; }
@@ -1366,6 +1466,11 @@
                     <div class="resume-row" id="linha-resumo-arte" style="display: none;"><span id="txt-resumo-arte-label">Criação da Arte:</span><span id="resumo-valor-arte">R$ 0,00</span></div>
                     <div class="valor-kit-row" id="linha-valor-por-kit"><span>Valor por kit:</span><span id="valor-por-kit">---</span></div>
                     <div class="resume-row total-row"><span id="txt-resumo-total-label">Valor Total:</span><span id="valor-total">---</span></div>
+
+                    <div class="orcamento-nome-cliente">
+                        <label for="input-nome-cliente">Nome:</label>
+                        <input type="text" id="input-nome-cliente" placeholder="Digite seu nome" autocomplete="name">
+                    </div>
                 </div>
 
                 <button class="btn-share-budget" onclick="compartilharOrcamento()">
@@ -1452,6 +1557,7 @@
         <button class="admin-tab-btn" onclick="mudarAbaAdmin('tab-embalagens')">Embalagens</button>
         <button class="admin-tab-btn" onclick="mudarAbaAdmin('tab-ocasioes')">Ocasiões</button>
         <button class="admin-tab-btn" onclick="mudarAbaAdmin('tab-config')">Configurações Gerais</button>
+        <button class="admin-tab-btn" onclick="mudarAbaAdmin('tab-visitas'); carregarEstatisticasVisitas()">📊 Visitas</button>
     </div>
 
     <!-- CONTEÚDO DA ABA: ITENS -->
@@ -1530,6 +1636,83 @@
         </div>
     </div>
 
+    <!-- CONTEÚDO DA ABA: ESTATÍSTICAS DE VISITAS -->
+    <div id="tab-visitas" class="admin-tab-content">
+        <div class="admin-section-header">
+            <div class="admin-section-title">📊 Estatísticas de Visitas</div>
+            <button type="button" class="btn-add-item" onclick="carregarEstatisticasVisitas()">↻ Atualizar</button>
+        </div>
+        <div class="visitas-dashboard">
+            <div class="visita-card">
+                <span class="visita-label">Visitas hoje</span>
+                <span class="visita-valor" id="visitas-hoje">—</span>
+                <span class="visita-detalhe" id="visitas-data-hoje"></span>
+            </div>
+            <div class="visita-card">
+                <span class="visita-label">Total de visitas</span>
+                <span class="visita-valor" id="visitas-total">—</span>
+                <span class="visita-detalhe">desde o início do contador</span>
+            </div>
+        </div>
+        <div class="visitas-ranking">
+            <div class="visitas-ranking-title">Ocasiões mais acessadas</div>
+            <ul class="visitas-ranking-list" id="visitas-ranking-list">
+                <li><span class="visita-nome">Carregando...</span><span class="visita-qtd">—</span></li>
+            </ul>
+        </div>
+        <div class="visitas-atualizacao" id="visitas-atualizacao"></div>
+    </div>
+
+    <!-- CONTEÚDO DA ABA: CONFIGURAÇÕES GERAIS -->
+    <div id="tab-config" class="admin-tab-content">
+        <div class="admin-section-header">
+            <div class="admin-section-title" id="txt-adm-sec-geral">Configurações Gerais da Marca</div>
+        </div>
+        <div class="admin-item-box">
+            <div class="admin-field" style="margin-bottom:12px;">
+                <label><b>🎨 Valor do Serviço de Criação da Arte (R$):</b></label>
+                <input type="number" step="0.01" id="adm-valor-arte" placeholder="0.00">
+            </div>
+            <div class="admin-field" style="margin-bottom:12px;">
+                <label><b>🏷️ Categorias dos Itens:</b></label>
+                <div id="admin-container-categorias"></div>
+                <button type="button" class="btn-add-item" style="margin-top:8px;" onclick="adicionarNovaCategoria()">+ Nova Categoria</button>
+            </div>
+
+            <div class="admin-field">
+                <label id="txt-adm-label-logo"><b>🖼️ Logotipo da Empresa:</b></label>
+                <div class="admin-logo-upload">
+                    <div class="admin-image-upload-row">
+                        <label class="btn-upload-image" for="adm-logo-file">📷 Escolher logo</label>
+                        <input id="adm-logo-file" type="file" accept="image/*" onchange="uploadLogoAdmin(this)">
+                        <input id="adm-logo-link-input" type="text" placeholder="Ou cole o link direto da imagem" style="flex:1; min-width:220px; padding:8px 10px; border:1px solid #dee2e6; border-radius:7px; font-size:11px; font-family:'Montserrat',sans-serif;">
+                        <button type="button" class="btn-upload-image" onclick="adicionarLinkLogoAdmin()">🔗 Usar link</button>
+                    </div>
+                    <div id="adm-logo-status" class="admin-upload-status">Escolha uma imagem do computador ou use um link direto. A imagem enviada é armazenada no Cloudinary.</div>
+                    <div id="adm-logo-preview" class="admin-logo-preview"></div>
+                    <input type="hidden" id="adm-logo-url">
+                </div>
+            </div>
+            <div class="admin-field" style="margin-top:8px;">
+                <label id="txt-adm-label-slogan">Frase de Slogan (Abaixo da Logo):</label>
+                <input type="text" id="adm-slogan" placeholder="Ex: Costura Criativa e Lembrancinhas Especiais">
+            </div>
+            <div class="admin-field" style="margin-top:8px;">
+                <label id="txt-adm-label-ig">Link Completo do Instagram:</label>
+                <input type="text" id="adm-link-instagram" placeholder="https://www.instagram.com/seu_perfil/">
+            </div>
+            <div class="admin-field" style="margin-top:8px;">
+                <label id="txt-adm-label-wa">Número do WhatsApp (com DDI e DDD, apenas números):</label>
+                <input type="text" id="adm-link-whatsapp" placeholder="5554999999999">
+            </div>
+            <div class="admin-field" style="margin-top:8px;">
+                <label id="txt-adm-label-mail">E-mail de Contato:</label>
+                <input type="text" id="adm-link-email" placeholder="seu-email@dominio.com">
+            </div>
+        </div>
+    </div>
+
+
     <div class="admin-actions">
         <button class="btn btn-cancel" id="btn-adm-cancelar" onclick="fecharAdmin()">Cancelar</button>
         <button class="btn btn-json" onclick="exportarJSON()">📥 Baixar Backup (JSON)</button>
@@ -1540,7 +1723,7 @@
 <!-- INTEGRATION WITH FIREBASE SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { getDatabase, ref, set, get, child, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -1562,6 +1745,7 @@
   window.dbSet = set;
   window.dbGet = get;
   window.dbChild = child;
+  window.dbRunTransaction = runTransaction;
   window.firebaseAuth = auth;
   window.signInWithEmailAndPassword = signInWithEmailAndPassword;
 </script>
@@ -2249,6 +2433,82 @@
             renderizarOcasioes();
             atualizarTextoValorArte();
             processarParametrosURL();
+            registrarVisita();
+        }
+    }
+
+    // ==========================
+    // CONTADOR DE VISITAS
+    // ==========================
+    function obterDataLocalVisita() {
+        const agora = new Date();
+        return `${agora.getFullYear()}-${String(agora.getMonth() + 1).padStart(2, '0')}-${String(agora.getDate()).padStart(2, '0')}`;
+    }
+
+    function obterOcasiaoDaVisita() {
+        const params = new URLSearchParams(window.location.search);
+        const ocParam = params.get('ocasiao');
+        return ocParam ? gerarSlugId(ocParam).substring(0, 80) : 'pagina_inicial';
+    }
+
+    async function incrementarContadorVisitas(caminho) {
+        if (!window.firebaseDB || !window.dbRef || !window.dbRunTransaction) return;
+        try {
+            await window.dbRunTransaction(
+                window.dbRef(window.firebaseDB, caminho),
+                atual => (Number(atual) || 0) + 1
+            );
+        } catch (erro) {
+            console.warn('Não foi possível registrar a visita:', erro);
+        }
+    }
+
+    async function registrarVisita() {
+        const data = obterDataLocalVisita();
+        const ocasiao = obterOcasiaoDaVisita();
+        await Promise.all([
+            incrementarContadorVisitas('estatisticas/visitas/total'),
+            incrementarContadorVisitas(`estatisticas/visitas/diarias/${data}`),
+            incrementarContadorVisitas(`estatisticas/visitas/ocasioes/${ocasiao}`)
+        ]);
+    }
+
+    function formatarNumeroVisitas(valor) {
+        return Number(valor || 0).toLocaleString('pt-BR');
+    }
+
+    async function carregarEstatisticasVisitas() {
+        const hoje = obterDataLocalVisita();
+        const hojeElem = document.getElementById('visitas-hoje');
+        const totalElem = document.getElementById('visitas-total');
+        const rankingElem = document.getElementById('visitas-ranking-list');
+        const dataElem = document.getElementById('visitas-data-hoje');
+        const atualizacaoElem = document.getElementById('visitas-atualizacao');
+        if (!hojeElem || !totalElem || !rankingElem) return;
+        hojeElem.textContent = '...';
+        totalElem.textContent = '...';
+        rankingElem.innerHTML = '<li><span class="visita-nome">Carregando...</span><span class="visita-qtd">—</span></li>';
+        try {
+            const raiz = window.dbRef(window.firebaseDB);
+            const [snapHoje, snapTotal, snapOcasioes] = await Promise.all([
+                window.dbGet(window.dbChild(raiz, `estatisticas/visitas/diarias/${hoje}`)),
+                window.dbGet(window.dbChild(raiz, 'estatisticas/visitas/total')),
+                window.dbGet(window.dbChild(raiz, 'estatisticas/visitas/ocasioes'))
+            ]);
+            hojeElem.textContent = formatarNumeroVisitas(snapHoje.exists() ? snapHoje.val() : 0);
+            totalElem.textContent = formatarNumeroVisitas(snapTotal.exists() ? snapTotal.val() : 0);
+            if (dataElem) dataElem.textContent = `Data: ${hoje}`;
+            const dadosOcasioes = snapOcasioes.exists() ? (snapOcasioes.val() || {}) : {};
+            const nomesOcasioes = { pagina_inicial: 'Página inicial' };
+            if (Array.isArray(catalogo.ocasioes)) catalogo.ocasioes.forEach(oc => { if (oc && oc.id) nomesOcasioes[oc.id] = oc.nome || oc.id; });
+            const ranking = Object.entries(dadosOcasioes).map(([id, qtd]) => ({ nome: nomesOcasioes[id] || id, qtd: Number(qtd) || 0 })).sort((a,b) => b.qtd-a.qtd).slice(0,10);
+            rankingElem.innerHTML = ranking.length ? ranking.map(item => `<li><span class="visita-nome">${String(item.nome).replace(/[<>&"]/g, '')}</span><span class="visita-qtd">${formatarNumeroVisitas(item.qtd)}</span></li>`).join('') : '<li><span class="visita-nome">Ainda não há dados.</span><span class="visita-qtd">0</span></li>';
+            if (atualizacaoElem) atualizacaoElem.textContent = `Atualizado em ${new Date().toLocaleString('pt-BR')}`;
+        } catch (erro) {
+            console.error('Erro ao carregar estatísticas de visitas:', erro);
+            hojeElem.textContent = '—'; totalElem.textContent = '—';
+            rankingElem.innerHTML = '<li><span class="visita-nome">Não foi possível carregar as estatísticas.</span><span class="visita-qtd">—</span></li>';
+            if (atualizacaoElem) atualizacaoElem.textContent = 'Verifique as regras de acesso do Firebase.';
         }
     }
 
@@ -4287,7 +4547,8 @@
         const qtdKitsVal = modoSelecionado === 'monte_seu_kit' ? (document.getElementById('input-qtd-kits')?.value || '10') : '10';
         const obsVal = modoSelecionado === 'monte_seu_kit' ? (document.getElementById('input-obs-kits')?.value || '') : '';
 
-        let texto = `*ORÇAMENTO DE LEMBRANCINHAS*\n`;
+        let texto = `*ORÇAMENTO DE LEMBRANCINHAS*\n`;        const nomeCliente = (document.getElementById('input-nome-cliente')?.value || '').trim();
+        texto += `👤 *Nome:* ${nomeCliente || 'Não informado'}\n`;
         texto += `------------------------------------\n`;
         texto += `🎉 *Ocasião:* ${objOcasiao ? objOcasiao.nome : '-'}\n`;
         texto += `📋 *Modalidade:* ${modoSelecionado === 'kits_prontos' ? 'Produtos / Kits Prontos' : 'Monte Seu Kit'}\n`;
