@@ -413,6 +413,7 @@
         .resume-table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
             font-size: 13px;
             text-align: left;
             color: var(--text-muted); /* Ajustado para cinza claro */
@@ -434,6 +435,24 @@
         .resume-table th:nth-child(3) {
             white-space: nowrap;
             text-align: right;
+        }
+        .resume-table th:first-child,
+        .resume-table td:first-child {
+            width: auto;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+        .resume-table th:nth-child(2),
+        .resume-table td:nth-child(2) {
+            width: 78px;
+        }
+        .resume-table th:nth-child(3),
+        .resume-table td:nth-child(3) {
+            width: 48px;
+        }
+        .resume-table th:nth-child(4),
+        .resume-table td:nth-child(4) {
+            width: 70px;
         }
         .resume-table input.table-estampa {
             background: rgba(255,255,255,0.1);
@@ -488,11 +507,12 @@
         }
 
         .resume-table th:nth-child(2) {
-            min-width: 100px;
+            min-width: 0;
         }
 
         .resume-table input.table-estampa {
-            min-width: 90px;
+            min-width: 0;
+            width: 100%;
         }
 
         /* Campo de Quantidade de Kits Geral e Observações */
@@ -1143,27 +1163,58 @@
             }
 
             .resume-table-container {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
+                overflow-x: hidden;
+                width: 100%;
             }
 
             .resume-table {
-                min-width: 560px;
+                width: 100%;
+                min-width: 0;
+                table-layout: fixed;
+                font-size: 10.5px;
             }
 
             .resume-table th,
             .resume-table td {
-                padding: 7px 6px;
-                font-size: 11px;
+                padding: 6px 3px;
+                font-size: 10.5px;
+                vertical-align: middle;
+            }
+
+            .resume-table th:first-child,
+            .resume-table td:first-child {
+                width: auto;
+                white-space: normal;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            .resume-table th:nth-child(2),
+            .resume-table td:nth-child(2) {
+                width: 68px;
+            }
+
+            .resume-table th:nth-child(3),
+            .resume-table td:nth-child(3) {
+                width: 40px;
+            }
+
+            .resume-table th:nth-child(4),
+            .resume-table td:nth-child(4) {
+                width: 62px;
             }
 
             .resume-table input.table-estampa {
-                width: 105px;
-                min-width: 105px;
+                width: 100%;
+                min-width: 0;
+                padding: 4px 3px;
+                font-size: 10px;
             }
 
             .resume-table input.table-qty {
-                width: 44px;
+                width: 36px;
+                padding: 4px 1px;
+                font-size: 10px;
             }
 
             .btn-delete-row {
