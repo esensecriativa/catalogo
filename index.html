@@ -4308,8 +4308,7 @@
                 const qtd = parseInt(document.getElementById(`qtd-${item.id}`)?.value) || 1;
                 const estampa = (document.getElementById(`estampa-${item.id}`)?.value || '').trim();
                 const parcial = Number(item.preco) * qtd;
-                texto += `• ${item.nome}${estampa ? ` - ${estampa}` : ''} - R$ ${Number(item.preco).toFixed(2)} - ${qtd} - R$ ${parcial.toFixed(2)}
-`;
+                texto += `• ${item.nome}${estampa ? ` — estampa: ${estampa}` : ''} — unitário R$ ${Number(item.preco).toFixed(2)} — qtd ${qtd} — total R$ ${parcial.toFixed(2)}\n`;
             } else {
                 const ehKitPronto = (item.categorias || []).includes('kits_prontos');
                 if (modoSelecionado === 'kits_prontos' && ehKitPronto) {
@@ -4322,8 +4321,7 @@
                     const estampa = (document.getElementById(`estampa-${item.id}`)?.value || '').trim();
                     const valorUnitarioFinal = embKit ? Number(item.preco) + Number(embKit.preco) : Number(item.preco);
                     const parcialKit = valorUnitarioFinal * qtdKit;
-                    texto += `• ${item.nome}${estampa ? ` - ${estampa}` : ''} - R$ ${valorUnitarioFinal.toFixed(2)} - ${qtdKit} - R$ ${parcialKit.toFixed(2)}${embKit ? ` - ${embKit.nome}` : ''}
-`;
+                    texto += `• ${item.nome}${estampa ? ` — estampa: ${estampa}` : ''} — embalagem: ${embKit ? embKit.nome : 'não selecionada'} — unitário R$ ${valorUnitarioFinal.toFixed(2)} — qtd ${qtdKit} — total R$ ${parcialKit.toFixed(2)}\n`;
                 } else {
                     // Produtos normais (Datas Comemorativas/Brindes):
                     // a quantidade escolhida no orçamento também precisa ser enviada ao WhatsApp.
@@ -4333,8 +4331,7 @@
                     quantidadesItensSelecionadas[item.id] = qtd;
                     const estampa = (document.getElementById(`estampa-${item.id}`)?.value || '').trim();
                     const parcial = Number(item.preco) * qtd;
-                    texto += `• ${item.nome}${estampa ? ` - ${estampa}` : ''} - R$ ${Number(item.preco).toFixed(2)} - ${qtd} - R$ ${parcial.toFixed(2)}
-`;
+                    texto += `• ${item.nome}${estampa ? ` — estampa: ${estampa}` : ''} — unitário R$ ${Number(item.preco).toFixed(2)} — qtd ${qtd} — total R$ ${parcial.toFixed(2)}\n`;
                 }
             }
         });
