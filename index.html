@@ -463,13 +463,36 @@
             border: none;
             color: #ff6b6b;
             cursor: pointer;
-            font-size: 14px;
-            padding: 2px 6px;
+            font-size: 10px;
+            line-height: 1;
+            padding: 1px 2px;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 4px;
             transition: background 0.2s;
         }
         .btn-delete-row:hover {
             background: rgba(255, 107, 107, 0.15);
+        }
+
+        .resume-table th:last-child,
+        .resume-table td:last-child {
+            width: 24px;
+            min-width: 24px;
+            padding-left: 2px;
+            padding-right: 2px;
+            text-align: center !important;
+        }
+
+        .resume-table th:nth-child(2) {
+            min-width: 100px;
+        }
+
+        .resume-table input.table-estampa {
+            min-width: 90px;
         }
 
         /* Campo de Quantidade de Kits Geral e Observações */
@@ -882,6 +905,21 @@
         .admin-field label { font-size: 11px; font-weight: 600; margin-bottom: 2px; color: #495057; }
         .admin-field input, .admin-field select, .admin-field textarea { font-family: 'Montserrat', sans-serif; padding: 8px; border: 1px solid #ced4da; border-radius: 6px; font-size: 13px; color: var(--text); }
         .admin-field input[readonly] { background-color: #e9ecef; color: #6c757d; cursor: not-allowed; }
+        .admin-danger-zone {
+            border: 1px solid rgba(220, 53, 69, 0.25);
+            background: #fff5f5;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        .admin-danger-help {
+            margin: 6px 0 10px;
+            font-size: 10px;
+            line-height: 1.5;
+            color: #6c757d;
+        }
+        
+        .btn-delete-all-images:hover { background: #b02a37; }
+        .btn-delete-all-images:disabled { opacity: .65; cursor: wait; }
         .admin-checkbox-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; background: #fff; padding: 8px; border: 1px solid #ced4da; border-radius: 6px; max-height: 120px; overflow-y: auto; }
         .admin-checkbox-label { font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 5px; cursor: pointer; color: var(--text); }
         
@@ -1006,6 +1044,10 @@
         .admin-image-upload { border: 1px solid #ced4da; border-radius: 8px; padding: 10px; background: #fff; }
         .admin-image-upload-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .admin-image-upload input[type="file"] { display: none; }
+        .admin-logo-upload { border: 1px solid #ced4da; border-radius: 8px; padding: 10px; background: #fff; }
+        .admin-logo-preview { margin-top: 10px; min-height: 0; display: flex; align-items: center; justify-content: center; }
+        .admin-logo-preview img { max-width: 220px; max-height: 110px; object-fit: contain; border: 1px solid #dee2e6; border-radius: 7px; background: #f8f9fa; padding: 6px; display: block; }
+
         .btn-upload-image { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--primary); color: #fff; border: none; border-radius: 7px; padding: 8px 12px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; }
         .btn-upload-image:hover { background: var(--primary-dark); }
         .btn-upload-image:disabled { opacity: .65; cursor: wait; }
@@ -1019,6 +1061,64 @@
         .btn-delete-admin-image { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border: 0; border-radius: 50%; background: #dc3545; color: #fff; font-size: 13px; font-weight: 800; line-height: 20px; padding: 0; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
         .btn-delete-admin-image:hover { background: #b02a37; transform: scale(1.08); }
         .admin-image-url-readonly { margin-top: 7px; width: 100%; box-sizing: border-box; font-size: 10px !important; color: #6c757d !important; background: #f8f9fa !important; }
+
+        .btn-delete-selected-images {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            background: #fff5f5;
+            color: #c92a2a;
+            border: 1px solid #ffc9c9;
+            border-radius: 7px;
+            padding: 8px 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-delete-selected-images:hover {
+            background: #ffe3e3;
+            border-color: #ff8787;
+        }
+        .btn-delete-selected-images:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+        .btn-select-all-images {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            background: #f8f9fa;
+            color: #495057;
+            border: 1px solid #dee2e6;
+            border-radius: 7px;
+            padding: 8px 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-select-all-images:hover {
+            background: #e9ecef;
+        }
+        .admin-image-check {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            z-index: 8;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+        .admin-image-preview-item.selected {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+            border-radius: 7px;
+        }
 
         /* MODO RESPONSIVO CELULAR */
         @media (max-width: 480px) {
@@ -1040,6 +1140,37 @@
             .slogan-text {
                 font-size: 10px;
                 white-space: nowrap;
+            }
+
+            .resume-table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .resume-table {
+                min-width: 560px;
+            }
+
+            .resume-table th,
+            .resume-table td {
+                padding: 7px 6px;
+                font-size: 11px;
+            }
+
+            .resume-table input.table-estampa {
+                width: 105px;
+                min-width: 105px;
+            }
+
+            .resume-table input.table-qty {
+                width: 44px;
+            }
+
+            .btn-delete-row {
+                width: 18px;
+                height: 18px;
+                font-size: 9px;
+                padding: 0;
             }
         }
     </style>
@@ -1172,7 +1303,7 @@
                                     <th>Estampa</th>
                                     <th style="text-align: center;">Qtd</th>
                                     <th style="text-align: right;">Parcial</th>
-                                    <th style="text-align: center;">Ações</th>
+                                    <th aria-label="Excluir"></th>
                                 </tr>
                             </thead>
                             <tbody id="resume-table-body">
@@ -1199,7 +1330,7 @@
     </div>
     
     <div class="support-notice">
-        <p><strong>Agradecemos a preferência! 💛 Após finalizar seu orçamento, compartilhe-o conosco para darmos continuidade à personalização do seu kit.</strong></p>
+        <p><strong>Agradecemos a preferência! 💛 Após finalizar seu orçamento, compartilhe-o conosco para darmos continuidade à personalização do seu pedido.</strong></p>
         <p><strong>Ficou com alguma dúvida? Estamos à disposição para ajudar pelos contatos abaixo.</strong></p>
     </div>
 </div>
@@ -1316,8 +1447,18 @@
             </div>
 
             <div class="admin-field">
-                <label id="txt-adm-label-logo">Link (URL) do Logotipo da Empresa:</label>
-                <input type="text" id="adm-logo-url" placeholder="https://link-da-imagem.com/logo.png">
+                <label id="txt-adm-label-logo"><b>🖼️ Logotipo da Empresa:</b></label>
+                <div class="admin-logo-upload">
+                    <div class="admin-image-upload-row">
+                        <label class="btn-upload-image" for="adm-logo-file">📷 Escolher logo</label>
+                        <input id="adm-logo-file" type="file" accept="image/*" onchange="uploadLogoAdmin(this)">
+                        <input id="adm-logo-link-input" type="text" placeholder="Ou cole o link direto da imagem" style="flex:1; min-width:220px; padding:8px 10px; border:1px solid #dee2e6; border-radius:7px; font-size:11px; font-family:'Montserrat',sans-serif;">
+                        <button type="button" class="btn-upload-image" onclick="adicionarLinkLogoAdmin()">🔗 Usar link</button>
+                    </div>
+                    <div id="adm-logo-status" class="admin-upload-status">Escolha uma imagem do computador ou use um link direto. A imagem enviada é armazenada no Cloudinary.</div>
+                    <div id="adm-logo-preview" class="admin-logo-preview"></div>
+                    <input type="hidden" id="adm-logo-url">
+                </div>
             </div>
             <div class="admin-field" style="margin-top:8px;">
                 <label id="txt-adm-label-slogan">Frase de Slogan (Abaixo da Logo):</label>
@@ -1420,25 +1561,122 @@
         return new File([blob], 'imagem.webp', { type: 'image/webp', lastModified: Date.now() });
     }
 
-    async function fazerUploadCloudinary(arquivo, pasta = CLOUDINARY_CONFIG.folder) {
-        const imagemWebp = await prepararImagemParaCloudinary(arquivo);
-        const formData = new FormData();
-        formData.append("file", imagemWebp);
-        formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
-        if (pasta) formData.append("folder", pasta);
+    // Biblioteca de imagens: evita novo upload da mesma imagem mesmo quando ela
+    // for usada em vários produtos. O hash é calculado sobre a versão WebP
+    // preparada pelo sistema, garantindo que a mesma imagem tenha a mesma chave.
+    const bibliotecaImagensMemoria = new Map();
 
-        const resposta = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`, {
-            method: "POST",
-            body: formData
-        });
+    async function calcularHashImagem(arquivo) {
+        const buffer = await arquivo.arrayBuffer();
+        if (!window.crypto?.subtle) {
+            throw new Error('Seu navegador não suporta a identificação automática de imagens.');
+        }
+        const hashBuffer = await window.crypto.subtle.digest('SHA-256', buffer);
+        return Array.from(new Uint8Array(hashBuffer))
+            .map(b => b.toString(16).padStart(2, '0'))
+            .join('');
+    }
 
-        const dados = await resposta.json();
-        if (!resposta.ok || !dados.secure_url) {
-            console.error("Resposta Cloudinary:", dados);
-            throw new Error(dados.error?.message || "Falha no upload para o Cloudinary.");
+    async function buscarImagemNaBiblioteca(hash) {
+        // Primeiro tenta o cache local: funciona mesmo que as regras do Firebase
+        // não permitam gravar a biblioteca de imagens.
+        try {
+            const cache = JSON.parse(localStorage.getItem('esense_biblioteca_imagens') || '{}');
+            if (cache[hash]?.url) return cache[hash].url;
+        } catch (erro) {
+            console.warn('Não foi possível consultar o cache local de imagens:', erro);
         }
 
-        return dados.secure_url;
+        try {
+            if (!window.firebaseDB || !window.dbGet || !window.dbChild) return null;
+            const raiz = window.dbRef(window.firebaseDB);
+            const snapshot = await window.dbGet(window.dbChild(raiz, `bibliotecaImagens/${hash}`));
+            if (snapshot.exists()) {
+                const registro = snapshot.val();
+                if (registro && registro.url) {
+                    try {
+                        const cache = JSON.parse(localStorage.getItem('esense_biblioteca_imagens') || '{}');
+                        cache[hash] = registro;
+                        localStorage.setItem('esense_biblioteca_imagens', JSON.stringify(cache));
+                    } catch (erroCache) {}
+                    return registro.url;
+                }
+            }
+        } catch (erro) {
+            // Se a biblioteca não puder ser consultada, o upload normal continua.
+            console.warn('Não foi possível consultar a biblioteca de imagens:', erro);
+        }
+        return null;
+    }
+
+    async function salvarImagemNaBiblioteca(hash, url, pasta) {
+        const registro = {
+            url,
+            pasta: pasta || '',
+            criadoEm: new Date().toISOString()
+        };
+
+        // Guarda também no navegador para evitar novo upload mesmo se o Firebase
+        // estiver sem permissão de escrita para este índice.
+        try {
+            const cache = JSON.parse(localStorage.getItem('esense_biblioteca_imagens') || '{}');
+            cache[hash] = registro;
+            localStorage.setItem('esense_biblioteca_imagens', JSON.stringify(cache));
+        } catch (erroCache) {
+            console.warn('Não foi possível atualizar o cache local de imagens:', erroCache);
+        }
+
+        try {
+            if (!window.firebaseDB || !window.dbSet || !window.dbRef) return;
+            await window.dbSet(window.dbRef(window.firebaseDB, `bibliotecaImagens/${hash}`), registro);
+        } catch (erro) {
+            // A imagem já está no Cloudinary e o cache local já foi salvo.
+            console.warn('Não foi possível registrar a imagem na biblioteca do Firebase:', erro);
+        }
+    }
+
+    async function fazerUploadCloudinary(arquivo, pasta = CLOUDINARY_CONFIG.folder) {
+        const imagemWebp = await prepararImagemParaCloudinary(arquivo);
+        const hash = await calcularHashImagem(imagemWebp);
+
+        // Impede dois uploads simultâneos da mesma imagem na mesma sessão.
+        if (bibliotecaImagensMemoria.has(hash)) {
+            return await bibliotecaImagensMemoria.get(hash);
+        }
+
+        const promessa = (async () => {
+            const urlExistente = await buscarImagemNaBiblioteca(hash);
+            if (urlExistente) {
+                return { url: urlExistente, reutilizada: true };
+            }
+
+            const formData = new FormData();
+            formData.append("file", imagemWebp);
+            formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+            if (pasta) formData.append("folder", pasta);
+
+            const resposta = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            const dados = await resposta.json();
+            if (!resposta.ok || !dados.secure_url) {
+                console.error("Resposta Cloudinary:", dados);
+                throw new Error(dados.error?.message || "Falha no upload para o Cloudinary.");
+            }
+
+            await salvarImagemNaBiblioteca(hash, dados.secure_url, pasta);
+            return { url: dados.secure_url, reutilizada: false };
+        })();
+
+        bibliotecaImagensMemoria.set(hash, promessa);
+        try {
+            return await promessa;
+        } catch (erro) {
+            bibliotecaImagensMemoria.delete(hash);
+            throw erro;
+        }
     }
 
     function obterListaImagensAdmin(tipo, idx, opIdx = null) {
@@ -1464,10 +1702,72 @@
         const chave = `${tipo}-${idx}-${opIdx === null ? 'main' : opIdx}`;
         return urls.map((url, imgIdx) => `
             <div class="admin-image-preview-item" draggable="true" data-img-index="${imgIdx}" data-img-key="${chave}" ondragstart="iniciarArrasteImagemAdmin(event)" ondragover="event.preventDefault()" ondrop="soltarImagemAdmin(event, '${tipo}', ${idx}, ${imgIdx}, ${opIdx === null ? 'null' : opIdx})" ondragend="finalizarArrasteImagemAdmin(event)">
+                <input type="checkbox" class="admin-image-check" title="Selecionar imagem ${imgIdx + 1}" aria-label="Selecionar imagem ${imgIdx + 1}" onchange="atualizarSelecaoImagemAdmin(this)">
                 <img class="admin-image-preview" src="${sanitizarUrlImagem(url)}" alt="Imagem ${imgIdx + 1}" onerror="this.style.display='none'">
                 <button type="button" class="btn-delete-admin-image" title="Excluir esta imagem" aria-label="Excluir esta imagem" onclick="event.stopPropagation(); removerImagemAdmin('${tipo}', ${idx}, ${imgIdx}, ${opIdx === null ? 'null' : opIdx})">×</button>
             </div>
         `).join('');
+    }
+
+    function atualizarSelecaoImagemAdmin(checkbox) {
+        const card = checkbox.closest('.admin-image-preview-item');
+        if (card) card.classList.toggle('selected', checkbox.checked);
+        const bloco = checkbox.closest('.admin-image-upload');
+        if (bloco) atualizarEstadoBotoesSelecaoImagensAdmin(bloco);
+    }
+
+    function atualizarEstadoBotoesSelecaoImagensAdmin(bloco) {
+        if (!bloco) return;
+        const checks = Array.from(bloco.querySelectorAll('.admin-image-check'));
+        const selecionadas = checks.filter(c => c.checked).length;
+        const botao = bloco.querySelector('.btn-delete-selected-images');
+        if (botao) {
+            botao.disabled = selecionadas === 0;
+            botao.textContent = selecionadas ? `🗑️ Apagar selecionadas (${selecionadas})` : '🗑️ Apagar selecionadas';
+        }
+        const selecionarTodas = bloco.querySelector('.btn-select-all-images');
+        if (selecionarTodas) selecionarTodas.textContent = checks.length && selecionadas === checks.length ? '☑️ Desmarcar todas' : '☑️ Selecionar todas';
+    }
+
+    function alternarSelecaoTodasImagensAdmin(botao) {
+        const bloco = botao.closest('.admin-image-upload');
+        if (!bloco) return;
+        const checks = Array.from(bloco.querySelectorAll('.admin-image-check'));
+        const todasSelecionadas = checks.length > 0 && checks.every(c => c.checked);
+        checks.forEach(check => {
+            check.checked = !todasSelecionadas;
+            const card = check.closest('.admin-image-preview-item');
+            if (card) card.classList.toggle('selected', check.checked);
+        });
+        atualizarEstadoBotoesSelecaoImagensAdmin(bloco);
+    }
+
+    function apagarImagensSelecionadasAdmin(tipo, idx, opIdx = null) {
+        const chave = `${tipo}-${idx}-${opIdx === null ? 'main' : opIdx}`;
+        const bloco = document.querySelector(`.admin-image-upload[data-image-key="${chave}"]`);
+        if (!bloco) return;
+
+        const selecionadas = Array.from(bloco.querySelectorAll('.admin-image-check:checked'))
+            .map(check => parseInt(check.closest('.admin-image-preview-item')?.dataset.imgIndex, 10))
+            .filter(index => !Number.isNaN(index));
+
+        if (!selecionadas.length) {
+            alert('Selecione pelo menos uma imagem para apagar.');
+            return;
+        }
+
+        if (!confirm(`Apagar ${selecionadas.length} imagem(ns) selecionada(s)?\n\nA alteração será gravada no Firebase quando você clicar em "Salvar Alterações".`)) return;
+
+        const urls = obterListaImagensAdmin(tipo, idx, opIdx).slice();
+        selecionadas.sort((a, b) => b - a).forEach(index => urls.splice(index, 1));
+        atualizarListaImagensAdmin(tipo, idx, urls, opIdx);
+
+        const preview = bloco.querySelector('.admin-image-preview-list');
+        if (preview) preview.innerHTML = renderizarPreviewImagensAdmin(tipo, idx, opIdx);
+        const campoUrls = bloco.querySelector('.admin-image-url-readonly');
+        if (campoUrls) campoUrls.value = urls.join(', ');
+        const status = bloco.querySelector('.admin-upload-status');
+        if (status) status.textContent = `🗑️ ${selecionadas.length} imagem(ns) removida(s) da lista. Clique em "Salvar Alterações" para gravar no Firebase.`;
     }
 
     let imagemAdminArrastada = null;
@@ -1550,9 +1850,12 @@
                 arquivos.map(arquivo => fazerUploadCloudinary(arquivo, pasta))
             );
 
-            const urlsNovas = resultados
+            const resultadosOk = resultados
                 .filter(resultado => resultado.status === 'fulfilled')
                 .map(resultado => resultado.value);
+            const urlsNovas = resultadosOk.map(resultado => resultado.url);
+            const qtdReutilizadas = resultadosOk.filter(resultado => resultado.reutilizada).length;
+            const qtdEnviadas = resultadosOk.length - qtdReutilizadas;
             const erros = resultados.filter(resultado => resultado.status === 'rejected');
 
             if (urlsNovas.length) {
@@ -1568,10 +1871,18 @@
 
             if (erros.length) {
                 console.error('Falhas no upload:', erros);
-                if (status) status.textContent = `⚠️ ${urlsNovas.length} enviada(s) e ${erros.length} com erro. Clique em "Salvar Alterações" para gravar as enviadas.`;
-                alert(`${urlsNovas.length} imagem(ns) enviada(s) com sucesso.\n${erros.length} imagem(ns) não puderam ser enviadas.`);
+                if (status) status.textContent = `⚠️ ${qtdEnviadas} enviada(s), ${qtdReutilizadas} reutilizada(s) e ${erros.length} com erro. Clique em "Salvar Alterações" para gravar.`;
+                alert(`${qtdEnviadas} imagem(ns) enviada(s) ao Cloudinary.\n${qtdReutilizadas} imagem(ns) já existente(s) foram reutilizada(s).\n${erros.length} imagem(ns) não puderam ser processadas.`);
             } else {
-                if (status) status.textContent = `✅ ${urlsNovas.length} imagem(ns) enviada(s) com sucesso. Clique em "Salvar Alterações" para gravar no Firebase.`;
+                if (status) {
+                    if (qtdReutilizadas && qtdEnviadas) {
+                        status.textContent = `✅ ${qtdEnviadas} nova(s) enviada(s) e ${qtdReutilizadas} já existente(s) reutilizada(s). Clique em "Salvar Alterações" para gravar no Firebase.`;
+                    } else if (qtdReutilizadas) {
+                        status.textContent = `♻️ ${qtdReutilizadas} imagem(ns) já existente(s) no Cloudinary foram reutilizada(s). Clique em "Salvar Alterações" para gravar no Firebase.`;
+                    } else {
+                        status.textContent = `✅ ${qtdEnviadas} imagem(ns) enviada(s) ao Cloudinary. Clique em "Salvar Alterações" para gravar no Firebase.`;
+                    }
+                }
             }
 
             input.value = '';
@@ -1586,6 +1897,58 @@
             }
         }
     }
+    async function uploadLogoAdmin(input) {
+        const arquivo = input?.files?.[0];
+        if (!arquivo) return;
+
+        const botao = document.querySelector('.admin-logo-upload .btn-upload-image');
+        const status = document.getElementById('adm-logo-status');
+        if (botao) { botao.disabled = true; botao.textContent = '⏳ Enviando logo...'; }
+        if (status) status.textContent = 'Preparando e enviando o logotipo para o Cloudinary...';
+
+        try {
+            const resultado = await fazerUploadCloudinary(arquivo, 'esense/catalogo/logo');
+            const url = resultado.url;
+            document.getElementById('adm-logo-url').value = url;
+            const campoLink = document.getElementById('adm-logo-link-input');
+            if (campoLink) campoLink.value = '';
+            renderizarPreviewLogoAdmin(url);
+            if (status) status.textContent = resultado.reutilizada
+                ? '♻️ Este logo já estava cadastrado e foi reutilizado. Clique em "Salvar Alterações" para gravar.'
+                : '✅ Logo enviada ao Cloudinary. Clique em "Salvar Alterações" para gravar.';
+            input.value = '';
+        } catch (error) {
+            console.error('Erro ao enviar logo:', error);
+            if (status) status.textContent = '❌ ' + (error.message || 'Erro ao enviar o logo.');
+            alert('Não foi possível enviar o logo para o Cloudinary.\n\n' + (error.message || 'Verifique a configuração do Cloudinary.'));
+        } finally {
+            if (botao) { botao.disabled = false; botao.textContent = '📷 Escolher logo'; }
+        }
+    }
+
+    function renderizarPreviewLogoAdmin(url) {
+        const preview = document.getElementById('adm-logo-preview');
+        if (!preview) return;
+        const limpa = sanitizarUrlImagem(url || '');
+        preview.innerHTML = limpa
+            ? `<img src="${limpa}" alt="Prévia do logotipo" onerror="this.style.display='none'">`
+            : '';
+    }
+
+    function adicionarLinkLogoAdmin() {
+        const campo = document.getElementById('adm-logo-link-input');
+        const url = sanitizarUrlImagem(campo?.value || '');
+        if (!url || !/^https?:\/\//i.test(url)) {
+            alert('Cole um link direto válido da imagem do logo (http:// ou https://).');
+            campo?.focus();
+            return;
+        }
+        document.getElementById('adm-logo-url').value = url;
+        renderizarPreviewLogoAdmin(url);
+        const status = document.getElementById('adm-logo-status');
+        if (status) status.textContent = '🔗 Link do logo definido. Clique em "Salvar Alterações" para gravar no Firebase.';
+    }
+
     function htmlUploadImagemAdmin(tipo, idx, urls = [], opIdx = null) {
         const chave = `${tipo}-${idx}-${opIdx === null ? 'main' : opIdx}`;
         const lista = urls || [];
@@ -1597,8 +1960,10 @@
                            onchange="uploadImagemAdmin('${tipo}', ${idx}, this, ${opIdx === null ? 'null' : opIdx})">
                     <input id="link-img-${chave}" type="text" placeholder="Cole vários links separados por vírgula" style="flex:1; min-width:220px; padding:8px 10px; border:1px solid #dee2e6; border-radius:7px; font-size:11px; font-family:'Montserrat',sans-serif;">
                     <button type="button" class="btn-upload-image" onclick="adicionarLinkImagemAdmin('${tipo}', ${idx}, '${chave}', ${opIdx === null ? 'null' : opIdx})">🔗 Adicionar link</button>
+                    ${lista.length ? `<button type="button" class="btn-select-all-images" title="Selecionar ou desmarcar todas as imagens" onclick="event.stopPropagation(); alternarSelecaoTodasImagensAdmin(this)">☑️ Selecionar todas</button>` : ''}
+                    ${lista.length ? `<button type="button" class="btn-delete-selected-images" title="Apagar somente as imagens selecionadas" disabled onclick="event.stopPropagation(); apagarImagensSelecionadasAdmin('${tipo}', ${idx}, ${opIdx === null ? 'null' : opIdx})">🗑️ Apagar selecionadas</button>` : ''}
                 </div>
-                <div class="admin-upload-status">Até 1200 px • WebP • qualidade 82% • Cloudinary | Você também pode adicionar uma imagem por link</div>
+                <div class="admin-upload-status">Até 1200 px • WebP • qualidade 82% • Cloudinary | Imagens já cadastradas são reutilizadas automaticamente | Você também pode adicionar uma imagem por link</div>
                 <div class="admin-image-preview-list">${renderizarPreviewImagensAdmin(tipo, idx, opIdx)}</div>
                 <input class="admin-image-url-readonly" type="text" value="${lista.join(', ')}" readonly
                        title="URLs geradas automaticamente pelo Cloudinary">
@@ -1958,10 +2323,47 @@
         });
     }
 
+    function otimizarUrlImagemParaExibicao(url) {
+        const limpa = sanitizarUrlImagem(url || '');
+        if (!limpa) return '';
+
+        // Cloudinary: entrega formato/qualidade/DPR adequados ao aparelho,
+        // reduzindo o peso principalmente no celular.
+        if (/^https?:\/\/res\.cloudinary\.com\//i.test(limpa) && limpa.includes('/image/upload/')) {
+            return limpa.replace('/image/upload/', '/image/upload/f_auto,q_auto,dpr_auto/');
+        }
+        return limpa;
+    }
+
+    function tratarErroImagemCatalogo(img) {
+        if (!img) return;
+        const original = img.getAttribute('data-original-src') || img.currentSrc || img.src || '';
+        if (!original) return;
+
+        // Reforça o no-referrer para hosts que bloqueiam hotlink por referência.
+        if (img.dataset.retryNoReferrer !== '1') {
+            img.dataset.retryNoReferrer = '1';
+            img.referrerPolicy = 'no-referrer';
+            img.src = original;
+            return;
+        }
+
+        img.onerror = null;
+        img.src = 'https://via.placeholder.com/150?text=Imagem+Indisponivel';
+    }
+
     function criarHtmlCarrossel(imgsArray, idUnico, exibirZoom = true) {
-        let list = (imgsArray && imgsArray.length > 0) ? imgsArray.map(sanitizarUrlImagem) : ['https://via.placeholder.com/150'];
-        let imgsHtml = list.map(url => `<img src="${url}" alt="Imagem" onerror="this.onerror=null;this.src='https://via.placeholder.com/150?text=Indisponivel';">`).join('');
-        
+        let list = (imgsArray && imgsArray.length > 0)
+            ? imgsArray.map(sanitizarUrlImagem).filter(Boolean)
+            : ['https://via.placeholder.com/150'];
+
+        let imgsHtml = list.map((url, index) => {
+            const urlExibicao = otimizarUrlImagemParaExibicao(url);
+            const lazy = index === 0 ? 'eager' : 'lazy';
+            const prioridade = index === 0 ? ' fetchpriority="high"' : '';
+            return `<img src="${urlExibicao}" data-original-src="${urlExibicao}" alt="Imagem" loading="${lazy}" decoding="async" referrerpolicy="no-referrer"${prioridade} onerror="tratarErroImagemCatalogo(this)">`;
+        }).join('');
+
         let navBtns = '';
         if (list.length > 1) {
             navBtns = `
@@ -2539,7 +2941,7 @@
                     <th>Embalagem / Item</th>
                     <th style="text-align: right; width: 95px;">Valor unitário</th>
                     <th style="text-align: right; width: 95px;">Total</th>
-                    <th style="text-align: center; width: 45px;">Ações</th>
+                    <th aria-label="Excluir"></th>
                 `;
             }
 
@@ -2609,19 +3011,23 @@
                 if (tableHeadRow) {
                     tableHeadRow.innerHTML = `
                         <th>Produto</th>
+                        <th>Estampa</th>
                         <th style="text-align: center; width: 70px;">Qtd</th>
                         <th style="text-align: right;">Parcial</th>
-                        <th style="text-align: center; width: 40px;">Ações</th>
+                        <th aria-label="Excluir"></th>
                     `;
                 }
 
                 // Guarda as quantidades já digitadas antes de reconstruir a tabela.
                 const quantidadesProdutos = {};
+                const estampasProdutos = {};
                 document.querySelectorAll('.resume-table tbody tr').forEach(tr => {
                     const rowId = tr.getAttribute('data-id');
                     if (rowId) {
                         const qInput = document.getElementById(`qtd-${rowId}`);
+                        const eInput = document.getElementById(`estampa-${rowId}`);
                         if (qInput) quantidadesProdutos[rowId] = qInput.value;
+                        if (eInput) estampasProdutos[rowId] = eInput.value;
                     }
                 });
 
@@ -2638,9 +3044,11 @@
                     totalGeral += parcial;
                     somaQtdProdutos += qtd;
 
+                    const estampaVal = estampasProdutos[objItem.id] !== undefined ? estampasProdutos[objItem.id] : '';
                     tableBody.innerHTML += `
                         <tr data-id="${objItem.id}">
                             <td><b>${objItem.nome}</b></td>
+                            <td><input type="text" class="table-estampa" id="estampa-${objItem.id}" value="${estampaVal}" placeholder="Ex: Nome/Tema" oninput="salvarSelecaoStorage()"></td>
                             <td style="text-align:center;"><input type="number" class="table-qty" id="qtd-${objItem.id}" value="${qtd}" min="1" oninput="atualizarParcialLinha('${objItem.id}', ${Number(objItem.preco)})"></td>
                             <td style="text-align:right;" id="parcial-${objItem.id}">R$ ${parcial.toFixed(2)}</td>
                             <td style="text-align:center;"><button class="btn-delete-row" onclick="removerItemResumo('${objItem.id}')" title="Excluir produto">🗑️</button></td>
@@ -2648,7 +3056,7 @@
                 });
 
                 if (tableBody.innerHTML === '') {
-                    tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.6);padding:12px;">Nenhum produto selecionado</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:rgba(255,255,255,0.6);padding:12px;">Nenhum produto selecionado</td></tr>`;
                 }
 
                 const valorPorKit = somaQtdProdutos > 0 ? totalGeral / somaQtdProdutos : 0;
@@ -2661,11 +3069,21 @@
             if (tableHeadRow) {
                 tableHeadRow.innerHTML = `
                     <th>Kit / Embalagem</th>
+                    <th>Estampa</th>
                     <th style="text-align: center; width: 70px;">Qtd</th>
                     <th style="text-align: right;">Parcial</th>
-                    <th style="text-align: center; width: 40px;">Ações</th>
+                    <th aria-label="Excluir"></th>
                 `;
             }
+
+            const estampasKitsProntos = {};
+            document.querySelectorAll('.resume-table tbody tr').forEach(tr => {
+                const rowId = tr.getAttribute('data-id');
+                if (rowId) {
+                    const eInput = document.getElementById(`estampa-${rowId}`);
+                    if (eInput) estampasKitsProntos[rowId] = eInput.value;
+                }
+            });
 
             tableBody.innerHTML = '';
             let totalGeral = 0;
@@ -2693,6 +3111,7 @@
                     tableBody.innerHTML += `
                         <tr data-id="${objItem.id}">
                             <td><b>${objItem.nome}</b><br><span style="font-size:11px;color:#ffb4b4;">⚠ Escolha a embalagem</span></td>
+                            <td><input type="text" class="table-estampa" id="estampa-${objItem.id}" value="${estampasKitsProntos[objItem.id] || ''}" placeholder="Ex: Nome/Tema" oninput="salvarSelecaoStorage()"></td>
                             <td style="text-align:center;">${qtd}</td>
                             <td style="text-align:right;">---</td>
                             <td style="text-align:center;"><button class="btn-delete-row" onclick="removerItemResumo('${objItem.id}')" title="Excluir kit">🗑️</button></td>
@@ -2708,6 +3127,7 @@
                 tableBody.innerHTML += `
                     <tr data-id="${objItem.id}">
                         <td><b>${objItem.nome}</b><br><span style="font-size:11px;opacity:.8;">Embalagem: ${objEmb.nome} — R$ ${valorUnitarioFinal.toFixed(2)}/kit</span></td>
+                        <td><input type="text" class="table-estampa" id="estampa-${objItem.id}" value="${estampasKitsProntos[objItem.id] || ''}" placeholder="Ex: Nome/Tema" oninput="salvarSelecaoStorage()"></td>
                         <td style="text-align:center;"><input type="number" class="table-qty" id="qtd-${objItem.id}" value="${qtd}" min="1" oninput="atualizarParcialKitPronto('${objItem.id}', ${valorUnitarioFinal})"></td>
                         <td style="text-align:right;" id="parcial-${objItem.id}">R$ ${parcial.toFixed(2)}</td>
                         <td style="text-align:center;"><button class="btn-delete-row" onclick="removerItemResumo('${objItem.id}')" title="Excluir kit">🗑️</button></td>
@@ -2715,7 +3135,7 @@
             });
 
             if (tableBody.innerHTML === '') {
-                tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.6);padding:12px;">Nenhum kit selecionado</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:rgba(255,255,255,0.6);padding:12px;">Nenhum kit selecionado</td></tr>`;
             }
 
             if (faltaEmbalagem) {
@@ -2736,7 +3156,7 @@
                     <th>Estampa</th>
                     <th style="text-align: center;">Qtd</th>
                     <th style="text-align: right;">Parcial</th>
-                    <th style="text-align: center;">Ações</th>
+                    <th aria-label="Excluir"></th>
                 `;
             }
 
@@ -3212,6 +3632,11 @@
     function abrirAdmin() {
         document.getElementById('adm-valor-arte').value = catalogo.valorCriacaoArte !== undefined ? catalogo.valorCriacaoArte : 30.00;
         document.getElementById('adm-logo-url').value = catalogo.logoUrl || "";
+        const campoLinkLogo = document.getElementById('adm-logo-link-input');
+        if (campoLinkLogo) campoLinkLogo.value = '';
+        renderizarPreviewLogoAdmin(catalogo.logoUrl || '');
+        const statusLogo = document.getElementById('adm-logo-status');
+        if (statusLogo) statusLogo.textContent = catalogo.logoUrl ? 'Logo atual carregado. Você pode substituí-lo escolhendo outra imagem ou colando um novo link.' : 'Escolha uma imagem do computador ou use um link direto.';
         document.getElementById('adm-slogan').value = catalogo.slogan || "";
         document.getElementById('adm-link-instagram').value = catalogo.instagramUrl || "";
         document.getElementById('adm-link-whatsapp').value = catalogo.whatsappNumero || "";
@@ -3830,19 +4255,22 @@
         itensSelecionados.forEach(item => {
             if (modoSelecionado === 'monte_seu_kit') {
                 const qtd = parseInt(document.getElementById(`qtd-${item.id}`)?.value) || 1;
+                const estampa = (document.getElementById(`estampa-${item.id}`)?.value || '').trim();
                 const parcial = Number(item.preco) * qtd;
-                texto += `• ${item.nome} — unitário R$ ${Number(item.preco).toFixed(2)} — qtd ${qtd} — total R$ ${parcial.toFixed(2)}\n`;
+                texto += `• ${item.nome}${estampa ? ` — estampa: ${estampa}` : ''} — unitário R$ ${Number(item.preco).toFixed(2)} — qtd ${qtd} — total R$ ${parcial.toFixed(2)}\n`;
             } else {
                 const ehKitPronto = (item.categorias || []).includes('kits_prontos');
                 if (modoSelecionado === 'kits_prontos' && ehKitPronto) {
                     const embCheckedKit = document.querySelector(`input[name="embalagem-kit-${item.id}"]:checked`);
                     const embKit = embCheckedKit ? catalogo.embalagens.find(e => e.id === embCheckedKit.value) : null;
                     const qtdKit = parseInt(document.getElementById(`qtd-${item.id}`)?.value) || 1;
+                    const estampa = (document.getElementById(`estampa-${item.id}`)?.value || '').trim();
                     const valorUnitarioFinal = embKit ? Number(item.preco) + Number(embKit.preco) : Number(item.preco);
                     const parcialKit = valorUnitarioFinal * qtdKit;
-                    texto += `• ${item.nome} — embalagem: ${embKit ? embKit.nome : 'não selecionada'} — unitário R$ ${valorUnitarioFinal.toFixed(2)} — qtd ${qtdKit} — total R$ ${parcialKit.toFixed(2)}\n`;
+                    texto += `• ${item.nome}${estampa ? ` — estampa: ${estampa}` : ''} — embalagem: ${embKit ? embKit.nome : 'não selecionada'} — unitário R$ ${valorUnitarioFinal.toFixed(2)} — qtd ${qtdKit} — total R$ ${parcialKit.toFixed(2)}\n`;
                 } else {
-                    texto += `• ${item.nome} — R$ ${Number(item.preco).toFixed(2)}\n`;
+                    const estampa = (document.getElementById(`estampa-${item.id}`)?.value || '').trim();
+                    texto += `• ${item.nome}${estampa ? ` — estampa: ${estampa}` : ''} — R$ ${Number(item.preco).toFixed(2)}\n`;
                 }
             }
         });
