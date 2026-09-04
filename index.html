@@ -1011,6 +1011,9 @@
         .btn-upload-image:disabled { opacity: .65; cursor: wait; }
         .admin-upload-status { font-size: 10px; color: #6c757d; min-height: 15px; margin-top: 5px; }
         .admin-image-preview-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+        .admin-image-preview-item { cursor: grab; }
+        .admin-image-preview-item:active { cursor: grabbing; }
+        .admin-image-preview-item.dragging { opacity: .45; }
         .admin-image-preview-item { position: relative; width: 62px; height: 62px; }
         .admin-image-preview { width: 62px; height: 62px; object-fit: cover; border-radius: 6px; border: 1px solid #dee2e6; background: #f8f9fa; display: block; }
         .btn-delete-admin-image { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border: 0; border-radius: 50%; background: #dc3545; color: #fff; font-size: 13px; font-weight: 800; line-height: 20px; padding: 0; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
@@ -1458,12 +1461,48 @@
 
     function renderizarPreviewImagensAdmin(tipo, idx, opIdx = null) {
         const urls = obterListaImagensAdmin(tipo, idx, opIdx);
+        const chave = `${tipo}-${idx}-${opIdx === null ? 'main' : opIdx}`;
         return urls.map((url, imgIdx) => `
-            <div class="admin-image-preview-item">
+            <div class="admin-image-preview-item" draggable="true" data-img-index="${imgIdx}" data-img-key="${chave}" ondragstart="iniciarArrasteImagemAdmin(event)" ondragover="event.preventDefault()" ondrop="soltarImagemAdmin(event, '${tipo}', ${idx}, ${imgIdx}, ${opIdx === null ? 'null' : opIdx})" ondragend="finalizarArrasteImagemAdmin(event)">
                 <img class="admin-image-preview" src="${sanitizarUrlImagem(url)}" alt="Imagem ${imgIdx + 1}" onerror="this.style.display='none'">
-                <button type="button" class="btn-delete-admin-image" title="Excluir esta imagem" aria-label="Excluir esta imagem" onclick="removerImagemAdmin('${tipo}', ${idx}, ${imgIdx}, ${opIdx === null ? 'null' : opIdx})">×</button>
+                <button type="button" class="btn-delete-admin-image" title="Excluir esta imagem" aria-label="Excluir esta imagem" onclick="event.stopPropagation(); removerImagemAdmin('${tipo}', ${idx}, ${imgIdx}, ${opIdx === null ? 'null' : opIdx})">×</button>
             </div>
         `).join('');
+    }
+
+    let imagemAdminArrastada = null;
+
+    function iniciarArrasteImagemAdmin(event) {
+        imagemAdminArrastada = event.currentTarget;
+        event.currentTarget.classList.add('dragging');
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', event.currentTarget.dataset.imgIndex);
+    }
+
+    function finalizarArrasteImagemAdmin(event) {
+        event.currentTarget.classList.remove('dragging');
+        imagemAdminArrastada = null;
+    }
+
+    function soltarImagemAdmin(event, tipo, idx, destinoIdx, opIdx = null) {
+        event.preventDefault();
+        const origem = imagemAdminArrastada ? parseInt(imagemAdminArrastada.dataset.imgIndex, 10) : NaN;
+        if (Number.isNaN(origem) || origem === destinoIdx) return;
+        const urls = obterListaImagensAdmin(tipo, idx, opIdx);
+        if (!urls[origem] || !urls[destinoIdx]) return;
+        const [movida] = urls.splice(origem, 1);
+        urls.splice(destinoIdx, 0, movida);
+        atualizarListaImagensAdmin(tipo, idx, urls, opIdx);
+        const chave = `${tipo}-${idx}-${opIdx === null ? 'main' : opIdx}`;
+        const bloco = document.querySelector(`.admin-image-upload[data-image-key="${chave}"]`);
+        if (bloco) {
+            const preview = bloco.querySelector('.admin-image-preview-list');
+            if (preview) preview.innerHTML = renderizarPreviewImagensAdmin(tipo, idx, opIdx);
+            const campoUrls = bloco.querySelector('.admin-image-url-readonly');
+            if (campoUrls) campoUrls.value = urls.join(', ');
+            const status = bloco.querySelector('.admin-upload-status');
+            if (status) status.textContent = '↔️ Ordem alterada. Clique em "Salvar Alterações" para gravar no Firebase.';
+        }
     }
 
     function removerImagemAdmin(tipo, idx, imgIdx, opIdx = null) {
