@@ -250,6 +250,9 @@
         }
 
         .carousel-btn {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -270,6 +273,9 @@
         .carousel-btn.next { right: 5px; }
 
         .zoom-btn {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
             position: absolute;
             top: 8px;
             left: 8px;
@@ -290,6 +296,12 @@
         .zoom-btn:hover {
             background: #ffffff;
             transform: scale(1.1);
+        }
+
+        .img-container:hover .carousel-btn,
+        .img-container:hover .zoom-btn {
+            opacity: 1;
+            visibility: visible;
         }
 
         .info-container {
@@ -1572,7 +1584,25 @@
             font-weight: 700;
             color: var(--text);
         }
-        .btn-adicionar-orcamento-estatico {
+        
+.btn-adicionar-item-card {
+    width:100%;
+    margin-top:10px;
+    padding:9px 12px;
+    border:1px solid var(--primary);
+    border-radius:8px;
+    background:var(--primary);
+    color:#fff;
+    font-family:inherit;
+    font-size:11px;
+    font-weight:700;
+    cursor:pointer;
+    transition:opacity .2s, transform .2s;
+}
+.btn-adicionar-item-card:hover { opacity:.9; transform:translateY(-1px); }
+.btn-adicionar-item-card:active { transform:translateY(0); }
+
+.btn-adicionar-orcamento-estatico {
             width: 100%;
             margin-top: 10px;
             border: 0;
@@ -2928,6 +2958,76 @@ document.addEventListener('DOMContentLoaded', function(){
 }
 </style>
 
+
+<style id="padronizacao-titulos-ocasioes-datas-brindes">
+/* Padroniza apenas os cards de ocasiões (Datas, Brindes e demais universos).
+   O nome ocupa sempre as duas primeiras linhas, alinhado no topo.
+   "EM BREVE" fica reservado para a terceira linha. */
+.ocasiao-info-padrao .titulo-ocasiao-padrao {
+    height: 30px !important;
+    min-height: 30px !important;
+    line-height: 15px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    overflow: hidden;
+    text-align: center;
+}
+.ocasiao-info-padrao .em-breve-ocasiao {
+    height: 14px !important;
+    min-height: 14px !important;
+    line-height: 14px !important;
+    display: block !important;
+    margin: 0 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: var(--primary-dark) !important;
+}
+.ocasiao-info-padrao .em-breve-vazio {
+    visibility: hidden !important;
+}
+.ocasiao-info-padrao .data-comemorativa-data {
+    line-height: 14px !important;
+}
+</style>
+
+<style id="correcao-alinhamento-titulos-datas-comemorativas">
+/* Correção final: nas Datas Comemorativas, o nome ocupa sempre exatamente
+   duas linhas e começa no mesmo ponto em todos os cards. A data fica logo
+   abaixo do bloco do nome, sem alterar a estrutura dos demais cards. */
+#grid-datas-comemorativas .data-comemorativa-card .info-container {
+    justify-content: flex-start !important;
+}
+#grid-datas-comemorativas .data-comemorativa-card .titulo-ocasiao-padrao {
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    line-height: 15px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: -webkit-box !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+}
+#grid-datas-comemorativas .data-comemorativa-card .data-comemorativa-data {
+    height: 14px !important;
+    min-height: 14px !important;
+    line-height: 14px !important;
+    margin: 2px 0 0 !important;
+    display: block !important;
+}
+#grid-datas-comemorativas .data-comemorativa-card .em-breve-ocasiao {
+    height: 14px !important;
+    min-height: 14px !important;
+    line-height: 14px !important;
+    margin: 0 !important;
+}
+</style>
 </head>
 <body>
 
@@ -3170,13 +3270,8 @@ document.addEventListener('DOMContentLoaded', function(){
 <div id="modal-boas-vindas" class="desc-modal" style="z-index: 400;" onclick="fecharBoasVindas()">
     <div class="desc-modal-content" onclick="event.stopPropagation();">
         <span class="desc-modal-close" onclick="fecharBoasVindas()">&times;</span>
-        <div class="desc-modal-title">Olá, seja bem vindo! ✨</div>
-        <div class="desc-modal-body">
-            Olá, seja bem vindo ao nosso catálogo interativo, aqui você escolhe seus produtos ou monta seu kit de lembrancinha personalizado.<br><br>
-            Caso queira receber as opções direto no WhatsApp, é só chamar que te envio as opções e esclareço qualquer dúvida! É só clicar nos links de contato!<br><br>
-            Um abraço,<br>
-            Manuela
-        </div>
+        <div class="desc-modal-title" id="boas-vindas-titulo">Olá, seja bem-vindo! ✨</div>
+        <div class="desc-modal-body" id="boas-vindas-mensagem"></div>
     </div>
 </div>
 
@@ -3392,6 +3487,12 @@ document.addEventListener('DOMContentLoaded', function(){
             <div class="admin-field" style="margin-top:8px;">
                 <label id="txt-adm-label-mail">E-mail de Contato:</label>
                 <input type="text" id="adm-link-email" placeholder="seu-email@dominio.com">
+            </div>
+            <div class="admin-field" style="margin-top:18px;">
+                <label><b>💬 Mensagem de boas-vindas (primeiro acesso):</b></label>
+                <input type="text" id="adm-boas-vindas-titulo" placeholder="Olá, seja bem-vindo! ✨">
+                <textarea id="adm-boas-vindas-mensagem" rows="7" placeholder="Digite aqui a mensagem que aparecerá no popup no primeiro acesso."></textarea>
+                <small style="display:block;margin-top:5px;color:#777;line-height:1.4;">Essa mensagem aparece uma única vez para cada navegador. Para testar novamente, limpe o armazenamento do navegador.</small>
             </div>
         </div>
     </div>
@@ -3983,6 +4084,8 @@ document.addEventListener('DOMContentLoaded', function(){
         instagramUrl: "https://www.instagram.com/esense_costuracriativa/",
         whatsappNumero: "5554999999999",
         emailContato: "contato@esense.com.br",
+        boasVindasTitulo: "Olá, seja bem-vindo! ✨",
+        boasVindasMensagem: "Olá, seja bem-vindo ao nosso catálogo interativo, aqui você escolhe seus produtos ou monta seu kit de lembrancinha personalizado.\n\nCaso queira receber as opções direto no WhatsApp, é só chamar que te envio as opções e esclareço qualquer dúvida! É só clicar nos links de contato!\n\nUm abraço,\nManuela",
         valorCriacaoArte: 30.00,
         universosHome: {
             mimos: { ativo: true, nome: 'eSense Mimos', descricao: 'Lembrancinhas, presentes, brindes, kits e datas especiais.' },
@@ -4185,6 +4288,12 @@ document.addEventListener('DOMContentLoaded', function(){
                     if (catalogo.valorCriacaoArte === undefined) {
                         catalogo.valorCriacaoArte = 30.00;
                     }
+                    if (catalogo.boasVindasTitulo === undefined) {
+                        catalogo.boasVindasTitulo = 'Olá, seja bem-vindo! ✨';
+                    }
+                    if (catalogo.boasVindasMensagem === undefined) {
+                        catalogo.boasVindasMensagem = 'Olá, seja bem-vindo ao nosso catálogo interativo, aqui você escolhe seus produtos ou monta seu kit de lembrancinha personalizado.\n\nCaso queira receber as opções direto no WhatsApp, é só chamar que te envio as opções e esclareço qualquer dúvida! É só clicar nos links de contato!\n\nUm abraço,\nManuela';
+                    }
                     if (Array.isArray(catalogo.itens)) {
                         catalogo.itens.forEach(item => {
                             if (!item.segmento) item.segmento = 'mimos';
@@ -4247,6 +4356,7 @@ document.addEventListener('DOMContentLoaded', function(){
             atualizarTextoValorArte();
             await restaurarEstadoNavegacao();
             processarParametrosURL();
+            exibirBoasVindasUmaVez();
         }
     }
 
@@ -4328,6 +4438,8 @@ document.addEventListener('DOMContentLoaded', function(){
         categoriaAtual = 'todos';
         ocultarTodasAsAreasPublicas();
         const home = document.getElementById('secao-home'); if (home) home.style.display = 'block';
+        const btnOrcamentoHome = document.getElementById('btn-meu-orcamento');
+        if (btnOrcamentoHome) btnOrcamentoHome.style.setProperty('display', 'none', 'important');
         document.getElementById('pagina-titulo-legado')?.style.setProperty('display','none');
         if (pushHistorico) window.history.pushState({}, '', window.location.pathname);
         salvarEstadoNavegacao();
@@ -4434,7 +4546,7 @@ document.addEventListener('DOMContentLoaded', function(){
         kits.forEach(item => {
             const carouselHtml = criarHtmlCarrossel(item.imgs, `item-${item.id}`, true);
             const preco = obterMenorValorLinhaKit(item);
-            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${carouselHtml}<div class="info-container"><span class="item-title">${item.nome}</span><span class="item-price">A partir de R$ ${preco.toFixed(2)}</span><div id="embalagens-kit-${item.id}" class="kit-embalagem-opcoes" style="display:none;"></div></div></div>`;
+            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${carouselHtml}<div class="info-container"><span class="item-title">${item.nome}</span><span class="item-price">A partir de R$ ${preco.toFixed(2)}</span><div id="embalagens-kit-${item.id}" class="kit-embalagem-opcoes" style="display:none;"></div><button type="button" class="btn-adicionar-item-card" onclick="adicionarKitProntoAoOrcamento('${item.id}', event)">Inserir ao orçamento</button></div></div>`;
         });
         if (!kits.length) grid.innerHTML = '<div class="costura-vazio">Nenhum Kit Pronto cadastrado ainda.</div>';
         atualizarBotaoAdicionarOrcamentoFlutuante();
@@ -4511,7 +4623,7 @@ document.addEventListener('DOMContentLoaded', function(){
         grid.innerHTML = '';
         itens.forEach(item => {
             const desc = criarHtmlDescricao(item.nome, item.tituloDesc, item.descricao, item.pedidoMinimoAtivo, item.pedidoMinimo);
-            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${criarHtmlCarrossel(item.imgs, `costura-${item.id}`, true)}<div class="info-container"><span class="item-title">${item.nome}</span>${desc}<span class="item-price">R$ ${Number(item.preco || 0).toFixed(2)}</span></div></div>`;
+            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${criarHtmlCarrossel(item.imgs, `costura-${item.id}`, true)}<div class="info-container"><span class="item-title">${item.nome}</span>${desc}<span class="item-price">R$ ${Number(item.preco || 0).toFixed(2)}</span><button type="button" class="btn-adicionar-item-card" onclick="adicionarProdutoDataBrindeAoOrcamento('${item.id}', event)">Inserir ao orçamento</button></div></div>`;
         });
 
         if (!itens.length) {
@@ -4563,7 +4675,7 @@ document.addEventListener('DOMContentLoaded', function(){
         grid.innerHTML = '';
         itens.forEach(item => {
             const desc = criarHtmlDescricao(item.nome, item.tituloDesc, item.descricao, item.pedidoMinimoAtivo, item.pedidoMinimo);
-            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${criarHtmlCarrossel(item.imgs, `universo-copia-${item.id}`, true)}<div class="info-container"><span class="item-title">${item.nome}</span>${desc}<span class="item-price">R$ ${Number(item.preco || 0).toFixed(2)}</span></div></div>`;
+            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${criarHtmlCarrossel(item.imgs, `universo-copia-${item.id}`, true)}<div class="info-container"><span class="item-title">${item.nome}</span>${desc}<span class="item-price">R$ ${Number(item.preco || 0).toFixed(2)}</span><button type="button" class="btn-adicionar-item-card" onclick="adicionarProdutoDataBrindeAoOrcamento('${item.id}', event)">Inserir ao orçamento</button></div></div>`;
         });
         if (!itens.length) grid.innerHTML = '<div class="costura-vazio">Ainda não há produtos cadastrados neste universo. Eles aparecerão aqui assim que forem cadastrados no Painel de Controle.</div>';
         atualizarBotaoAdicionarOrcamentoFlutuante();
@@ -5017,10 +5129,10 @@ document.addEventListener('DOMContentLoaded', function(){
                     <div class="selectable-card${classeData}" style="opacity: 0.85; cursor: default;">
                         ${seloDataDoMes}
                         ${carouselHtml}
-                        <div class="info-container" style="background: rgba(192, 160, 56, 0.12); text-align: center; justify-content: center; padding: 12px 8px;">
-                            <span class="item-title" style="margin-bottom: 2px;">${oc.nome}</span>
+                        <div class="info-container ocasiao-info-padrao" style="background: rgba(192, 160, 56, 0.12); text-align: center; justify-content: center; padding: 12px 8px;">
+                            <span class="item-title titulo-ocasiao-padrao">${oc.nome}</span>
                             ${dataHtml}
-                            <span style="font-size: 11px; font-weight: 700; color: var(--primary-dark); display: block;">NOVIDADES EM BREVE</span>
+                            <span class="em-breve-ocasiao">EM BREVE</span>
                         </div>
                     </div>
                 `;
@@ -5029,9 +5141,10 @@ document.addEventListener('DOMContentLoaded', function(){
                     <div class="selectable-card${classeData}" onclick="selecionarOcasiaoDiretoKitsProntos('${oc.id}')">
                         ${seloDataDoMes}
                         ${carouselHtml}
-                        <div class="info-container">
-                            <span class="item-title">${oc.nome}</span>
+                        <div class="info-container ocasiao-info-padrao">
+                            <span class="item-title titulo-ocasiao-padrao">${oc.nome}</span>
                             ${dataHtml}
+                            <span class="em-breve-ocasiao em-breve-vazio" aria-hidden="true">&nbsp;</span>
                         </div>
                     </div>
                 `;
@@ -5492,6 +5605,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         ${descHtml}
                         ${precoInicialHtml}
                         ${ehKitPronto ? `<div id="embalagens-kit-${item.id}" class="kit-embalagem-opcoes" style="display:none;"></div>` : ""}
+                        ${modoSelecionado !== 'monte_seu_kit' ? `<button type="button" class="btn-adicionar-item-card" onclick="${ehKitPronto ? `adicionarKitProntoAoOrcamento('${item.id}', event)` : `adicionarProdutoDataBrindeAoOrcamento('${item.id}', event)`}">Inserir ao orçamento</button>` : ''}
 </div>
                 </div>
             `;
@@ -6592,6 +6706,8 @@ document.addEventListener('DOMContentLoaded', function(){
         document.getElementById('adm-link-instagram').value = catalogo.instagramUrl || "";
         document.getElementById('adm-link-whatsapp').value = catalogo.whatsappNumero || "";
         document.getElementById('adm-link-email').value = catalogo.emailContato || "";
+        document.getElementById('adm-boas-vindas-titulo').value = catalogo.boasVindasTitulo || 'Olá, seja bem-vindo! ✨';
+        document.getElementById('adm-boas-vindas-mensagem').value = catalogo.boasVindasMensagem || 'Olá, seja bem-vindo ao nosso catálogo interativo, aqui você escolhe seus produtos ou monta seu kit de lembrancinha personalizado.\n\nCaso queira receber as opções direto no WhatsApp, é só chamar que te envio as opções e esclareço qualquer dúvida! É só clicar nos links de contato!\n\nUm abraço,\nManuela';
 
         renderizarCamposAdminCategorias();
         renderizarCamposAdminItens();
@@ -7746,6 +7862,8 @@ function renderizarCamposAdminItens() {
         catalogo.instagramUrl = document.getElementById('adm-link-instagram').value.trim();
         catalogo.whatsappNumero = document.getElementById('adm-link-whatsapp').value.trim();
         catalogo.emailContato = document.getElementById('adm-link-email').value.trim();
+        catalogo.boasVindasTitulo = document.getElementById('adm-boas-vindas-titulo').value.trim() || 'Olá, seja bem-vindo! ✨';
+        catalogo.boasVindasMensagem = document.getElementById('adm-boas-vindas-mensagem').value.trim() || 'Olá, seja bem-vindo ao nosso catálogo interativo, aqui você escolhe seus produtos ou monta seu kit de lembrancinha personalizado.\n\nCaso queira receber as opções direto no WhatsApp, é só chamar que te envio as opções e esclareço qualquer dúvida! É só clicar nos links de contato!\n\nUm abraço,\nManuela';
         normalizarUniversosHome();
         Object.values(catalogo.universosHome || {}).forEach(u => {
             if (u && typeof u === 'object') u.ativo = !!u.ativo;
@@ -7820,8 +7938,16 @@ function renderizarCamposAdminItens() {
         localStorage.setItem('esense_boas_vindas_exibida', '1');
     }
 
+    function atualizarMensagemBoasVindas() {
+        const titulo = document.getElementById('boas-vindas-titulo');
+        const mensagem = document.getElementById('boas-vindas-mensagem');
+        if (titulo) titulo.textContent = catalogo.boasVindasTitulo || 'Olá, seja bem-vindo! ✨';
+        if (mensagem) mensagem.innerHTML = String(catalogo.boasVindasMensagem || '').replace(/\n/g, '<br>');
+    }
+
     function exibirBoasVindasUmaVez() {
         if (!localStorage.getItem('esense_boas_vindas_exibida')) {
+            atualizarMensagemBoasVindas();
             const modal = document.getElementById('modal-boas-vindas');
             if (modal) modal.style.display = 'flex';
         }
@@ -7836,7 +7962,6 @@ function renderizarCamposAdminItens() {
 
     document.addEventListener("DOMContentLoaded", () => {
         carregarDadosDaNuvem();
-        exibirBoasVindasUmaVez();
     });
 
     // Depois que a página é reconstruída, tenta voltar à posição anterior.
@@ -8128,7 +8253,8 @@ function renderizarCamposAdminItens() {
             podeAdicionar = !!embalagem && quantidadeSelecionada > 0;
         }
 
-        const mostrar = !adminAberto
+        const mostrar = modoSelecionado === 'monte_seu_kit'
+            && !adminAberto
             && !cartAberto
             && podeAdicionar;
 
@@ -8235,7 +8361,6 @@ function renderizarCamposAdminItens() {
         calcularTotal();
         atualizarBarraOrcamento();
         atualizarBotaoAdicionarOrcamentoFlutuante();
-        piscarEVoltarAoCarrinho();
     }
 
     function atualizarBarraOrcamento() {
@@ -8248,7 +8373,17 @@ function renderizarCamposAdminItens() {
         const quantidade = carrinhoOrcamento.reduce((acc, item) => acc + (item.modo === 'monte_seu_kit' ? 1 : 1), 0);
         if (contador) contador.textContent = quantidade;
         if (btn) {
-            btn.style.display = (!adminAberto && !cartAberto && carrinhoOrcamento.length) ? 'flex' : 'none';
+            // O botão Meu Orçamento NÃO aparece na página inicial / Universos.
+            // Usa segmentoAtual como regra principal para impedir que outras
+            // atualizações do carrinho façam o botão reaparecer nessa tela.
+            const paginaUniversosAberta = segmentoAtual === 'home' ||
+                (document.getElementById('secao-home') &&
+                 getComputedStyle(document.getElementById('secao-home')).display !== 'none');
+            if (paginaUniversosAberta) {
+                btn.style.setProperty('display', 'none', 'important');
+            } else {
+                btn.style.setProperty('display', (!adminAberto && !cartAberto && carrinhoOrcamento.length) ? 'flex' : 'none', 'important');
+            }
             btn.disabled = false;
         }
         atualizarBotaoAdicionarOrcamentoFlutuante();
@@ -8470,25 +8605,56 @@ function renderizarCamposAdminItens() {
         if (telaCarrinho.parentElement !== document.body) document.body.appendChild(telaCarrinho);
         renderizarCarrinhoMultiOcasião();
 
+        const ehCelular = window.matchMedia('(max-width: 760px)').matches;
+
         telaCarrinho.removeAttribute('hidden');
         telaCarrinho.style.setProperty('display', 'block', 'important');
-        telaCarrinho.style.setProperty('position', 'fixed', 'important');
-        telaCarrinho.style.setProperty('left', '50%', 'important');
-        telaCarrinho.style.setProperty('top', '50%', 'important');
-        telaCarrinho.style.setProperty('transform', 'translate(-50%, -50%)', 'important');
-        telaCarrinho.style.setProperty('z-index', '2147483647', 'important');
-        document.body.classList.add('orcamento-popup-aberto');
+
+        if (ehCelular) {
+            // No celular, o orçamento funciona como uma página própria, não como modal.
+            document.body.classList.add('orcamento-pagina-aberta');
+            document.body.classList.remove('orcamento-popup-aberto');
+            telaCarrinho.style.setProperty('position', 'relative', 'important');
+            telaCarrinho.style.setProperty('left', 'auto', 'important');
+            telaCarrinho.style.setProperty('top', 'auto', 'important');
+            telaCarrinho.style.setProperty('transform', 'none', 'important');
+            telaCarrinho.style.setProperty('z-index', '1', 'important');
+            if (window.location.hash !== '#orcamento') {
+                window.history.pushState({ orcamento: true }, '', '#orcamento');
+            }
+        } else {
+            // Desktop permanece exatamente com o comportamento atual de modal.
+            telaCarrinho.style.setProperty('position', 'fixed', 'important');
+            telaCarrinho.style.setProperty('left', '50%', 'important');
+            telaCarrinho.style.setProperty('top', '50%', 'important');
+            telaCarrinho.style.setProperty('transform', 'translate(-50%, -50%)', 'important');
+            telaCarrinho.style.setProperty('z-index', '2147483647', 'important');
+            document.body.classList.add('orcamento-popup-aberto');
+        }
         atualizarBarraOrcamento();
     }
     window.abrirOrcamentoCarrinho = abrirOrcamentoCarrinho;
 
     function voltarDoOrcamentoCarrinho() {
         const telaCarrinho = document.getElementById('tela-orcamento-carrinho');
+        const eraPaginaCelular = document.body.classList.contains('orcamento-pagina-aberta');
         if (telaCarrinho) telaCarrinho.style.setProperty('display', 'none', 'important');
-        document.body.classList.remove('orcamento-popup-aberto');
+        document.body.classList.remove('orcamento-popup-aberto', 'orcamento-pagina-aberta');
+        if (eraPaginaCelular && window.location.hash === '#orcamento') {
+            window.history.back();
+        }
         atualizarBarraOrcamento();
     }
     window.voltarDoOrcamentoCarrinho = voltarDoOrcamentoCarrinho;
+
+    window.addEventListener('popstate', function () {
+        if (document.body.classList.contains('orcamento-pagina-aberta')) {
+            const telaCarrinho = document.getElementById('tela-orcamento-carrinho');
+            if (telaCarrinho) telaCarrinho.style.setProperty('display', 'none', 'important');
+            document.body.classList.remove('orcamento-pagina-aberta', 'orcamento-popup-aberto');
+            atualizarBarraOrcamento();
+        }
+    });
 
     function sincronizarNomeCarrinho(valor) {
         const campo = document.getElementById('input-nome-cliente');
@@ -8737,6 +8903,97 @@ document.addEventListener('DOMContentLoaded', () => {
     border-color: var(--primary-dark) !important;
 }
 </style>
+
+<style id="responsivo-mobile-final-esense">
+/* Ajustes EXCLUSIVOS para celular — desktop permanece inalterado. */
+@media (max-width: 760px) {
+    html, body {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    body {
+        margin: 0 !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    body > .wrapper,
+    body > .logo-container,
+    .wrapper,
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .container {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    #secao-home {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Página inicial: dois universos por linha no celular. */
+    #secao-home .segment-grid {
+        width: 100% !important;
+        max-width: 100% !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        box-sizing: border-box !important;
+    }
+
+    #secao-home .segment-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    #secao-home .segment-card h2,
+    #secao-home .segment-card p,
+    #secao-home .segment-link {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Orçamento no celular vira uma página inteira. */
+    body.orcamento-pagina-aberta {
+        padding: 0 !important;
+        overflow-x: hidden !important;
+    }
+
+    body.orcamento-pagina-aberta > .wrapper,
+    body.orcamento-pagina-aberta > .logo-container,
+    body.orcamento-pagina-aberta > #btn-meu-orcamento,
+    body.orcamento-pagina-aberta > #btn-adicionar-orcamento-flutuante,
+    body.orcamento-pagina-aberta > #pagina-titulo-legado {
+        display: none !important;
+    }
+
+    body.orcamento-pagina-aberta #tela-orcamento-carrinho {
+        display: block !important;
+        position: relative !important;
+        inset: auto !important;
+        width: 100% !important;
+        max-width: none !important;
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+        margin: 0 !important;
+        padding: 12px !important;
+        box-sizing: border-box !important;
+        transform: none !important;
+        border-radius: 0 !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+}
+</style>
 </body>
 
 <style id="ajuste-alinhamento-conteudo-v3">
@@ -8810,3 +9067,197 @@ footer {
 }
 </style>
 </html>
+
+<style id="melhoria-fontes-orcamento-mobile">
+/* Somente celular: aumentar legibilidade do Meu Orçamento */
+@media (max-width: 600px) {
+    #tela-orcamento-carrinho .orcamento-carrinho-cabecalho h2 {
+        font-size: 19px !important;
+        line-height: 1.25 !important;
+    }
+    #tela-orcamento-carrinho .btn-fechar-carrinho {
+        font-size: 25px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-ocasiao-titulo {
+        font-size: 12px !important;
+        line-height: 1.35 !important;
+    }
+    #tela-orcamento-carrinho .carrinho-item-nome {
+        font-size: 12.5px !important;
+        line-height: 1.35 !important;
+    }
+    #tela-orcamento-carrinho .carrinho-item-detalhe {
+        font-size: 10px !important;
+        line-height: 1.35 !important;
+    }
+    #tela-orcamento-carrinho .carrinho-qtd button {
+        width: 23px !important;
+        height: 23px !important;
+        font-size: 12px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-qtd span,
+    #tela-orcamento-carrinho .carrinho-qtd input {
+        height: 23px !important;
+        font-size: 11px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-qtd span {
+        min-width: 29px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-qtd input {
+        width: 38px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-preco {
+        font-size: 11px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-preco small {
+        font-size: 9px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-ocasiao-subtotal,
+    #tela-orcamento-carrinho .carrinho-ocasiao-valor-kit {
+        font-size: 12px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-arte-label,
+    #tela-orcamento-carrinho .carrinho-arte-controles,
+    #tela-orcamento-carrinho .carrinho-arte-controles label {
+        font-size: 12px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-arte-controles strong {
+        font-size: 12px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-total-linha.total {
+        font-size: 20px !important;
+        line-height: 1.3 !important;
+    }
+    #tela-orcamento-carrinho #carrinho-desconto-aviso,
+    #tela-orcamento-carrinho #carrinho-pedido-minimo-aviso {
+        font-size: 10.5px !important;
+        line-height: 1.45 !important;
+    }
+    #tela-orcamento-carrinho .carrinho-dados label {
+        font-size: 12px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-dados input,
+    #tela-orcamento-carrinho .carrinho-dados textarea {
+        font-size: 13px !important;
+        line-height: 1.35 !important;
+    }
+    #tela-orcamento-carrinho .carrinho-dados input {
+        min-height: 40px !important;
+    }
+    #tela-orcamento-carrinho .carrinho-dados textarea {
+        min-height: 72px !important;
+    }
+    #tela-orcamento-carrinho .btn-carrinho-voltar,
+    #tela-orcamento-carrinho .btn-carrinho-whatsapp {
+        font-size: 12px !important;
+        line-height: 1.3 !important;
+        padding: 12px 10px !important;
+    }
+}
+</style>
+
+<style id="melhoria-legibilidade-orcamento-desktop">
+/* Desktop: melhorar legibilidade sem alterar a estrutura do orçamento */
+@media (min-width: 601px) {
+    #tela-orcamento-carrinho .orcamento-carrinho-cabecalho h2 {
+        font-size: 21px !important;
+        line-height: 1.3 !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-ocasiao-titulo {
+        color: #4f4f4f !important;
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+        font-weight: 650 !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-item-nome {
+        color: #3f3f3f !important;
+        font-size: 13.5px !important;
+        line-height: 1.4 !important;
+        font-weight: 650 !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-item-detalhe {
+        color: #707070 !important;
+        font-size: 11.5px !important;
+        line-height: 1.4 !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-qtd {
+        color: #505050 !important;
+        font-size: 12.5px !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-preco {
+        color: #4d4d4d !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-preco small {
+        color: #707070 !important;
+        font-size: 10.5px !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-ocasiao-subtotal,
+    #tela-orcamento-carrinho .carrinho-ocasiao-valor-kit {
+        color: #4f4f4f !important;
+        font-size: 13px !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-arte-label,
+    #tela-orcamento-carrinho .carrinho-arte-controles,
+    #tela-orcamento-carrinho .carrinho-arte-controles label {
+        color: #505050 !important;
+        font-size: 13px !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-arte-controles strong {
+        color: #4a4a4a !important;
+        font-size: 13px !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-total-linha {
+        color: #555555 !important;
+        font-size: 13.5px !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-total-linha.total {
+        color: #303030 !important;
+        font-size: 20px !important;
+        line-height: 1.35 !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-dados label {
+        color: #4a4a4a !important;
+        font-size: 13px !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-dados input,
+    #tela-orcamento-carrinho .carrinho-dados textarea {
+        color: #404040 !important;
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+    }
+
+    #tela-orcamento-carrinho .carrinho-dados input::placeholder,
+    #tela-orcamento-carrinho .carrinho-dados textarea::placeholder {
+        color: #8a8a8a !important;
+        opacity: 1 !important;
+    }
+
+    #tela-orcamento-carrinho #carrinho-desconto-aviso,
+    #tela-orcamento-carrinho #carrinho-pedido-minimo-aviso {
+        color: #737373 !important;
+        font-size: 11px !important;
+        line-height: 1.45 !important;
+    }
+
+    #tela-orcamento-carrinho .btn-carrinho-voltar,
+    #tela-orcamento-carrinho .btn-carrinho-whatsapp {
+        font-size: 13px !important;
+        line-height: 1.35 !important;
+    }
+}
+</style>
