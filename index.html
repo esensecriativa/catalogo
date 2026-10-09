@@ -3028,6 +3028,38 @@ document.addEventListener('DOMContentLoaded', function(){
     margin: 0 !important;
 }
 </style>
+
+<style id="admin-alteracao-precos-massa">
+.bulk-precos-box {
+    margin: 0 0 14px; padding: 12px; border: 1px solid #e1e4e8; border-radius: 8px; background: #fff;
+}
+.bulk-precos-titulo { font-size: 13px; font-weight: 700; color: var(--primary-dark); margin-bottom: 4px; }
+.bulk-precos-ajuda { font-size: 10.5px; line-height: 1.45; color: #6c757d; margin: 0 0 10px; }
+.bulk-precos-controles { display:grid; grid-template-columns: repeat(4,minmax(140px,1fr)); gap:8px; align-items:end; }
+.bulk-precos-campo { display:flex; flex-direction:column; gap:3px; }
+.bulk-precos-campo label { font-size:10px; font-weight:700; color:#495057; }
+.bulk-precos-campo select, .bulk-precos-campo input { font-family:'Montserrat',sans-serif; padding:7px 8px; border:1px solid #ced4da; border-radius:6px; font-size:12px; color:var(--text); box-sizing:border-box; width:100%; }
+.bulk-precos-botoes { display:flex; flex-wrap:wrap; gap:7px; margin-top:9px; }
+.bulk-precos-botoes button { border:0; border-radius:5px; padding:7px 10px; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; cursor:pointer; }
+.bulk-precos-btn-aplicar { background:#2f9e44; color:#fff; }
+.bulk-precos-btn-sec { background:#868e96; color:#fff; }
+.bulk-precos-btn-excel { background:#495057; color:#fff; }
+.bulk-precos-preview { margin-top:10px; display:none; }
+.bulk-precos-preview.ativo { display:block; }
+.bulk-precos-preview-topo { display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
+.bulk-precos-preview-resumo { font-size:10.5px; color:#495057; font-weight:600; }
+.bulk-precos-tabela-wrap { max-height:300px; overflow:auto; border:1px solid #dee2e6; border-radius:6px; }
+.bulk-precos-tabela { width:100%; border-collapse:collapse; font-size:10.5px; }
+.bulk-precos-tabela th { position:sticky; top:0; background:#f1f3f5; color:#495057; font-weight:700; z-index:1; }
+.bulk-precos-tabela th, .bulk-precos-tabela td { padding:6px 7px; border-bottom:1px solid #e9ecef; text-align:left; }
+.bulk-precos-tabela td:nth-child(3), .bulk-precos-tabela td:nth-child(4), .bulk-precos-tabela th:nth-child(3), .bulk-precos-tabela th:nth-child(4) { text-align:right; white-space:nowrap; }
+.bulk-precos-novo { font-weight:700; color:#2f9e44; }
+.bulk-precos-aviso { margin-top:7px; font-size:10px; color:#7a5b00; background:#fff8e6; border-radius:6px; padding:6px 8px; display:none; }
+@media (max-width:760px) {
+    .bulk-precos-controles { grid-template-columns:1fr 1fr; }
+    .bulk-precos-campo:last-child { grid-column:1 / -1; }
+}
+</style>
 </head>
 <body>
 
@@ -3333,6 +3365,66 @@ document.addEventListener('DOMContentLoaded', function(){
             <label class="admin-select-all"><input type="checkbox" class="admin-select-checkbox" onchange="selecionarTodosAdmin('item', this.checked)"> Selecionar todos</label>
             <button type="button" class="admin-bulk-delete" onclick="excluirSelecionadosAdmin('item')">Excluir selecionados</button>
             <button type="button" class="admin-bulk-visibility" id="btn-ocultar-selecionados-item" onclick="alternarOcultacaoSelecionadosAdmin('item')">🙈 Ocultar selecionados</button>
+        </div>
+
+        <div class="bulk-precos-box" id="bulk-precos-box">
+            <div class="bulk-precos-titulo">💰 Alterar preços em massa</div>
+            <p class="bulk-precos-ajuda">Selecione um grupo, escolha aumento ou redução e confira a prévia antes de aplicar. A ferramenta altera somente o campo <strong>preço</strong>; nome, descrição, imagens, categorias e demais informações permanecem intactos. Depois, clique em <strong>Salvar Alterações</strong> para gravar no Firebase.</p>
+            <div class="bulk-precos-controles">
+                <div class="bulk-precos-campo">
+                    <label for="bulk-precos-filtro">Aplicar em</label>
+                    <select id="bulk-precos-filtro">
+                        <option value="todos">Todos os itens</option>
+                        <option value="mimos">Mimos</option>
+                        <option value="kits_prontos">Kits Prontos</option>
+                        <option value="brindes">Brindes</option>
+                        <option value="ocasioes">Datas / Ocasiões</option>
+                        <option value="costura_criativa">Costura Criativa</option>
+                        <option value="universo_costura_copia">Novo Universo</option>
+                    </select>
+                </div>
+                <div class="bulk-precos-campo">
+                    <label for="bulk-precos-tipo">Tipo de alteração</label>
+                    <select id="bulk-precos-tipo">
+                        <option value="percentual_aumento">Aumentar por %</option>
+                        <option value="percentual_reducao">Reduzir por %</option>
+                        <option value="valor_aumento">Adicionar R$</option>
+                        <option value="valor_reducao">Subtrair R$</option>
+                    </select>
+                </div>
+                <div class="bulk-precos-campo">
+                    <label for="bulk-precos-valor">Valor</label>
+                    <input id="bulk-precos-valor" type="number" min="0" step="0.01" placeholder="Ex.: 10">
+                </div>
+                <div class="bulk-precos-campo">
+                    <label for="bulk-precos-arredondamento">Arredondamento</label>
+                    <select id="bulk-precos-arredondamento">
+                        <option value="2">2 casas decimais</option>
+                        <option value="1">1 casa decimal</option>
+                        <option value="0">Preço inteiro</option>
+                    </select>
+                </div>
+            </div>
+            <div class="bulk-precos-botoes">
+                <button type="button" class="bulk-precos-btn-aplicar" onclick="prepararAlteracaoPrecosMassa()">Gerar prévia</button>
+                <button type="button" class="bulk-precos-btn-sec" onclick="limparPreviaPrecosMassa()">Limpar prévia</button>
+                <button type="button" class="bulk-precos-btn-excel" onclick="baixarModeloPrecosMassa()">Baixar planilha de preços</button>
+                <button type="button" class="bulk-precos-btn-excel" onclick="document.getElementById('input-importar-precos-massa').click()">Importar preços da planilha</button>
+                <input type="file" id="input-importar-precos-massa" accept=".xlsx,.xls,.csv" style="display:none" onchange="importarPrecosMassa(event)">
+            </div>
+            <div id="bulk-precos-aviso" class="bulk-precos-aviso"></div>
+            <div id="bulk-precos-preview" class="bulk-precos-preview">
+                <div class="bulk-precos-preview-topo">
+                    <div id="bulk-precos-resumo" class="bulk-precos-preview-resumo"></div>
+                    <button type="button" class="bulk-precos-btn-aplicar" onclick="confirmarAlteracaoPrecosMassa()">Aplicar preços da prévia</button>
+                </div>
+                <div class="bulk-precos-tabela-wrap">
+                    <table class="bulk-precos-tabela">
+                        <thead><tr><th>Item</th><th>Grupo</th><th>Atual</th><th>Novo preço</th></tr></thead>
+                        <tbody id="bulk-precos-preview-body"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div id="admin-container-itens"></div>
     </div>
@@ -4360,6 +4452,21 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 
+    function obterRotaNavegacao() {
+        const pagina = segmentoAtual === 'home' ? 'inicio'
+            : segmentoAtual === 'costura_criativa' ? 'costura-criativa'
+            : segmentoAtual === UNIVERSO_COPIA_COSTURA_ID ? 'universo'
+            : modoSelecionado === 'monte_seu_kit' ? 'monte-seu-kit'
+            : modoSelecionado === 'kits_prontos' ? 'kits-prontos'
+            : ocasiaoSelecionadaId ? 'ocasiao'
+            : segmentoAtual === 'mimos' ? 'mimos' : 'inicio';
+        const params = new URLSearchParams();
+        params.set('pagina', pagina);
+        if (ocasiaoSelecionadaId) params.set('ocasiao', ocasiaoSelecionadaId);
+        if (modoSelecionado) params.set('modo', modoSelecionado);
+        return window.location.pathname + '?' + params.toString();
+    }
+
     function salvarEstadoNavegacao() {
         try {
             sessionStorage.setItem('esense_pagina_atual', JSON.stringify({
@@ -4370,6 +4477,15 @@ document.addEventListener('DOMContentLoaded', function(){
                 categoriaCostura: window._categoriaCostura || 'todos',
                 categoriaUniverso: window._categoriaUniversoCosturaCopia || 'todos'
             }));
+        } catch (e) {}
+
+        // Cada seção visitada recebe um endereço próprio e pode ser compartilhada.
+        try {
+            const novaUrl = obterRotaNavegacao();
+            const atual = window.location.pathname + window.location.search;
+            if (atual !== novaUrl && window.location.hash !== '#orcamento') {
+                window.history.pushState({ esenseRoute: true }, '', novaUrl);
+            }
         } catch (e) {}
     }
 
@@ -4685,8 +4801,35 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function processarParametrosURL() {
         const params = new URLSearchParams(window.location.search);
+        const pagina = params.get('pagina');
         const ocParam = params.get('ocasiao');
         const modoParam = params.get('modo');
+
+        // Links diretos para as principais páginas do catálogo.
+        if (pagina === 'inicio') {
+            voltarHome(false);
+            return;
+        }
+        if (pagina === 'costura-criativa') {
+            entrarSegmento('costura_criativa');
+            return;
+        }
+        if (pagina === 'universo') {
+            entrarSegmento(UNIVERSO_COPIA_COSTURA_ID);
+            return;
+        }
+        if (pagina === 'monte-seu-kit' && !ocParam) {
+            entrarMonteSeuKitHome();
+            return;
+        }
+        if (pagina === 'kits-prontos' && !ocParam) {
+            abrirKitsProntosGerais();
+            return;
+        }
+        if (pagina === 'mimos' && !ocParam) {
+            entrarSegmento('mimos');
+            return;
+        }
 
         if (ocParam) {
             entrarSegmento('mimos');
@@ -7528,6 +7671,198 @@ function renderizarCamposAdminItens() {
         return { item };
     }
 
+
+    // ===== Alteração de preços em massa =====
+    let precosMassaPendentes = [];
+
+    function obterGrupoPrecoMassa(item) {
+        const cats = Array.isArray(item?.categorias) ? item.categorias : [];
+        if (cats.includes('kits_prontos')) return 'Kits Prontos';
+        if (item?.segmento === 'costura_criativa') return 'Costura Criativa';
+        if (item?.segmento === UNIVERSO_COPIA_COSTURA_ID) return 'Novo Universo';
+        if (cats.includes('brindes')) return 'Brindes';
+        if (Array.isArray(item?.ocasioesIds) && item.ocasioesIds.length) return 'Datas / Ocasiões';
+        return 'Mimos';
+    }
+
+    function itemEntraNoFiltroPrecoMassa(item, filtro) {
+        if (!item || item.oculto === true) return filtro === 'todos' ? true : false;
+        if (filtro === 'todos') return true;
+        const cats = Array.isArray(item.categorias) ? item.categorias : [];
+        if (filtro === 'kits_prontos') return cats.includes('kits_prontos');
+        if (filtro === 'brindes') return cats.includes('brindes');
+        if (filtro === 'ocasioes') return Array.isArray(item.ocasioesIds) && item.ocasioesIds.length > 0;
+        if (filtro === 'costura_criativa') return item.segmento === 'costura_criativa';
+        if (filtro === UNIVERSO_COPIA_COSTURA_ID) return item.segmento === UNIVERSO_COPIA_COSTURA_ID;
+        if (filtro === 'mimos') return item.segmento === 'mimos' && !cats.includes('kits_prontos') && !cats.includes('brindes');
+        return true;
+    }
+
+    function arredondarPrecoMassa(valor, casas) {
+        const fator = Math.pow(10, Number(casas) || 2);
+        return Math.round((Number(valor) + Number.EPSILON) * fator) / fator;
+    }
+
+    function calcularNovoPrecoMassa(precoAtual, tipo, valor, casas) {
+        let novo = Number(precoAtual) || 0;
+        const ajuste = Number(valor) || 0;
+        if (tipo === 'percentual_aumento') novo *= (1 + ajuste / 100);
+        else if (tipo === 'percentual_reducao') novo *= (1 - ajuste / 100);
+        else if (tipo === 'valor_aumento') novo += ajuste;
+        else if (tipo === 'valor_reducao') novo -= ajuste;
+        if (!Number.isFinite(novo) || novo < 0) return null;
+        return arredondarPrecoMassa(novo, casas);
+    }
+
+    function escaparHtmlPrecoMassa(texto) {
+        return String(texto ?? '').replace(/[&<>'\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));
+    }
+
+    function mostrarPreviaPrecosMassa(lista, aviso = '') {
+        precosMassaPendentes = Array.isArray(lista) ? lista : [];
+        const preview = document.getElementById('bulk-precos-preview');
+        const body = document.getElementById('bulk-precos-preview-body');
+        const resumo = document.getElementById('bulk-precos-resumo');
+        const avisoEl = document.getElementById('bulk-precos-aviso');
+        if (!preview || !body || !resumo) return;
+        body.innerHTML = '';
+        precosMassaPendentes.forEach(p => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${escaparHtmlPrecoMassa(p.nome)}</td><td>${escaparHtmlPrecoMassa(p.grupo)}</td><td>R$ ${Number(p.atual).toFixed(2).replace('.', ',')}</td><td class="bulk-precos-novo">R$ ${Number(p.novo).toFixed(2).replace('.', ',')}</td>`;
+            body.appendChild(tr);
+        });
+        resumo.textContent = precosMassaPendentes.length
+            ? `${precosMassaPendentes.length} preço(s) serão alterado(s). Nenhuma outra informação do item será modificada.`
+            : 'Nenhum preço válido foi encontrado para alteração.';
+        preview.classList.toggle('ativo', precosMassaPendentes.length > 0);
+        if (avisoEl) {
+            avisoEl.textContent = aviso || '';
+            avisoEl.style.display = aviso ? 'block' : 'none';
+        }
+    }
+
+    function prepararAlteracaoPrecosMassa() {
+        const filtro = document.getElementById('bulk-precos-filtro')?.value || 'todos';
+        const tipo = document.getElementById('bulk-precos-tipo')?.value || 'percentual_aumento';
+        const valor = Number(document.getElementById('bulk-precos-valor')?.value);
+        const casas = Number(document.getElementById('bulk-precos-arredondamento')?.value || 2);
+        if (!Number.isFinite(valor) || valor < 0) { alert('Informe um valor válido para a alteração de preço.'); return; }
+        if (tipo.includes('percentual') && valor > 100) { alert('Para uma redução percentual, o valor não pode ser maior que 100%.'); return; }
+
+        const lista = [];
+        let invalidos = 0;
+        (catalogo.itens || []).forEach(item => {
+            if (!itemEntraNoFiltroPrecoMassa(item, filtro)) return;
+            const atual = Number(item.preco) || 0;
+            const novo = calcularNovoPrecoMassa(atual, tipo, valor, casas);
+            if (novo === null) { invalidos++; return; }
+            if (novo === atual) return;
+            lista.push({ id:item.id, nome:item.nome || 'Sem nome', grupo:obterGrupoPrecoMassa(item), atual, novo });
+        });
+        let aviso = invalidos ? `${invalidos} item(ns) não puderam receber o ajuste e foram ignorados.` : '';
+        mostrarPreviaPrecosMassa(lista, aviso);
+    }
+
+    function confirmarAlteracaoPrecosMassa() {
+        if (!precosMassaPendentes.length) return;
+        const qtd = precosMassaPendentes.length;
+        if (!confirm(`Aplicar os novos preços em ${qtd} item(ns)?\
+\
+Somente o preço será alterado. As demais informações permanecerão iguais.`)) return;
+        let aplicados = 0;
+        precosMassaPendentes.forEach(p => {
+            const item = (catalogo.itens || []).find(i => i.id === p.id);
+            if (!item) return;
+            item.preco = Number(p.novo);
+            aplicados++;
+        });
+        precosMassaPendentes = [];
+        const preview = document.getElementById('bulk-precos-preview');
+        if (preview) preview.classList.remove('ativo');
+        const aviso = document.getElementById('bulk-precos-aviso');
+        if (aviso) { aviso.textContent = `✅ ${aplicados} preço(s) alterado(s) no catálogo. Clique em "Salvar Alterações" para gravar no Firebase.`; aviso.style.display = 'block'; }
+        renderizarCamposAdminItens();
+    }
+
+    function limparPreviaPrecosMassa() {
+        precosMassaPendentes = [];
+        const preview = document.getElementById('bulk-precos-preview');
+        const body = document.getElementById('bulk-precos-preview-body');
+        const aviso = document.getElementById('bulk-precos-aviso');
+        if (preview) preview.classList.remove('ativo');
+        if (body) body.innerHTML = '';
+        if (aviso) { aviso.textContent = ''; aviso.style.display = 'none'; }
+    }
+
+    async function baixarModeloPrecosMassa() {
+        if (typeof XLSX === 'undefined') { alert('Não foi possível carregar o gerador de Excel. Verifique sua conexão com a internet.'); return; }
+        const linhas = (catalogo.itens || []).map(item => ({
+            ID: item.id || '',
+            Nome: item.nome || '',
+            'Preço atual': Number(item.preco) || 0,
+            'Novo preço': ''
+        }));
+        const ws = XLSX.utils.json_to_sheet(linhas);
+        ws['!cols'] = [{wch:32},{wch:38},{wch:16},{wch:16}];
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Preços');
+        XLSX.writeFile(wb, 'modelo_alteracao_precos_esense.xlsx');
+    }
+
+    async function importarPrecosMassa(event) {
+        const input = event.target;
+        const arquivo = input.files && input.files[0];
+        if (!arquivo) return;
+        if (typeof XLSX === 'undefined') { alert('Não foi possível carregar o leitor de Excel.'); input.value=''; return; }
+        try {
+            const dados = await arquivo.arrayBuffer();
+            const wb = XLSX.read(dados, { type:'array' });
+            const ws = wb.Sheets[wb.SheetNames[0]];
+            const linhas = XLSX.utils.sheet_to_json(ws, { defval:'', raw:true });
+            const lista = [];
+            const erros = [];
+            const usados = new Set();
+            linhas.forEach((linha, index) => {
+                const id = String(linha.ID ?? linha.Id ?? linha.id ?? '').trim();
+                const nomePlanilha = String(linha.Nome ?? linha.nome ?? '').trim();
+                const novoRaw = linha['Novo preço'] ?? linha['Novo Preço'] ?? linha.NovoPreco ?? linha.novoPreco ?? '';
+                if (novoRaw === '' || novoRaw === null || novoRaw === undefined) return;
+                const novo = Number(String(novoRaw).replace(/R\\$\\s?/gi,'').replace(/\\./g,'').replace(',','.'));
+                if (!Number.isFinite(novo) || novo < 0) { erros.push(`Linha ${index + 2}: novo preço inválido.`); return; }
+                let item = id ? (catalogo.itens || []).find(i => String(i.id) === id) : null;
+                if (!item && nomePlanilha) {
+                    const candidatos = (catalogo.itens || []).filter(i => String(i.nome || '').trim().toLowerCase() === nomePlanilha.toLowerCase());
+                    if (candidatos.length === 1) item = candidatos[0];
+                    else if (candidatos.length > 1) { erros.push(`Linha ${index + 2}: o nome "${nomePlanilha}" aparece em mais de um item; mantenha o ID.`); return; }
+                }
+                if (!item) { erros.push(`Linha ${index + 2}: item não encontrado${id ? ` pelo ID ${id}` : nomePlanilha ? ` pelo nome "${nomePlanilha}"` : ''}.`); return; }
+                if (usados.has(item.id)) { erros.push(`Linha ${index + 2}: o mesmo item foi informado mais de uma vez.`); return; }
+                usados.add(item.id);
+                const atual = Number(item.preco) || 0;
+                const novoArredondado = arredondarPrecoMassa(novo, 2);
+                if (novoArredondado === atual) return;
+                lista.push({ id:item.id, nome:item.nome || nomePlanilha || 'Sem nome', grupo:obterGrupoPrecoMassa(item), atual, novo:novoArredondado });
+            });
+            if (!lista.length && !erros.length) { alert('Nenhuma alteração de preço foi encontrada na planilha.'); return; }
+            mostrarPreviaPrecosMassa(lista, erros.length ? `${erros.length} linha(s) não entraram na prévia. ${erros.slice(0,3).join(' ')}` : '');
+            if (erros.length > 3) {
+                const aviso = document.getElementById('bulk-precos-aviso');
+                if (aviso) aviso.textContent += ` E mais ${erros.length - 3} erro(s).`;
+            }
+        } catch (erro) {
+            console.error('Erro ao importar preços em massa:', erro);
+            alert('Não foi possível ler a planilha. Use o modelo de alteração de preços gerado pelo catálogo.');
+        } finally {
+            input.value = '';
+        }
+    }
+
+    window.prepararAlteracaoPrecosMassa = prepararAlteracaoPrecosMassa;
+    window.confirmarAlteracaoPrecosMassa = confirmarAlteracaoPrecosMassa;
+    window.limparPreviaPrecosMassa = limparPreviaPrecosMassa;
+    window.baixarModeloPrecosMassa = baixarModeloPrecosMassa;
+    window.importarPrecosMassa = importarPrecosMassa;
+
     async function importarItensExcel(event) {
         const input = event.target;
         const arquivo = input.files && input.files[0];
@@ -8653,7 +8988,29 @@ function renderizarCamposAdminItens() {
             if (telaCarrinho) telaCarrinho.style.setProperty('display', 'none', 'important');
             document.body.classList.remove('orcamento-pagina-aberta', 'orcamento-popup-aberto');
             atualizarBarraOrcamento();
+            return;
         }
+
+        // Sincroniza a interface com o endereço ao usar voltar/avançar.
+        const params = new URLSearchParams(window.location.search);
+        const pagina = params.get('pagina');
+        const oc = params.get('ocasiao');
+        const modo = params.get('modo');
+        try {
+            let segmento = 'home';
+            if (pagina === 'costura-criativa') segmento = 'costura_criativa';
+            else if (pagina === 'universo') segmento = UNIVERSO_COPIA_COSTURA_ID;
+            else if (pagina && pagina !== 'inicio') segmento = 'mimos';
+            sessionStorage.setItem('esense_pagina_atual', JSON.stringify({
+                segmento,
+                ocasiao: oc || null,
+                modo: modo || null,
+                categoriaMimos: 'todos',
+                categoriaCostura: 'todos',
+                categoriaUniverso: 'todos'
+            }));
+        } catch (e) {}
+        restaurarEstadoNavegacao();
     });
 
     function sincronizarNomeCarrinho(valor) {
