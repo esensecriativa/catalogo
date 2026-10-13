@@ -250,8 +250,8 @@
         }
 
         .carousel-btn {
-            opacity: 0;
-            visibility: hidden;
+            opacity: 0.58;
+            visibility: visible;
             transition: opacity 0.2s ease, visibility 0.2s ease;
             position: absolute;
             top: 50%;
@@ -273,8 +273,8 @@
         .carousel-btn.next { right: 5px; }
 
         .zoom-btn {
-            opacity: 0;
-            visibility: hidden;
+            opacity: 0.58;
+            visibility: visible;
             transition: opacity 0.2s ease, visibility 0.2s ease;
             position: absolute;
             top: 8px;
@@ -300,7 +300,7 @@
 
         .img-container:hover .carousel-btn,
         .img-container:hover .zoom-btn {
-            opacity: 1;
+            opacity: 0.9;
             visibility: visible;
         }
 
@@ -2275,6 +2275,37 @@ button#btn-meu-orcamento.orcamento-flutuante-btn:active {
 
         #support-notice { display:none; }
         body.segment-view #support-notice { display:block; }
+
+/* Ajustes: alteração de preços recolhida por padrão e ações em massa abaixo */
+.bulk-precos-box {
+    margin: 0 0 10px;
+    padding: 0;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
+}
+.bulk-precos-titulo {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin: 0;
+    user-select: none;
+}
+.bulk-precos-titulo::-webkit-details-marker { display: none; }
+.bulk-precos-titulo:hover { background: #fffdf5; }
+.bulk-precos-seta { font-size: 12px; transition: transform .2s ease; }
+.bulk-precos-box[open] .bulk-precos-seta { transform: rotate(180deg); }
+.bulk-precos-conteudo { padding: 0 12px 12px; }
+.admin-bulk-actions { margin: 0 0 10px; }
+
 </style>
 
 
@@ -3078,7 +3109,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-<button id="btn-meu-orcamento" class="orcamento-flutuante-btn" onclick="window.abrirOrcamentoCarrinho()" type="button" data-tooltip="Meu Orçamento" aria-label="Meu Orçamento">🛒<span id="contador-meu-orcamento" class="orcamento-contador">0</span></button>
+<button id="btn-meu-orcamento" class="orcamento-flutuante-btn" onclick="window.abrirOrcamentoCarrinho()" type="button" data-tooltip="Meu Pedido" aria-label="Meu Pedido">🛒<span id="contador-meu-orcamento" class="orcamento-contador">0</span></button>
 <button id="btn-adicionar-orcamento-flutuante"
         class="btn-adicionar-orcamento-flutuante"
         type="button"
@@ -3258,7 +3289,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <div id="tela-orcamento-carrinho" class="orcamento-carrinho">
                 <div class="orcamento-carrinho-cabecalho">
                     <div>
-                        <h2>Meu Orçamento</h2>
+                        <h2>Meu Pedido</h2>
                         
                     </div>
                     <button type="button" class="btn-fechar-carrinho" onclick="voltarDoOrcamentoCarrinho()" aria-label="Fechar orçamento">×</button>
@@ -3361,14 +3392,10 @@ document.addEventListener('DOMContentLoaded', function(){
                 <button class="btn-add-item" type="button" onclick="baixarModeloExcelItens()">Baixar modelo Excel</button>
             </div>
         </div>
-        <div class="admin-bulk-actions">
-            <label class="admin-select-all"><input type="checkbox" class="admin-select-checkbox" onchange="selecionarTodosAdmin('item', this.checked)"> Selecionar todos</label>
-            <button type="button" class="admin-bulk-delete" onclick="excluirSelecionadosAdmin('item')">Excluir selecionados</button>
-            <button type="button" class="admin-bulk-visibility" id="btn-ocultar-selecionados-item" onclick="alternarOcultacaoSelecionadosAdmin('item')">🙈 Ocultar selecionados</button>
-        </div>
 
-        <div class="bulk-precos-box" id="bulk-precos-box">
-            <div class="bulk-precos-titulo">💰 Alterar preços em massa</div>
+        <details class="bulk-precos-box" id="bulk-precos-box">
+            <summary class="bulk-precos-titulo">💰 Alterar preços em massa <span class="bulk-precos-seta">▾</span></summary>
+            <div class="bulk-precos-conteudo">
             <p class="bulk-precos-ajuda">Selecione um grupo, escolha aumento ou redução e confira a prévia antes de aplicar. A ferramenta altera somente o campo <strong>preço</strong>; nome, descrição, imagens, categorias e demais informações permanecem intactos. Depois, clique em <strong>Salvar Alterações</strong> para gravar no Firebase.</p>
             <div class="bulk-precos-controles">
                 <div class="bulk-precos-campo">
@@ -3425,6 +3452,12 @@ document.addEventListener('DOMContentLoaded', function(){
                     </table>
                 </div>
             </div>
+            </div>
+        </details>
+        <div class="admin-bulk-actions">
+            <label class="admin-select-all"><input type="checkbox" class="admin-select-checkbox" onchange="selecionarTodosAdmin('item', this.checked)"> Selecionar todos</label>
+            <button type="button" class="admin-bulk-delete" onclick="excluirSelecionadosAdmin('item')">Excluir selecionados</button>
+            <button type="button" class="admin-bulk-visibility" id="btn-ocultar-selecionados-item" onclick="alternarOcultacaoSelecionadosAdmin('item')">🙈 Ocultar selecionados</button>
         </div>
         <div id="admin-container-itens"></div>
     </div>
@@ -4662,7 +4695,7 @@ document.addEventListener('DOMContentLoaded', function(){
         kits.forEach(item => {
             const carouselHtml = criarHtmlCarrossel(item.imgs, `item-${item.id}`, true);
             const preco = obterMenorValorLinhaKit(item);
-            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${carouselHtml}<div class="info-container"><span class="item-title">${item.nome}</span><span class="item-price">A partir de R$ ${preco.toFixed(2)}</span><div id="embalagens-kit-${item.id}" class="kit-embalagem-opcoes" style="display:none;"></div><button type="button" class="btn-adicionar-item-card" onclick="adicionarKitProntoAoOrcamento('${item.id}', event)">Inserir ao orçamento</button></div></div>`;
+            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${carouselHtml}<div class="info-container"><span class="item-title">${item.nome}</span><span class="item-price">A partir de R$ ${preco.toFixed(2)}</span><div id="embalagens-kit-${item.id}" class="kit-embalagem-opcoes" style="display:none;"></div><button type="button" class="btn-adicionar-item-card" onclick="adicionarKitProntoAoOrcamento('${item.id}', event)">Inserir ao pedido</button></div></div>`;
         });
         if (!kits.length) grid.innerHTML = '<div class="costura-vazio">Nenhum Kit Pronto cadastrado ainda.</div>';
         atualizarBotaoAdicionarOrcamentoFlutuante();
@@ -4739,7 +4772,7 @@ document.addEventListener('DOMContentLoaded', function(){
         grid.innerHTML = '';
         itens.forEach(item => {
             const desc = criarHtmlDescricao(item.nome, item.tituloDesc, item.descricao, item.pedidoMinimoAtivo, item.pedidoMinimo);
-            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${criarHtmlCarrossel(item.imgs, `costura-${item.id}`, true)}<div class="info-container"><span class="item-title">${item.nome}</span>${desc}<span class="item-price">R$ ${Number(item.preco || 0).toFixed(2)}</span><button type="button" class="btn-adicionar-item-card" onclick="adicionarProdutoDataBrindeAoOrcamento('${item.id}', event)">Inserir ao orçamento</button></div></div>`;
+            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${criarHtmlCarrossel(item.imgs, `costura-${item.id}`, true)}<div class="info-container"><span class="item-title">${item.nome}</span>${desc}<span class="item-price">R$ ${Number(item.preco || 0).toFixed(2)}</span><button type="button" class="btn-adicionar-item-card" onclick="adicionarProdutoDataBrindeAoOrcamento('${item.id}', event)">Inserir ao pedido</button></div></div>`;
         });
 
         if (!itens.length) {
@@ -4791,7 +4824,7 @@ document.addEventListener('DOMContentLoaded', function(){
         grid.innerHTML = '';
         itens.forEach(item => {
             const desc = criarHtmlDescricao(item.nome, item.tituloDesc, item.descricao, item.pedidoMinimoAtivo, item.pedidoMinimo);
-            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${criarHtmlCarrossel(item.imgs, `universo-copia-${item.id}`, true)}<div class="info-container"><span class="item-title">${item.nome}</span>${desc}<span class="item-price">R$ ${Number(item.preco || 0).toFixed(2)}</span><button type="button" class="btn-adicionar-item-card" onclick="adicionarProdutoDataBrindeAoOrcamento('${item.id}', event)">Inserir ao orçamento</button></div></div>`;
+            grid.innerHTML += `<div class="selectable-card" id="card-item-${item.id}" onclick="toggleItem('${item.id}')"><input type="checkbox" name="item" value="${item.id}"><div class="badge-selected">✓</div>${criarHtmlCarrossel(item.imgs, `universo-copia-${item.id}`, true)}<div class="info-container"><span class="item-title">${item.nome}</span>${desc}<span class="item-price">R$ ${Number(item.preco || 0).toFixed(2)}</span><button type="button" class="btn-adicionar-item-card" onclick="adicionarProdutoDataBrindeAoOrcamento('${item.id}', event)">Inserir ao pedido</button></div></div>`;
         });
         if (!itens.length) grid.innerHTML = '<div class="costura-vazio">Ainda não há produtos cadastrados neste universo. Eles aparecerão aqui assim que forem cadastrados no Painel de Controle.</div>';
         atualizarBotaoAdicionarOrcamentoFlutuante();
@@ -5748,7 +5781,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         ${descHtml}
                         ${precoInicialHtml}
                         ${ehKitPronto ? `<div id="embalagens-kit-${item.id}" class="kit-embalagem-opcoes" style="display:none;"></div>` : ""}
-                        ${modoSelecionado !== 'monte_seu_kit' ? `<button type="button" class="btn-adicionar-item-card" onclick="${ehKitPronto ? `adicionarKitProntoAoOrcamento('${item.id}', event)` : `adicionarProdutoDataBrindeAoOrcamento('${item.id}', event)`}">Inserir ao orçamento</button>` : ''}
+                        ${modoSelecionado !== 'monte_seu_kit' ? `<button type="button" class="btn-adicionar-item-card" onclick="${ehKitPronto ? `adicionarKitProntoAoOrcamento('${item.id}', event)` : `adicionarProdutoDataBrindeAoOrcamento('${item.id}', event)`}">Inserir ao pedido</button>` : ''}
 </div>
                 </div>
             `;
@@ -8708,7 +8741,7 @@ Somente o preço será alterado. As demais informações permanecerão iguais.`)
         const quantidade = carrinhoOrcamento.reduce((acc, item) => acc + (item.modo === 'monte_seu_kit' ? 1 : 1), 0);
         if (contador) contador.textContent = quantidade;
         if (btn) {
-            // O botão Meu Orçamento NÃO aparece na página inicial / Universos.
+            // O botão Meu Pedido NÃO aparece na página inicial / Universos.
             // Usa segmentoAtual como regra principal para impedir que outras
             // atualizações do carrinho façam o botão reaparecer nessa tela.
             const paginaUniversosAberta = segmentoAtual === 'home' ||
@@ -8933,7 +8966,7 @@ Somente o preço será alterado. As demais informações permanecerão iguais.`)
     function abrirOrcamentoCarrinho() {
         const telaCarrinho = document.getElementById('tela-orcamento-carrinho');
         if (!telaCarrinho) {
-            console.error('Meu Orçamento: elemento #tela-orcamento-carrinho não encontrado.');
+            console.error('Meu Pedido: elemento #tela-orcamento-carrinho não encontrado.');
             return;
         }
 
@@ -9426,7 +9459,7 @@ footer {
 </html>
 
 <style id="melhoria-fontes-orcamento-mobile">
-/* Somente celular: aumentar legibilidade do Meu Orçamento */
+/* Somente celular: aumentar legibilidade do Meu Pedido */
 @media (max-width: 600px) {
     #tela-orcamento-carrinho .orcamento-carrinho-cabecalho h2 {
         font-size: 19px !important;
